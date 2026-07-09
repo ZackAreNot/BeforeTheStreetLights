@@ -14,10 +14,10 @@ Prototype awal untuk game narrative 2D side-scrolling tentang Nara dan Kota Rant
 
 ## Isi Prototype Sekarang
 
-- Player placeholder Nara dengan `CharacterBody2D`.
+- Player dummy Nara dengan `CharacterBody2D` dan sprite sheet sementara.
 - Movement side-scrolling: jalan, sprint ringan, lompat kecil, gravity.
 - Kamera follow dengan batas level.
-- Level linear Kota Ranting placeholder:
+- Level linear Kota Ranting sudah berbasis scene:
   - Taxi Stop
   - Jalan Utama
   - Toko Listrik
@@ -30,15 +30,30 @@ Prototype awal untuk game narrative 2D side-scrolling tentang Nara dan Kota Rant
 ## Struktur Folder
 
 - `scenes/main.tscn`: entry point prototype.
+- `scenes/maps/map_01_city_ranting.tscn`: scene map pertama. Background, collision, label lokasi, marker, spawn point, dan dekor utama ada di sini.
 - `scenes/player/player.tscn`: scene player.
+- `scenes/ui/hud.tscn`: scene HUD objective dan location label.
 - `scripts/player_controller.gd`: movement player.
-- `scripts/prototype_level.gd`: generator level placeholder dan HUD.
+- `scripts/world/map_controller.gd`: wiring map, spawn player, marker lokasi, dan HUD.
+- `scripts/world/location_marker.gd`: data lokasi dan objective untuk setiap marker.
+- `scripts/ui/hud.gd`: fungsi update teks HUD.
 - `docs/ASSET_NEEDS.md`: daftar asset yang dibutuhkan untuk fase awal.
+
+## Cara Edit Map
+
+Edit visual dan tatanan level dari `scenes/maps/map_01_city_ranting.tscn`.
+
+- `Environment/BackgroundChunks`: layer background yang diulang sepanjang level.
+- `Decor/LocationLabels`: label nama lokasi yang bisa digeser langsung di editor.
+- `Decor/LampPosts`: dekor lampu jalan.
+- `LevelGeometry`: collision ground dan step.
+- `Markers`: area trigger objective.
+- `SpawnPoints/PlayerSpawn`: posisi awal Nara.
 
 ## Next Step
 
-1. Ganti placeholder player dengan sprite Nara.
-2. Pecah level procedural menjadi scene lokasi yang lebih mudah diedit.
-3. Tambah interaction system untuk NPC/objek.
-4. Setup Dialogic untuk dialog Bimo dan quest pertama.
-5. Tambah quest manager ringan untuk objective dan item festival.
+1. Tambah interaction system untuk NPC/objek.
+2. Setup Dialogic untuk dialog Bimo dan quest pertama.
+3. Tambah quest manager ringan untuk objective dan item festival.
+4. Mulai pecah interior toko/klinik menjadi scene terpisah.
+5. Ganti asset dummy dengan asset original Before The Streetlights.

@@ -1,0 +1,401 @@
+[gd_scene load_steps=14 format=3 uid="uid://before_streetlights_map_01"]
+
+[ext_resource type="Script" path="res://scripts/world/map_controller.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2"]
+[ext_resource type="Script" path="res://scripts/world/location_marker.gd" id="3"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/WorldBuild/City4/Bright/Sky.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/WorldBuild/City4/Bright/houses2.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/WorldBuild/City4/Bright/houses1.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/WorldBuild/City4/Bright/houses.png" id="7"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/WorldBuild/City4/Bright/fountain&bush.png" id="8"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/WorldBuild/City4/Bright/umbrella&policebox.png" id="9"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/WorldBuild/City4/Bright/road.png" id="10"]
+
+[sub_resource type="RectangleShape2D" id="GroundShape"]
+size = Vector2(5600, 88)
+
+[sub_resource type="RectangleShape2D" id="StepShape"]
+size = Vector2(260, 28)
+
+[sub_resource type="RectangleShape2D" id="MarkerShape"]
+size = Vector2(360, 190)
+
+[node name="Map01CityRanting" type="Node2D"]
+script = ExtResource("1")
+player_scene = ExtResource("2")
+hud_path = NodePath("../HUD")
+camera_limit_left = -120
+camera_limit_top = -260
+camera_limit_right = 5200
+camera_limit_bottom = 760
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="BackgroundChunks" type="Node2D" parent="Environment"]
+
+[node name="Chunk0" type="Node2D" parent="Environment/BackgroundChunks"]
+
+[node name="Sky" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk0"]
+position = Vector2(960, 360)
+z_index = -120
+texture = ExtResource("4")
+
+[node name="HousesBack" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk0"]
+position = Vector2(960, 360)
+z_index = -110
+texture = ExtResource("5")
+
+[node name="HousesMid" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk0"]
+position = Vector2(960, 360)
+z_index = -100
+texture = ExtResource("6")
+
+[node name="HousesFront" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk0"]
+position = Vector2(960, 360)
+z_index = -90
+texture = ExtResource("7")
+
+[node name="FountainBush" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk0"]
+position = Vector2(960, 360)
+z_index = -80
+texture = ExtResource("8")
+
+[node name="StreetProps" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk0"]
+position = Vector2(960, 360)
+z_index = -70
+texture = ExtResource("9")
+
+[node name="Road" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk0"]
+position = Vector2(960, 360)
+z_index = -60
+texture = ExtResource("10")
+
+[node name="Chunk1" type="Node2D" parent="Environment/BackgroundChunks"]
+position = Vector2(1920, 0)
+
+[node name="Sky" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk1"]
+position = Vector2(960, 360)
+z_index = -120
+texture = ExtResource("4")
+
+[node name="HousesBack" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk1"]
+position = Vector2(960, 360)
+z_index = -110
+texture = ExtResource("5")
+
+[node name="HousesMid" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk1"]
+position = Vector2(960, 360)
+z_index = -100
+texture = ExtResource("6")
+
+[node name="HousesFront" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk1"]
+position = Vector2(960, 360)
+z_index = -90
+texture = ExtResource("7")
+
+[node name="FountainBush" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk1"]
+position = Vector2(960, 360)
+z_index = -80
+texture = ExtResource("8")
+
+[node name="StreetProps" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk1"]
+position = Vector2(960, 360)
+z_index = -70
+texture = ExtResource("9")
+
+[node name="Road" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk1"]
+position = Vector2(960, 360)
+z_index = -60
+texture = ExtResource("10")
+
+[node name="Chunk2" type="Node2D" parent="Environment/BackgroundChunks"]
+position = Vector2(3840, 0)
+
+[node name="Sky" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk2"]
+position = Vector2(960, 360)
+z_index = -120
+texture = ExtResource("4")
+
+[node name="HousesBack" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk2"]
+position = Vector2(960, 360)
+z_index = -110
+texture = ExtResource("5")
+
+[node name="HousesMid" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk2"]
+position = Vector2(960, 360)
+z_index = -100
+texture = ExtResource("6")
+
+[node name="HousesFront" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk2"]
+position = Vector2(960, 360)
+z_index = -90
+texture = ExtResource("7")
+
+[node name="FountainBush" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk2"]
+position = Vector2(960, 360)
+z_index = -80
+texture = ExtResource("8")
+
+[node name="StreetProps" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk2"]
+position = Vector2(960, 360)
+z_index = -70
+texture = ExtResource("9")
+
+[node name="Road" type="Sprite2D" parent="Environment/BackgroundChunks/Chunk2"]
+position = Vector2(960, 360)
+z_index = -60
+texture = ExtResource("10")
+
+[node name="Decor" type="Node2D" parent="."]
+
+[node name="LocationLabels" type="Node2D" parent="Decor"]
+
+[node name="TaxiStopLabel" type="Label" parent="Decor/LocationLabels"]
+offset_left = 230.0
+offset_top = 314.0
+offset_right = 430.0
+offset_bottom = 350.0
+z_index = 20
+theme_override_colors/font_color = Color(0.20, 0.12, 0.08, 1)
+theme_override_font_sizes/font_size = 18
+text = "Taxi Stop"
+
+[node name="TokoListrikLabel" type="Label" parent="Decor/LocationLabels"]
+offset_left = 850.0
+offset_top = 314.0
+offset_right = 1050.0
+offset_bottom = 350.0
+z_index = 20
+theme_override_colors/font_color = Color(0.20, 0.12, 0.08, 1)
+theme_override_font_sizes/font_size = 18
+text = "Toko Listrik"
+
+[node name="TokoKueLabel" type="Label" parent="Decor/LocationLabels"]
+offset_left = 1440.0
+offset_top = 314.0
+offset_right = 1700.0
+offset_bottom = 350.0
+z_index = 20
+theme_override_colors/font_color = Color(0.20, 0.12, 0.08, 1)
+theme_override_font_sizes/font_size = 18
+text = "Toko Kue Bu Rami"
+
+[node name="TokoBungaLabel" type="Label" parent="Decor/LocationLabels"]
+offset_left = 2180.0
+offset_top = 314.0
+offset_right = 2440.0
+offset_bottom = 350.0
+z_index = 20
+theme_override_colors/font_color = Color(0.20, 0.12, 0.08, 1)
+theme_override_font_sizes/font_size = 18
+text = "Toko Bunga Tara"
+
+[node name="KlinikLabel" type="Label" parent="Decor/LocationLabels"]
+offset_left = 2980.0
+offset_top = 314.0
+offset_right = 3240.0
+offset_bottom = 350.0
+z_index = 20
+theme_override_colors/font_color = Color(0.20, 0.12, 0.08, 1)
+theme_override_font_sizes/font_size = 18
+text = "Klinik St. Ranting"
+
+[node name="FestivalLabel" type="Label" parent="Decor/LocationLabels"]
+offset_left = 3980.0
+offset_top = 314.0
+offset_right = 4240.0
+offset_bottom = 350.0
+z_index = 20
+theme_override_colors/font_color = Color(0.20, 0.12, 0.08, 1)
+theme_override_font_sizes/font_size = 18
+text = "Taman Festival"
+
+[node name="LampPosts" type="Node2D" parent="Decor"]
+
+[node name="LampPost01" type="Polygon2D" parent="Decor/LampPosts"]
+position = Vector2(560, 392)
+z_index = 12
+color = Color(0.10, 0.09, 0.08, 1)
+polygon = PackedVector2Array(0, 0, 10, 0, 10, 168, 0, 168)
+
+[node name="LampHead01" type="Polygon2D" parent="Decor/LampPosts"]
+position = Vector2(538, 374)
+z_index = 13
+color = Color(1.00, 0.78, 0.30, 1)
+polygon = PackedVector2Array(0, 0, 54, 0, 54, 18, 0, 18)
+
+[node name="LampPost02" type="Polygon2D" parent="Decor/LampPosts"]
+position = Vector2(1180, 392)
+z_index = 12
+color = Color(0.10, 0.09, 0.08, 1)
+polygon = PackedVector2Array(0, 0, 10, 0, 10, 168, 0, 168)
+
+[node name="LampHead02" type="Polygon2D" parent="Decor/LampPosts"]
+position = Vector2(1158, 374)
+z_index = 13
+color = Color(1.00, 0.78, 0.30, 1)
+polygon = PackedVector2Array(0, 0, 54, 0, 54, 18, 0, 18)
+
+[node name="LampPost03" type="Polygon2D" parent="Decor/LampPosts"]
+position = Vector2(1860, 392)
+z_index = 12
+color = Color(0.10, 0.09, 0.08, 1)
+polygon = PackedVector2Array(0, 0, 10, 0, 10, 168, 0, 168)
+
+[node name="LampHead03" type="Polygon2D" parent="Decor/LampPosts"]
+position = Vector2(1838, 374)
+z_index = 13
+color = Color(1.00, 0.78, 0.30, 1)
+polygon = PackedVector2Array(0, 0, 54, 0, 54, 18, 0, 18)
+
+[node name="LampPost04" type="Polygon2D" parent="Decor/LampPosts"]
+position = Vector2(2620, 392)
+z_index = 12
+color = Color(0.10, 0.09, 0.08, 1)
+polygon = PackedVector2Array(0, 0, 10, 0, 10, 168, 0, 168)
+
+[node name="LampHead04" type="Polygon2D" parent="Decor/LampPosts"]
+position = Vector2(2598, 374)
+z_index = 13
+color = Color(1.00, 0.78, 0.30, 1)
+polygon = PackedVector2Array(0, 0, 54, 0, 54, 18, 0, 18)
+
+[node name="LampPost05" type="Polygon2D" parent="Decor/LampPosts"]
+position = Vector2(3460, 392)
+z_index = 12
+color = Color(0.10, 0.09, 0.08, 1)
+polygon = PackedVector2Array(0, 0, 10, 0, 10, 168, 0, 168)
+
+[node name="LampHead05" type="Polygon2D" parent="Decor/LampPosts"]
+position = Vector2(3438, 374)
+z_index = 13
+color = Color(1.00, 0.78, 0.30, 1)
+polygon = PackedVector2Array(0, 0, 54, 0, 54, 18, 0, 18)
+
+[node name="LampPost06" type="Polygon2D" parent="Decor/LampPosts"]
+position = Vector2(4300, 392)
+z_index = 12
+color = Color(0.10, 0.09, 0.08, 1)
+polygon = PackedVector2Array(0, 0, 10, 0, 10, 168, 0, 168)
+
+[node name="LampHead06" type="Polygon2D" parent="Decor/LampPosts"]
+position = Vector2(4278, 374)
+z_index = 13
+color = Color(1.00, 0.78, 0.30, 1)
+polygon = PackedVector2Array(0, 0, 54, 0, 54, 18, 0, 18)
+
+[node name="LevelGeometry" type="Node2D" parent="."]
+
+[node name="Ground" type="StaticBody2D" parent="LevelGeometry"]
+position = Vector2(2500, 636)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGeometry/Ground"]
+shape = SubResource("GroundShape")
+
+[node name="BakeryStep" type="StaticBody2D" parent="LevelGeometry"]
+position = Vector2(1480, 534)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGeometry/BakeryStep"]
+shape = SubResource("StepShape")
+
+[node name="FlowerShopStep" type="StaticBody2D" parent="LevelGeometry"]
+position = Vector2(2320, 528)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGeometry/FlowerShopStep"]
+shape = SubResource("StepShape")
+
+[node name="ClinicStep" type="StaticBody2D" parent="LevelGeometry"]
+position = Vector2(3150, 536)
+collision_layer = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGeometry/ClinicStep"]
+shape = SubResource("StepShape")
+
+[node name="Markers" type="Node2D" parent="."]
+
+[node name="TaxiStopMarker" type="Area2D" parent="Markers"]
+position = Vector2(180, 500)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3")
+location_name = "Taxi Stop"
+objective_text = "Tujuan: Temui Bimo di jalan utama."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Markers/TaxiStopMarker"]
+shape = SubResource("MarkerShape")
+
+[node name="MainStreetMarker" type="Area2D" parent="Markers"]
+position = Vector2(620, 500)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3")
+location_name = "Jalan Utama"
+objective_text = "Tujuan: Ambil kabel lampu di Toko Listrik."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Markers/MainStreetMarker"]
+shape = SubResource("MarkerShape")
+
+[node name="ElectricShopMarker" type="Area2D" parent="Markers"]
+position = Vector2(1040, 500)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3")
+location_name = "Toko Listrik"
+objective_text = "Tujuan: Lanjut ke toko kue untuk makanan festival."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Markers/ElectricShopMarker"]
+shape = SubResource("MarkerShape")
+
+[node name="BakeryMarker" type="Area2D" parent="Markers"]
+position = Vector2(1660, 500)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3")
+location_name = "Toko Kue Bu Rami"
+objective_text = "Tujuan: Bantu Bu Rami, lalu cari Tara."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Markers/BakeryMarker"]
+shape = SubResource("MarkerShape")
+
+[node name="FlowerShopMarker" type="Area2D" parent="Markers"]
+position = Vector2(2380, 500)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3")
+location_name = "Toko Bunga Tara"
+objective_text = "Tujuan: Setelah bicara Tara, pergi ke klinik."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Markers/FlowerShopMarker"]
+shape = SubResource("MarkerShape")
+
+[node name="ClinicMarker" type="Area2D" parent="Markers"]
+position = Vector2(3180, 500)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3")
+location_name = "Klinik St. Ranting"
+objective_text = "Tujuan: Ambil P3K, lalu ke taman festival."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Markers/ClinicMarker"]
+shape = SubResource("MarkerShape")
+
+[node name="FestivalMarker" type="Area2D" parent="Markers"]
+position = Vector2(4180, 500)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3")
+location_name = "Taman Festival"
+objective_text = "Tujuan: Area puzzle kabel dan ending nanti dibuat di sini."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Markers/FestivalMarker"]
+shape = SubResource("MarkerShape")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="PlayerSpawn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(120, 540)
+
+[node name="Actors" type="Node2D" parent="."]

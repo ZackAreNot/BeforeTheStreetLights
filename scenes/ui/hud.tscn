@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3 uid="uid://before_streetlights_hud"]
+
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1")
+
+[node name="ObjectivePanel" type="ColorRect" parent="."]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 558.0
+offset_bottom = 82.0
+color = Color(0.055, 0.047, 0.043, 0.78)
+
+[node name="ObjectiveLabel" type="Label" parent="ObjectivePanel"]
+offset_left = 16.0
+offset_top = 10.0
+offset_right = 516.0
+offset_bottom = 48.0
+theme_override_colors/font_color = Color(0.96, 0.90, 0.74, 1)
+theme_override_font_sizes/font_size = 18
+text = "Tujuan: Jalan ke kanan dan kenali alur Kota Ranting."
+vertical_alignment = 1
+
+[node name="LocationLabel" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 90.0
+offset_right = 484.0
+offset_bottom = 132.0
+theme_override_colors/font_color = Color(0.98, 0.78, 0.40, 1)
+theme_override_font_sizes/font_size = 28
+text = "Taxi Stop"
+
+[node name="ControlHint" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 666.0
+offset_right = 820.0
+offset_bottom = 700.0
+theme_override_colors/font_color = Color(0.10, 0.09, 0.08, 0.86)
+theme_override_font_sizes/font_size = 16
+text = "A/D atau Arrow: jalan  |  Shift: jalan cepat  |  Space: lompat kecil  |  E: interaksi nanti"
