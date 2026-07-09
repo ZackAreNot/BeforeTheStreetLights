@@ -1,0 +1,28 @@
+# Godot 4.x generated files
+.godot/
+.import/
+*.translation
+
+# Godot export outputs
+/android/
+/build/
+/builds/
+/exports/
+/export/
+*.exe
+*.pck
+*.zip
+
+# Local scratch / generated analysis files
+/tmp/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.log
+
+# IDE settings
+.vscode/
+.idea/
