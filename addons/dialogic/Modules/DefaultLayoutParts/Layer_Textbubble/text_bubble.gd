@@ -1,6 +1,6 @@
 extends Control
 
-@onready var tail: Line2D = ($Group/Tail as Line2D)
+@onready var tail: ColorRect = ($Group/Tail as ColorRect)
 @onready var bubble: Control = ($Group/Background as Control)
 @onready var text: DialogicNode_DialogText = (%DialogText as DialogicNode_DialogText)
 # The choice container is added by the TextBubble layer
@@ -48,12 +48,13 @@ func reset() -> void:
 	animation_token += 1
 	set_process(false)
 	hide()
+	text.enabled = false
 	scale = Vector2.ZERO
 	modulate.a = 0.0
 	text.modulate.a = 0.0
 	bubble.scale = Vector2.ONE
 
-	tail.points = []
+	tail.hide()
 	bubble_rect = Rect2(0,0,2,2)
 
 	base_position = get_speaker_canvas_position() + base_direction * safe_zone
@@ -92,12 +93,16 @@ func _process(delta:float) -> void:
 	point_a += offset
 	point_b += offset * 0.5
 
-	var curve := Curve2D.new()
-	var direction_point := Vector2(0, (point_b.y - point_a.y))
-	curve.add_point(point_a, Vector2.ZERO, direction_point * 0.5)
-	curve.add_point(point_b)
-	tail.points = curve.tessellate(5)
-	tail.width = clampf(bubble_rect.size.x * 0.1, 34.0, 54.0)
+	var tail_vector := point_b - point_a
+	if tail_vector.is_zero_approx():
+		tail.hide()
+	else:
+		var tail_width := clampf(bubble_rect.size.x * 0.1, 34.0, 54.0)
+		tail.size = Vector2(tail_width, tail_vector.length())
+		tail.pivot_offset = Vector2(tail_width * 0.5, 0.0)
+		tail.position = point_a - tail.pivot_offset
+		tail.rotation = tail_vector.angle() - PI * 0.5
+		tail.show()
 
 
 func open(delay: float = 0.0) -> void:

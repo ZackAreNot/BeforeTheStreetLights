@@ -1,14 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://dlx7jcvm52tyw"]
+[gd_scene load_steps=10 format=3 uid="uid://dlx7jcvm52tyw"]
 
 [ext_resource type="Script" uid="uid://bminl7x3r40vc" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Textbubble/text_bubble.gd" id="1_jdhpk"]
 [ext_resource type="Shader" uid="uid://byskpb7ypvuab" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Textbubble/text_bubble.gdshader" id="2_1mhvf"]
 [ext_resource type="Script" uid="uid://drhfq6rmdeuri" path="res://addons/dialogic/Modules/Text/node_dialog_text.gd" id="3_syv35"]
 [ext_resource type="Script" uid="uid://dpv2dfiv5dhmr" path="res://addons/dialogic/Modules/Text/node_type_sound.gd" id="4_7bm4b"]
+[ext_resource type="Shader" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Textbubble/text_bubble_tail.gdshader" id="5_tail"]
 [ext_resource type="Script" uid="uid://bak74s0kcr0ao" path="res://addons/dialogic/Modules/Text/node_name_label.gd" id="6_5gd03"]
-
-[sub_resource type="Curve" id="Curve_0j8nu"]
-_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
-point_count = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_60xbe"]
 resource_local_to_scene = true
@@ -19,6 +16,10 @@ shader_parameter/box_padding = 10.0
 shader_parameter/wobble_amount = 0.75
 shader_parameter/wobble_speed = 10.0
 shader_parameter/wobble_detail = 0.51
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tail"]
+resource_local_to_scene = true
+shader = ExtResource("5_tail")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h6ls0"]
 content_margin_left = 5.0
@@ -32,17 +33,20 @@ shadow_color = Color(0.152941, 0.152941, 0.152941, 0.12549)
 shadow_size = 5
 
 [node name="TextBubble" type="Control"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_jdhpk")
 
 [node name="Group" type="CanvasGroup" parent="."]
 
-[node name="Tail" type="Line2D" parent="Group"]
+[node name="Tail" type="ColorRect" parent="Group"]
 unique_name_in_owner = true
-points = PackedVector2Array(-9, 7, -29, 118, -95, 174, -193, 195)
-width = 96.0
-width_curve = SubResource("Curve_0j8nu")
+visible = false
+material = SubResource("ShaderMaterial_tail")
+offset_right = 54.0
+offset_bottom = 100.0
+mouse_filter = 2
 
 [node name="Background" type="ColorRect" parent="Group"]
 unique_name_in_owner = true
