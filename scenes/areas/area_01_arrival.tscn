@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" path="res://assets/placeholders/solid_texture.tres" id="7_solid"]
 [ext_resource type="Texture2D" uid="uid://clgy6id0hkm4r" path="res://assets/vector/world/area_01_halte.svg" id="8_vector_world"]
 [ext_resource type="Texture2D" uid="uid://c0n6isbgjbo7m" path="res://assets/vector/characters/bimo.svg" id="9_bimo"]
+[ext_resource type="PackedScene" path="res://scenes/components/map_boundaries.tscn" id="10_boundaries"]
 
 [sub_resource type="Gradient" id="Gradient_sky"]
 offsets = PackedFloat32Array(0, 0.58, 1)
@@ -29,6 +30,8 @@ script = ExtResource("1_area")
 area_id = "area_01_arrival"
 location_name = "Halte Kota Ranting"
 clear_color = Color(0.49, 0.63, 0.72, 1)
+
+[node name="MapBoundaries" parent="." instance=ExtResource("10_boundaries")]
 
 [node name="Art" type="Node2D" parent="." unique_id=2134002431]
 
@@ -371,5 +374,6 @@ prompt_text = "E - Lanjut ke jalan pertokoan"
 blocked_message = "Aku belum menyapa Bimo. Dia bakal teriak lebih keras kalau kulewati."
 target_area_id = "area_02_electric"
 required_flags = PackedStringArray("met_bimo")
+trigger_automatically = true
 
 [node name="HUD" parent="." unique_id=1328403125 instance=ExtResource("3_hud")]

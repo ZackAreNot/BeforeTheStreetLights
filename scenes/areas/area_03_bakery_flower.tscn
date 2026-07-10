@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/world_area.gd" id="1_area"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" path="res://assets/vector/world/area_03_bu_rami_tara.svg" id="8_vector_world"]
 [ext_resource type="Texture2D" path="res://assets/vector/characters/bu_rami.svg" id="9_bu_rami"]
 [ext_resource type="Texture2D" path="res://assets/vector/characters/tara.svg" id="10_tara"]
+[ext_resource type="PackedScene" path="res://scenes/components/map_boundaries.tscn" id="11_boundaries"]
 
 [sub_resource type="Gradient" id="Gradient_sky"]
 offsets = PackedFloat32Array(0, 0.56, 1)
@@ -30,6 +31,8 @@ script = ExtResource("1_area")
 area_id = "area_03_shops"
 location_name = "Lorong Bu Rami dan Tara"
 clear_color = Color(0.39, 0.34, 0.41, 1)
+
+[node name="MapBoundaries" parent="." instance=ExtResource("11_boundaries")]
 
 [node name="Art" type="Node2D" parent="."]
 
@@ -375,5 +378,6 @@ message_speaker = "Nara"
 blocked_message = "Masih ada yang perlu kuselesaikan di lorong ini."
 target_area_id = "area_04_clinic"
 required_flags = PackedStringArray("minigame_bakery_complete", "tara_invited")
+trigger_automatically = true
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]

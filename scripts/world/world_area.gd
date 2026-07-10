@@ -13,14 +13,18 @@ extends Node2D
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(clear_color)
-	_configure_camera()
+	var restored_from_minigame: bool = GameFlow.restore_minigame_return_state(
+		area_id,
+		player
+	)
+	_configure_camera(restored_from_minigame)
 	GameFlow.enter_area(area_id, location_name)
 	if hud.has_method("set_location"):
 		hud.call("set_location", location_name)
 	_update_festival_visuals()
 	_start_pending_dialogue()
 
-func _configure_camera() -> void:
+func _configure_camera(reset_smoothing: bool = false) -> void:
 	var camera: Camera2D = player.get_node_or_null("Camera2D") as Camera2D
 	if camera == null:
 		return
@@ -28,6 +32,8 @@ func _configure_camera() -> void:
 	camera.limit_top = camera_limit_top
 	camera.limit_right = camera_limit_right
 	camera.limit_bottom = camera_limit_bottom
+	if reset_smoothing:
+		camera.reset_smoothing()
 
 func _update_festival_visuals() -> void:
 	if area_id != "area_05_festival":

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/qa/minigame_return_position_smoke.gd" id="1_test"]
+
+[node name="MinigameReturnPositionSmoke" type="Node"]
+script = ExtResource("1_test")

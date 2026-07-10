@@ -1,0 +1,53 @@
+[gd_resource type="SpriteFrames" load_steps=8 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/vector/vehicles/compact_car_bounce_sheet.png" id="1_sheet"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_01"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 0, 384, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_02"]
+atlas = ExtResource("1_sheet")
+region = Rect2(384, 0, 384, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03"]
+atlas = ExtResource("1_sheet")
+region = Rect2(768, 0, 384, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_04"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1152, 0, 384, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_05"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1536, 0, 384, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_06"]
+atlas = ExtResource("1_sheet")
+region = Rect2(1920, 0, 384, 192)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_04")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_06")
+}],
+"loop": true,
+"name": &"bounce",
+"speed": 8.0
+}]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/world_area.gd" id="1_area"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" path="res://assets/placeholders/solid_texture.tres" id="7_solid"]
 [ext_resource type="Texture2D" path="res://assets/vector/world/area_04_klinik.svg" id="8_vector_world"]
 [ext_resource type="Texture2D" path="res://assets/vector/characters/dr_seno.svg" id="9_dr_seno"]
+[ext_resource type="PackedScene" path="res://scenes/components/map_boundaries.tscn" id="10_boundaries"]
 
 [sub_resource type="Gradient" id="Gradient_sky"]
 offsets = PackedFloat32Array(0, 0.6, 1)
@@ -29,6 +30,8 @@ script = ExtResource("1_area")
 area_id = "area_04_clinic"
 location_name = "Tanjakan Klinik St. Ranting"
 clear_color = Color(0.27, 0.29, 0.40, 1)
+
+[node name="MapBoundaries" parent="." instance=ExtResource("10_boundaries")]
 
 [node name="Art" type="Node2D" parent="."]
 
@@ -290,5 +293,6 @@ message_speaker = "Nara"
 blocked_message = "Aku belum selesai membantu di klinik."
 target_area_id = "area_05_festival"
 required_flags = PackedStringArray("minigame_clinic_complete")
+trigger_automatically = true
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]

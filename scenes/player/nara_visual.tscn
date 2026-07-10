@@ -568,7 +568,7 @@ _data = {
 }
 
 [node name="NaraVisual" type="Node2D" unique_id=270720729]
-scale = Vector2(0.26, 0.26)
+scale = Vector2(0.22, 0.22)
 
 [node name="BodyPivot" type="Node2D" parent="." unique_id=639140988]
 

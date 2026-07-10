@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape_edge"]
+size = Vector2(40, 1600)
+
+[node name="MapBoundaries" type="Node2D"]
+
+[node name="LeftBoundary" type="StaticBody2D" parent="."]
+position = Vector2(-20, 200)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftBoundary"]
+shape = SubResource("RectangleShape_edge")
+
+[node name="RightBoundary" type="StaticBody2D" parent="."]
+position = Vector2(3220, 200)
+collision_layer = 1
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightBoundary"]
+shape = SubResource("RectangleShape_edge")

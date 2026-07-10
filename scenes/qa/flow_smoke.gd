@@ -47,6 +47,10 @@ func _ready() -> void:
 		var area: Node = (load(path) as PackedScene).instantiate()
 		add_child(area)
 		await get_tree().process_frame
+		if not _area_boundaries_are_valid(area):
+			return
+		if not _area_exit_is_automatic(area_id, area):
+			return
 		if GameFlow.current_area_id != area_id:
 			_fail("Area registered as %s instead of %s" % [GameFlow.current_area_id, area_id])
 			return
@@ -99,6 +103,49 @@ func _ready() -> void:
 func _resource_is_scene(path: String) -> bool:
 	if not ResourceLoader.exists(path) or not load(path) is PackedScene:
 		_fail("Missing or invalid scene " + path)
+		return false
+	return true
+
+func _area_boundaries_are_valid(area: Node) -> bool:
+	var player: CharacterBody2D = area.get_node("Actors/Player") as CharacterBody2D
+	var expected_positions := {
+		"LeftBoundary": Vector2(-20.0, 200.0),
+		"RightBoundary": Vector2(3220.0, 200.0)
+	}
+	for boundary_name: String in expected_positions:
+		var boundary_path := "MapBoundaries/" + boundary_name
+		var boundary: StaticBody2D = area.get_node_or_null(
+			boundary_path
+		) as StaticBody2D
+		var collision: CollisionShape2D = area.get_node_or_null(
+			boundary_path + "/CollisionShape2D"
+		) as CollisionShape2D
+		if boundary == null or collision == null or collision.disabled:
+			_fail("Area is missing boundary collision " + boundary_path)
+			return false
+		if not boundary.position.is_equal_approx(expected_positions[boundary_name]):
+			_fail("Boundary is misplaced: " + boundary_path)
+			return false
+		var rectangle: RectangleShape2D = collision.shape as RectangleShape2D
+		if rectangle == null or not rectangle.size.is_equal_approx(Vector2(40, 1600)):
+			_fail("Boundary has the wrong dimensions: " + boundary_path)
+			return false
+		if (player.collision_mask & boundary.collision_layer) == 0:
+			_fail("Player does not collide with " + boundary_path)
+			return false
+	return true
+
+func _area_exit_is_automatic(area_id: String, area: Node) -> bool:
+	var exit_found := false
+	for interaction: Node in area.get_node("Interactions").get_children():
+		if int(interaction.get("action_type")) != 3:
+			continue
+		exit_found = true
+		if not bool(interaction.get("trigger_automatically")):
+			_fail("Area exit still requires interact input in " + area_id)
+			return false
+	if area_id != "area_05_festival" and not exit_found:
+		_fail("Area is missing its forward exit in " + area_id)
 		return false
 	return true
 

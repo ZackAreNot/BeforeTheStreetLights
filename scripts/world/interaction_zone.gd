@@ -11,9 +11,11 @@ extends Area2D
 @export var action_id: String = ""
 @export var target_area_id: String = ""
 @export var required_flags: PackedStringArray = PackedStringArray()
+@export var trigger_automatically: bool = false
 
 var player_inside: bool = false
 var player_body: Node2D
+var automatic_trigger_used: bool = false
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -30,17 +32,28 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	player_inside = true
 	player_body = body
-	GameFlow.set_prompt(prompt_text, true)
+	if trigger_automatically:
+		GameFlow.set_prompt("", false)
+		if not automatic_trigger_used:
+			automatic_trigger_used = true
+			_execute_action.call_deferred()
+	else:
+		GameFlow.set_prompt(prompt_text, true)
 
 func _on_body_exited(body: Node2D) -> void:
 	if not body.is_in_group("player"):
 		return
 	player_inside = false
 	player_body = null
+	automatic_trigger_used = false
 	GameFlow.set_prompt("", false)
 
 func _execute_action() -> void:
-	if player_body != null and player_body.has_method("play_interact"):
+	if (
+		not trigger_automatically
+		and player_body != null
+		and player_body.has_method("play_interact")
+	):
 		player_body.call("play_interact")
 	match action_type:
 		0:

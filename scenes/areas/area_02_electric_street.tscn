@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/world_area.gd" id="1_area"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2_player"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" path="res://assets/placeholders/solid_texture.tres" id="7_solid"]
 [ext_resource type="Texture2D" path="res://assets/vector/world/area_02_toko_listrik.svg" id="8_vector_world"]
 [ext_resource type="Texture2D" path="res://assets/vector/characters/shopkeeper.svg" id="9_shopkeeper"]
+[ext_resource type="PackedScene" path="res://scenes/components/map_boundaries.tscn" id="10_boundaries"]
 
 [sub_resource type="Gradient" id="Gradient_sky"]
 offsets = PackedFloat32Array(0, 0.62, 1)
@@ -29,6 +30,8 @@ script = ExtResource("1_area")
 area_id = "area_02_electric"
 location_name = "Jalan Toko Listrik"
 clear_color = Color(0.40, 0.51, 0.58, 1)
+
+[node name="MapBoundaries" parent="." instance=ExtResource("10_boundaries")]
 
 [node name="Art" type="Node2D" parent="."]
 
@@ -315,5 +318,6 @@ message_speaker = "Nara"
 blocked_message = "Kabel lampunya belum kuambil. Kerja rodi dengan font lucu tetap butuh kabel."
 target_area_id = "area_03_shops"
 required_flags = PackedStringArray("cable_collected")
+trigger_automatically = true
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]

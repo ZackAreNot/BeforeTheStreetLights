@@ -28,6 +28,9 @@ var flags: Dictionary = {}
 var inventory: PackedStringArray = PackedStringArray()
 var current_area_id: String = ""
 var return_area_id: String = ""
+var minigame_return_position: Vector2 = Vector2.ZERO
+var minigame_return_facing: float = 1.0
+var has_minigame_return_state: bool = false
 var transition_busy: bool = false
 var loading_screen: CanvasLayer
 var pending_dialogue_id: String = ""
@@ -41,7 +44,7 @@ func start_new_game() -> void:
 	flags.clear()
 	inventory.clear()
 	current_area_id = ""
-	return_area_id = ""
+	clear_minigame_return_state()
 	pending_dialogue_id = ""
 	inventory_changed.emit(inventory)
 	go_to_area("area_01_arrival")
@@ -64,7 +67,10 @@ func start_minigame(minigame_id: String) -> void:
 	if not MINIGAME_SCENES.has(minigame_id):
 		push_error("Unknown minigame id: " + minigame_id)
 		return
+	if transition_busy:
+		return
 	return_area_id = current_area_id
+	capture_minigame_return_state()
 	transition_to_scene(str(MINIGAME_SCENES[minigame_id]))
 
 func complete_minigame(minigame_id: String, return_to_area: bool = true) -> void:
@@ -93,6 +99,38 @@ func return_to_current_area() -> void:
 	if target_area.is_empty():
 		target_area = current_area_id
 	go_to_area(target_area)
+
+func capture_minigame_return_state(player_override: Node2D = null) -> void:
+	var player: Node2D = player_override
+	if player == null:
+		player = get_tree().get_first_node_in_group(&"player") as Node2D
+	if player == null:
+		has_minigame_return_state = false
+		return
+	minigame_return_position = player.global_position
+	minigame_return_facing = float(player.get("facing"))
+	has_minigame_return_state = true
+
+func restore_minigame_return_state(area_id: String, player: Node2D) -> bool:
+	if (
+		not has_minigame_return_state
+		or area_id != return_area_id
+		or player == null
+	):
+		return false
+	player.global_position = minigame_return_position
+	player.set("facing", minigame_return_facing)
+	if player is CharacterBody2D:
+		(player as CharacterBody2D).velocity = Vector2.ZERO
+	has_minigame_return_state = false
+	return_area_id = ""
+	return true
+
+func clear_minigame_return_state() -> void:
+	return_area_id = ""
+	minigame_return_position = Vector2.ZERO
+	minigame_return_facing = 1.0
+	has_minigame_return_state = false
 
 func show_ending() -> void:
 	transition_to_scene(ENDING_SCENE)
