@@ -291,11 +291,17 @@ scale = Vector2(0.37, 0.37)
 texture = ExtResource("9_bu_rami")
 offset = Vector2(0, -325)
 
+[node name="BuRamiDialogueAnchor" type="Marker2D" parent="Art/Characters" groups=["dialogue_bu_rami"]]
+position = Vector2(970, 400)
+
 [node name="TaraVector" type="Sprite2D" parent="Art/Characters"]
 position = Vector2(2480, 620)
 scale = Vector2(0.39, 0.39)
 texture = ExtResource("10_tara")
 offset = Vector2(0, -325)
+
+[node name="TaraDialogueAnchor" type="Marker2D" parent="Art/Characters" groups=["dialogue_tara"]]
+position = Vector2(2480, 390)
 
 [node name="Streetlight" parent="Art" instance=ExtResource("5_lamp")]
 visible = false

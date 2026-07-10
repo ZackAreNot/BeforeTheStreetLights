@@ -29,6 +29,9 @@ var padding := Vector2()
 var name_label_alignment := HBoxContainer.ALIGNMENT_BEGIN
 var name_label_offset := Vector2()
 var force_choices_on_separate_lines := false
+var bubble_tween: Tween
+var animation_token: int = 0
+var open_animation_delay: float = 0.0
 
 # Sets the padding shader paramter.
 # It's the amount of spacing around the background to allow some wobbeling.
@@ -41,9 +44,14 @@ func _ready() -> void:
 
 
 func reset() -> void:
+	_stop_bubble_tween()
+	animation_token += 1
 	set_process(false)
+	hide()
 	scale = Vector2.ZERO
 	modulate.a = 0.0
+	text.modulate.a = 0.0
+	bubble.scale = Vector2.ONE
 
 	tail.points = []
 	bubble_rect = Rect2(0,0,2,2)
@@ -89,33 +97,42 @@ func _process(delta:float) -> void:
 	curve.add_point(point_a, Vector2.ZERO, direction_point * 0.5)
 	curve.add_point(point_b)
 	tail.points = curve.tessellate(5)
-	tail.width = bubble_rect.size.x * 0.15
+	tail.width = clampf(bubble_rect.size.x * 0.1, 34.0, 54.0)
 
 
-func open() -> void:
+func open(delay: float = 0.0) -> void:
+	_stop_bubble_tween()
+	animation_token += 1
+	open_animation_delay = maxf(delay, 0.0)
 	set_process(true)
 	show()
 	text.enabled = true
-	var open_tween := create_tween().set_parallel(true)
-	open_tween.tween_property(self, "scale", Vector2.ONE, 0.1).from(Vector2.ZERO)
-	open_tween.tween_property(self, "modulate:a", 1.0, 0.1).from(0.0)
+	text.reveal_start_delay = 0.2 + open_animation_delay
+	scale = Vector2(0.05, 0.08)
+	modulate.a = 0.0
+	text.modulate.a = 0.0
 
 
 func close() -> void:
+	_stop_bubble_tween()
+	animation_token += 1
+	var close_token := animation_token
 	text.enabled = false
-	var close_tween := create_tween().set_parallel(true)
-	close_tween.tween_property(self, "scale", Vector2.ONE * 0.8, 0.2)
-	close_tween.tween_property(self, "modulate:a", 0.0, 0.2)
-	await close_tween.finished
-	hide()
-	set_process(false)
+	bubble_tween = create_tween()
+	bubble_tween.tween_property(self, "scale", Vector2(0.16, 0.06), 0.2).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(Tween.EASE_IN)
+	bubble_tween.parallel().tween_property(text, "modulate:a", 0.0, 0.06)
+	bubble_tween.parallel().tween_property(self, "modulate:a", 0.0, 0.12).set_delay(0.08)
+	bubble_tween.finished.connect(_finish_close.bind(close_token), CONNECT_ONE_SHOT)
 
 
 func _on_dialog_text_started_revealing_text() -> void:
-	_resize_bubble(await get_base_content_size(), true)
+	_resize_bubble(get_base_content_size(), true)
+	_play_open_animation()
 
 
-func _resize_bubble(content_size:Vector2, popup:=false) -> void:
+func _resize_bubble(content_size:Vector2, _popup:=false) -> void:
 	var bubble_size: Vector2 = content_size+(padding*2)+Vector2.ONE*bg_padding
 	var half_size: Vector2= (bubble_size / 2.0)
 	bubble.pivot_offset = half_size
@@ -126,11 +143,7 @@ func _resize_bubble(content_size:Vector2, popup:=false) -> void:
 	text.size = content_size
 	text.position = -(content_size/2.0)
 
-	if popup:
-		var t := create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
-		t.tween_property(bubble, "scale", Vector2.ONE, 0.2).from(Vector2.ZERO)
-	else:
-		bubble.scale = Vector2.ONE
+	bubble.scale = Vector2.ONE
 
 	bubble.material.set(&"shader_parameter/box_size", bubble_size)
 	name_label_holder.position = Vector2(0, bubble.position.y - text.position.y - name_label_holder.size.y/2.0)
@@ -139,8 +152,43 @@ func _resize_bubble(content_size:Vector2, popup:=false) -> void:
 	name_label_holder.size.x = text.size.x
 
 
-func _on_question_shown(info:Dictionary) -> void:
-	if !is_visible_in_tree():
+func _play_open_animation() -> void:
+	_stop_bubble_tween()
+	scale = Vector2(0.05, 0.08)
+	modulate.a = 0.0
+	text.modulate.a = 0.0
+
+	bubble_tween = create_tween()
+	bubble_tween.tween_property(self, "scale", Vector2(1.06, 0.84), 0.16).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(Tween.EASE_IN_OUT).set_delay(open_animation_delay)
+	bubble_tween.parallel().tween_property(self, "modulate:a", 1.0, 0.07).set_delay(
+		open_animation_delay
+	)
+	bubble_tween.tween_property(self, "scale", Vector2(0.98, 1.05), 0.08).set_trans(
+		Tween.TRANS_SINE
+	).set_ease(Tween.EASE_OUT)
+	bubble_tween.parallel().tween_property(text, "modulate:a", 1.0, 0.08)
+	bubble_tween.tween_property(self, "scale", Vector2.ONE, 0.06).set_trans(
+		Tween.TRANS_SINE
+	).set_ease(Tween.EASE_OUT)
+
+
+func _finish_close(close_token: int) -> void:
+	if close_token != animation_token:
+		return
+	hide()
+	set_process(false)
+
+
+func _stop_bubble_tween() -> void:
+	if bubble_tween != null and bubble_tween.is_valid():
+		bubble_tween.kill()
+	bubble_tween = null
+
+
+func _on_question_shown(_info:Dictionary) -> void:
+	if !is_visible_in_tree() or not is_instance_valid(choice_container):
 		return
 
 	# Avoid choice_container's flickering(because some ticks will happen in
@@ -148,9 +196,10 @@ func _on_question_shown(info:Dictionary) -> void:
 	# at its old position for several tens of milliseconds).
 	choice_container.modulate.a = 0
 
-	var content_size := await get_base_content_size()
-	content_size.y += choice_container.size.y
-	content_size.x = max(content_size.x, choice_container.size.x)
+	var content_size := get_base_content_size()
+	var choices_size := choice_container.get_combined_minimum_size()
+	content_size.y += choices_size.y
+	content_size.x = max(content_size.x, choices_size.x)
 	_resize_bubble(content_size)
 
 	# Now, choice_container has changed to its new position, so we can make it
@@ -160,23 +209,18 @@ func _on_question_shown(info:Dictionary) -> void:
 
 func get_base_content_size() -> Vector2:
 	var font: Font = text.get_theme_font(&"normal_font")
-	var text_width = font.get_multiline_string_size(
+	var measured_size := font.get_multiline_string_size(
 		text.get_parsed_text(),
 		HORIZONTAL_ALIGNMENT_LEFT,
 		max_width,
 		text.get_theme_font_size(&"normal_font_size")
-		).x
-
-	# Let text use content's width, and let text auto shrink height to its content.
-	text.size = Vector2(text_width, 0)
-	await get_tree().process_frame
-
-	# Don't know why text.size.y != content's height,
-	# so we re-set text.size.y to 0 to let text shrink to its content again.
-	# Finally works this time.
-	text.size.y = 0
-	await get_tree().process_frame
-	return text.size
+	)
+	var content_size := Vector2(
+		ceilf(maxf(measured_size.x, 1.0)),
+		ceilf(maxf(measured_size.y, 1.0))
+	)
+	text.size = content_size
+	return content_size
 
 
 func add_choice_container(node:Container, alignment:=FlowContainer.ALIGNMENT_BEGIN, choices_button_path:="", maximum_choices:=5) -> void:

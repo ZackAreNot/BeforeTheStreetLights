@@ -49,12 +49,16 @@ func _ready() -> void:
 	if not DialogueBridge.start_dialogue("bimo_intro"):
 		_fail("DialogueBridge refused bimo_intro")
 		return
-	await get_tree().create_timer(1.1).timeout
+	await get_tree().create_timer(1.5).timeout
 	if not DialogueBridge.is_dialogue_active():
 		_fail("Dialog ended before the first line could be inspected")
 		return
 	if not Dialogic.Styles.has_active_layout_node():
 		_fail("Dialogic did not create an active layout")
+		return
+	var layout: Node = Dialogic.Styles.get_layout_node()
+	if layout.get_node_or_null("Example") == null or layout.get_node("Example").visible:
+		_fail("Dialogue used Dialogic's fallback bubble instead of a speaker anchor")
 		return
 
 	var capture: Image = get_viewport().get_texture().get_image()

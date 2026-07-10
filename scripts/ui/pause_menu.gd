@@ -47,6 +47,7 @@ func _on_menu_pressed() -> void:
 
 func quit_game() -> void:
 	get_tree().paused = false
+	DialogueBridge.release_dialogue_references()
 	if Dialogic.has_subsystem("Inputs"):
 		Dialogic.Inputs.call("_release_references")
 	get_tree().quit()

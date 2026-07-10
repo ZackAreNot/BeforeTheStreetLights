@@ -15,6 +15,8 @@ enum Alignment {LEFT, CENTER, RIGHT}
 
 @export var hide_when_empty := false
 @export var start_hidden := true
+@export_range(0.0, 1.0, 0.01) var reveal_start_delay := 0.0
+@export var render_uppercase := false
 
 var revealing := false
 var base_visible_characters := 0
@@ -67,9 +69,10 @@ func reveal_text(_text: String, keep_previous:=false) -> void:
 	show()
 
 	custom_fx_reset()
+	var display_text := _format_display_text(_text)
 
 	if !keep_previous:
-		text = _text
+		text = display_text
 		base_visible_characters = 0
 
 		if alignment == Alignment.CENTER:
@@ -82,7 +85,7 @@ func reveal_text(_text: String, keep_previous:=false) -> void:
 		base_visible_characters = len(text)
 		visible_characters = len(get_parsed_text())
 		custom_fx_update()
-		text = text + _text
+		text = text + display_text
 
 		# If Auto-Skip is enabled and we append the text (keep_previous),
 		# we can skip revealing the text and just show it all at once.
@@ -91,8 +94,23 @@ func reveal_text(_text: String, keep_previous:=false) -> void:
 			return
 
 	revealing = true
-	speed_counter = 0
+	speed_counter = -reveal_start_delay
 	started_revealing_text.emit()
+
+
+func _format_display_text(source_text: String) -> String:
+	if not render_uppercase:
+		return source_text
+
+	var formatted := ""
+	var inside_bbcode := false
+	for character: String in source_text:
+		if character == "[":
+			inside_bbcode = true
+		formatted += character if inside_bbcode else character.to_upper()
+		if character == "]":
+			inside_bbcode = false
+	return formatted
 
 
 func set_speed(delay_per_character:float) -> void:

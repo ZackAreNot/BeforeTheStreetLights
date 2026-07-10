@@ -299,11 +299,17 @@ scale = Vector2(0.38, 0.38)
 texture = ExtResource("10_bimo")
 offset = Vector2(0, -325)
 
+[node name="BimoDialogueAnchor" type="Marker2D" parent="Art/Characters" groups=["dialogue_bimo"]]
+position = Vector2(2740, 400)
+
 [node name="TaraVector" type="Sprite2D" parent="Art/Characters"]
 position = Vector2(2870, 620)
 scale = Vector2(0.37, 0.37)
 texture = ExtResource("11_tara")
 offset = Vector2(0, -325)
+
+[node name="TaraDialogueAnchor" type="Marker2D" parent="Art/Characters" groups=["dialogue_tara"]]
+position = Vector2(2870, 400)
 
 [node name="CableCrate" type="TextureRect" parent="Art"]
 visible = false

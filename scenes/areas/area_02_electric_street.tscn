@@ -244,6 +244,9 @@ scale = Vector2(0.37, 0.37)
 texture = ExtResource("9_shopkeeper")
 offset = Vector2(0, -325)
 
+[node name="ShopkeeperDialogueAnchor" type="Marker2D" parent="Art/Characters" groups=["dialogue_penjaga_toko"]]
+position = Vector2(1500, 400)
+
 [node name="Streetlights" type="Node2D" parent="Art"]
 visible = false
 z_index = 4

@@ -86,10 +86,12 @@ func _on_dialogic_text_event(info:Dictionary):
 		bubble_to_use.reset()
 	if has_node("TextBubbleLayer"):
 		get_node("TextBubbleLayer").bubble_apply_overrides(bubble_to_use)
-	bubble_to_use.open()
 
-	## Now close other bubbles
+	var open_delay := 0.0
 	for bubble in bubbles:
-		if bubble != bubble_to_use:
+		if bubble != bubble_to_use and bubble.visible:
+			open_delay = 0.08
 			bubble.close()
 			bubble.current_character = null
+
+	bubble_to_use.open(open_delay)

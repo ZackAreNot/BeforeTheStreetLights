@@ -7,6 +7,7 @@ extends DialogicLayoutLayer
 @export_subgroup("Text")
 @export var text_size: int = 15
 @export var text_color: Color = Color.BLACK
+@export var text_color_use_character_color: bool = false
 @export_file('*.ttf') var normal_font: String = ""
 @export_file('*.ttf') var bold_font: String = ""
 @export_file('*.ttf') var italic_font: String = ""
@@ -91,7 +92,10 @@ func bubble_apply_overrides(bubble:TextBubble) -> void:
 	rtl.add_theme_font_size_override(&"italics_font_size", text_size)
 	rtl.add_theme_font_size_override(&"bold_italics_font_size", text_size)
 
-	rtl.add_theme_color_override(&"default_color", text_color)
+	var resolved_text_color := text_color
+	if text_color_use_character_color and bubble.current_character != null:
+		resolved_text_color = bubble.current_character.color.lightened(0.12)
+	rtl.add_theme_color_override(&"default_color", resolved_text_color)
 
 	if !normal_font.is_empty():
 		rtl.add_theme_font_override(&"normal_font", load(normal_font) as Font)

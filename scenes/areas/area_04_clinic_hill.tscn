@@ -220,6 +220,9 @@ scale = Vector2(0.38, 0.38)
 texture = ExtResource("9_dr_seno")
 offset = Vector2(0, -325)
 
+[node name="DoctorDialogueAnchor" type="Marker2D" parent="Art/Characters" groups=["dialogue_dr_seno"]]
+position = Vector2(2080, 395)
+
 [node name="Streetlights" type="Node2D" parent="Art"]
 visible = false
 z_index = 4

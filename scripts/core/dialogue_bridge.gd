@@ -45,9 +45,19 @@ const DIALOGUES: Dictionary = {
 	}
 }
 
+const SPEAKER_CHARACTER_PATHS: Dictionary = {
+	"bimo": "res://dialogic/characters/bimo.dch",
+	"bu_rami": "res://dialogic/characters/bu_rami.dch",
+	"dr_seno": "res://dialogic/characters/dr_seno.dch",
+	"nara": "res://dialogic/characters/nara.dch",
+	"penjaga_toko": "res://dialogic/characters/penjaga_toko.dch",
+	"tara": "res://dialogic/characters/tara.dch"
+}
+
 var active_dialogue_id: String = ""
 var active_config: Dictionary = {}
 var active_player: Node
+var active_layout: Node
 var active_is_repeat: bool = false
 
 func _ready() -> void:
@@ -80,8 +90,50 @@ func start_dialogue(dialogue_id: String) -> bool:
 	_set_player_controls(false)
 	GameFlow.set_prompt("", false)
 	dialogue_started.emit(dialogue_id)
-	Dialogic.start(timeline_path)
+	var layout: Node = Dialogic.start(timeline_path)
+	register_layout_speakers(layout)
 	return true
+
+func register_layout_speakers(layout: Node) -> void:
+	if not is_instance_valid(layout) or not layout.has_method("register_character"):
+		return
+	active_layout = layout
+	_clear_layout_speaker_references(layout)
+
+	for speaker_id: String in SPEAKER_CHARACTER_PATHS:
+		var anchor: Node = get_tree().get_first_node_in_group(
+			StringName("dialogue_" + speaker_id)
+		)
+		if is_instance_valid(anchor):
+			layout.call("register_character", SPEAKER_CHARACTER_PATHS[speaker_id], anchor)
+
+	# Lines prefixed with "_" have no character resource. Treat them as
+	# Nara's internal narration so Dialogic never displays its debug fallback.
+	var nara_anchor: Node = get_tree().get_first_node_in_group(&"dialogue_nara")
+	if is_instance_valid(nara_anchor):
+		layout.call("register_character", null, nara_anchor)
+
+func release_dialogue_references() -> void:
+	_clear_layout_speaker_references(active_layout)
+	active_layout = null
+	active_player = null
+	var persistent_info: Dictionary = Engine.get_meta(
+		"dialogic_persistent_style_info",
+		{}
+	)
+	persistent_info.erase("textbubble_registers")
+	Engine.set_meta("dialogic_persistent_style_info", persistent_info)
+
+func _clear_layout_speaker_references(layout: Variant) -> void:
+	if not is_instance_valid(layout):
+		return
+	layout.set("registered_characters", {})
+	var layout_bubbles: Variant = layout.get("bubbles")
+	if layout_bubbles is Array:
+		for bubble: Variant in layout_bubbles:
+			if is_instance_valid(bubble):
+				bubble.set("node_to_point_at", null)
+				bubble.set("current_character", null)
 
 func is_dialogue_active() -> bool:
 	return not active_dialogue_id.is_empty()
@@ -100,11 +152,11 @@ func _on_timeline_ended() -> void:
 	var finished_id: String = active_dialogue_id
 	var finished_config: Dictionary = active_config.duplicate(true)
 	var was_repeat: bool = active_is_repeat
+	_set_player_controls(true)
+	release_dialogue_references()
 	active_dialogue_id = ""
 	active_config.clear()
 	active_is_repeat = false
-	_set_player_controls(true)
-	active_player = null
 
 	if not was_repeat:
 		if finished_config.has("completion_flag"):

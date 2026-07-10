@@ -4,7 +4,11 @@ func _ready() -> void:
 	var area_scene: PackedScene = load(
 		"res://scenes/areas/area_03_bakery_flower.tscn"
 	) as PackedScene
-	add_child(area_scene.instantiate())
+	var area: Node = area_scene.instantiate()
+	add_child(area)
+	var player: CharacterBody2D = area.get_node("Actors/Player") as CharacterBody2D
+	player.global_position = Vector2(2280, 620)
+	(player.get_node("Camera2D") as Camera2D).reset_smoothing()
 	await get_tree().process_frame
 	await get_tree().process_frame
 	var timeline: DialogicTimeline = load(
@@ -22,7 +26,8 @@ func _ready() -> void:
 		push_error("CHOICE_CAPTURE_FAILED: question event not found")
 		get_tree().quit(1)
 		return
-	Dialogic.start(timeline, question_index)
+	var layout: Node = Dialogic.start(timeline, question_index)
+	DialogueBridge.register_layout_speakers(layout)
 	await get_tree().create_timer(2.2).timeout
 	if Dialogic.current_state != Dialogic.States.AWAITING_CHOICE:
 		push_error("CHOICE_CAPTURE_FAILED: Tara choices did not open")

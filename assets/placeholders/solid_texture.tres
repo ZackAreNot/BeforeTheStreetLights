@@ -1,4 +1,4 @@
-[gd_resource type="GradientTexture2D" load_steps=2 format=3]
+[gd_resource type="GradientTexture2D" format=3 uid="uid://cdsslpgo8ednt"]
 
 [sub_resource type="Gradient" id="Gradient_solid"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
@@ -7,4 +7,3 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 gradient = SubResource("Gradient_solid")
 width = 32
 height = 32
-

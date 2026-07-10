@@ -17,6 +17,9 @@ shape = SubResource("RectangleShape_player")
 
 [node name="NaraVisual" parent="." instance=ExtResource("2_visual")]
 
+[node name="DialogueAnchor" type="Marker2D" parent="." groups=["dialogue_nara"]]
+position = Vector2(0, -278)
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1635311892]
 limit_left = 0
 limit_top = -360
