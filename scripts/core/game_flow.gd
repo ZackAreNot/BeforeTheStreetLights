@@ -1,0 +1,201 @@
+extends Node
+
+signal location_changed(location_name: String)
+signal objective_changed(objective_text: String)
+signal inventory_changed(items: PackedStringArray)
+signal prompt_changed(prompt_text: String, is_visible: bool)
+signal message_requested(speaker_name: String, message_text: String)
+signal progress_changed
+
+const LOADING_SCREEN_SCENE: PackedScene = preload("res://scenes/ui/loading_screen.tscn")
+const MAIN_MENU_SCENE: String = "res://scenes/main.tscn"
+const ENDING_SCENE: String = "res://scenes/ui/prototype_ending.tscn"
+const AREA_SCENES: Dictionary = {
+	"area_01_arrival": "res://scenes/areas/area_01_arrival.tscn",
+	"area_02_electric": "res://scenes/areas/area_02_electric_street.tscn",
+	"area_03_shops": "res://scenes/areas/area_03_bakery_flower.tscn",
+	"area_04_clinic": "res://scenes/areas/area_04_clinic_hill.tscn",
+	"area_05_festival": "res://scenes/areas/area_05_festival_park.tscn"
+}
+const MINIGAME_SCENES: Dictionary = {
+	"bakery": "res://scenes/minigames/bakery_orders.tscn",
+	"clinic": "res://scenes/minigames/clinic_form.tscn",
+	"cable": "res://scenes/minigames/cable_puzzle.tscn",
+	"breathing": "res://scenes/minigames/breathing.tscn"
+}
+
+var flags: Dictionary = {}
+var inventory: PackedStringArray = PackedStringArray()
+var current_area_id: String = ""
+var return_area_id: String = ""
+var transition_busy: bool = false
+var loading_screen: CanvasLayer
+var pending_dialogue_id: String = ""
+
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	loading_screen = LOADING_SCREEN_SCENE.instantiate() as CanvasLayer
+	add_child(loading_screen)
+
+func start_new_game() -> void:
+	flags.clear()
+	inventory.clear()
+	current_area_id = ""
+	return_area_id = ""
+	pending_dialogue_id = ""
+	inventory_changed.emit(inventory)
+	go_to_area("area_01_arrival")
+
+func enter_area(area_id: String, location_name: String) -> void:
+	current_area_id = area_id
+	location_changed.emit(location_name)
+	objective_changed.emit(get_area_objective(area_id))
+	inventory_changed.emit(inventory)
+	progress_changed.emit()
+
+func go_to_area(area_id: String) -> void:
+	if not AREA_SCENES.has(area_id):
+		push_error("Unknown area id: " + area_id)
+		return
+	current_area_id = area_id
+	transition_to_scene(str(AREA_SCENES[area_id]))
+
+func start_minigame(minigame_id: String) -> void:
+	if not MINIGAME_SCENES.has(minigame_id):
+		push_error("Unknown minigame id: " + minigame_id)
+		return
+	return_area_id = current_area_id
+	transition_to_scene(str(MINIGAME_SCENES[minigame_id]))
+
+func complete_minigame(minigame_id: String, return_to_area: bool = true) -> void:
+	set_flag("minigame_" + minigame_id + "_complete", true)
+	match minigame_id:
+		"bakery":
+			add_inventory_item("Kardus makanan")
+			pending_dialogue_id = "bu_rami_after"
+		"clinic":
+			add_inventory_item("Kotak P3K")
+			add_inventory_item("Kartu bantuan")
+			pending_dialogue_id = "dr_seno_after"
+		"cable":
+			set_flag("festival_lights_connected", true)
+		"breathing":
+			set_flag("nara_breathed", true)
+	if return_to_area:
+		return_to_current_area()
+
+func finish_cable_and_start_breathing() -> void:
+	complete_minigame("cable", false)
+	transition_to_scene(str(MINIGAME_SCENES["breathing"]))
+
+func return_to_current_area() -> void:
+	var target_area: String = return_area_id
+	if target_area.is_empty():
+		target_area = current_area_id
+	go_to_area(target_area)
+
+func show_ending() -> void:
+	transition_to_scene(ENDING_SCENE)
+
+func consume_pending_dialogue() -> String:
+	var dialogue_id: String = pending_dialogue_id
+	pending_dialogue_id = ""
+	return dialogue_id
+
+func back_to_menu() -> void:
+	transition_to_scene(MAIN_MENU_SCENE)
+
+func transition_to_scene(scene_path: String) -> void:
+	if transition_busy:
+		return
+	transition_busy = true
+	set_prompt("", false)
+	loading_screen.call("begin")
+	await get_tree().create_timer(0.22, true).timeout
+
+	var packed_scene: PackedScene = null
+	var request_error: Error = ResourceLoader.load_threaded_request(scene_path)
+	if request_error == OK:
+		var progress: Array = []
+		var load_status: int = ResourceLoader.load_threaded_get_status(scene_path, progress)
+		while load_status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+			await get_tree().process_frame
+			load_status = ResourceLoader.load_threaded_get_status(scene_path, progress)
+		if load_status == ResourceLoader.THREAD_LOAD_LOADED:
+			packed_scene = ResourceLoader.load_threaded_get(scene_path) as PackedScene
+
+	if packed_scene == null:
+		packed_scene = load(scene_path) as PackedScene
+	if packed_scene == null:
+		push_error("Could not load scene: " + scene_path)
+		loading_screen.call("end")
+		transition_busy = false
+		return
+
+	get_tree().change_scene_to_packed(packed_scene)
+	await get_tree().process_frame
+	await get_tree().create_timer(0.28, true).timeout
+	loading_screen.call("end")
+	transition_busy = false
+
+func set_flag(flag_name: String, value: bool = true) -> void:
+	if flag_name.is_empty():
+		return
+	flags[flag_name] = value
+	objective_changed.emit(get_area_objective(current_area_id))
+	progress_changed.emit()
+
+func has_flag(flag_name: String) -> bool:
+	return bool(flags.get(flag_name, false))
+
+func requirements_met(required_flags: PackedStringArray) -> bool:
+	for flag_name: String in required_flags:
+		if not has_flag(flag_name):
+			return false
+	return true
+
+func is_minigame_complete(minigame_id: String) -> bool:
+	return has_flag("minigame_" + minigame_id + "_complete")
+
+func add_inventory_item(item_name: String) -> void:
+	if item_name.is_empty() or inventory.has(item_name):
+		return
+	inventory.append(item_name)
+	inventory_changed.emit(inventory)
+
+func get_inventory() -> PackedStringArray:
+	return inventory.duplicate()
+
+func set_prompt(prompt_text: String, is_visible: bool) -> void:
+	prompt_changed.emit(prompt_text, is_visible)
+
+func show_message(speaker_name: String, message_text: String) -> void:
+	message_requested.emit(speaker_name, message_text)
+
+func get_area_objective(area_id: String) -> String:
+	match area_id:
+		"area_01_arrival":
+			if not has_flag("met_bimo"):
+				return "Temui Bimo di halte."
+			return "Lanjut ke jalan pertokoan."
+		"area_02_electric":
+			if not has_flag("cable_collected"):
+				return "Ambil kabel lampu di Toko Listrik."
+			return "Bawa kabel ke lorong pertokoan."
+		"area_03_shops":
+			if not is_minigame_complete("bakery"):
+				return "Bantu Bu Rami menata pesanan."
+			if not has_flag("tara_invited"):
+				return "Temui Tara di toko bunga."
+			return "Pergi ke Klinik St. Ranting."
+		"area_04_clinic":
+			if not is_minigame_complete("clinic"):
+				return "Bantu dr. Seno mencatat keluhan pasien."
+			return "Bawa P3K ke taman festival."
+		"area_05_festival":
+			if not is_minigame_complete("cable"):
+				return "Sambungkan kabel lampu festival."
+			if not is_minigame_complete("breathing"):
+				return "Berhenti sejenak. Ikuti ritme napas."
+			return "Duduk bersama Bimo dan Tara."
+	return "Jelajahi Kota Ranting."

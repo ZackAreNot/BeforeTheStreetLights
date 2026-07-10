@@ -1,0 +1,420 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scripts/minigames/bakery_orders.gd" id="1_root"]
+[ext_resource type="Script" path="res://scripts/minigames/draggable_food.gd" id="2_drag"]
+[ext_resource type="Script" path="res://scripts/minigames/food_drop_box.gd" id="3_drop"]
+[ext_resource type="Texture2D" path="res://assets/vector/minigames/food_donat_kentang.svg" id="4_donat"]
+[ext_resource type="Texture2D" path="res://assets/vector/minigames/food_onde_onde.svg" id="5_onde"]
+[ext_resource type="Texture2D" path="res://assets/vector/minigames/food_kue_sus.svg" id="6_sus"]
+[ext_resource type="Texture2D" path="res://assets/vector/minigames/food_lemper.svg" id="7_lemper"]
+[ext_resource type="Texture2D" path="res://assets/vector/minigames/cardboard_box.svg" id="8_box"]
+
+[sub_resource type="Gradient" id="Gradient_background"]
+offsets = PackedFloat32Array(0, 0.65, 1)
+colors = PackedColorArray(0.16, 0.08, 0.055, 1, 0.38, 0.17, 0.10, 1, 0.72, 0.35, 0.16, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture_background"]
+gradient = SubResource("Gradient_background")
+width = 1280
+height = 720
+fill_from = Vector2(0.1, 0)
+fill_to = Vector2(0.9, 1)
+
+[sub_resource type="StyleBoxFlat" id="Style_panel"]
+bg_color = Color(0.09, 0.055, 0.045, 0.91)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.88, 0.59, 0.27, 0.85)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="Style_food_card"]
+bg_color = Color(0.97, 0.88, 0.69, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.43, 0.20, 0.10, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="Style_button"]
+bg_color = Color(0.91, 0.62, 0.25, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.83, 0.49, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="Style_button_disabled"]
+bg_color = Color(0.26, 0.22, 0.20, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="BakeryOrders" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_root")
+
+[node name="BackgroundTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture_background")
+expand_mode = 1
+
+[node name="Layout" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="Layout"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 22.0
+offset_right = 980.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(1, 0.88, 0.64, 1)
+theme_override_font_sizes/font_size = 30
+text = "PESANAN TOKO KUE BU RAMI"
+
+[node name="Subtitle" type="Label" parent="Layout"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 68.0
+offset_right = 1000.0
+offset_bottom = 100.0
+theme_override_colors/font_color = Color(0.93, 0.81, 0.68, 0.9)
+theme_override_font_sizes/font_size = 15
+text = "Tarik makanan ke kardus sampai semua pesanan lengkap."
+
+[node name="Sidebar" type="Panel" parent="Layout"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 118.0
+offset_right = 306.0
+offset_bottom = 686.0
+theme_override_styles/panel = SubResource("Style_panel")
+
+[node name="SidebarMargin" type="MarginContainer" parent="Layout/Sidebar"]
+layout_mode = 0
+offset_right = 278.0
+offset_bottom = 90.0
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="SidebarContent" type="VBoxContainer" parent="Layout/Sidebar/SidebarMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="OrderTitle" type="Label" parent="Layout/Sidebar/SidebarMargin/SidebarContent"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.74, 0.37, 1)
+theme_override_font_sizes/font_size = 18
+text = "PESANAN BU SITI"
+
+[node name="OrderRule" type="HSeparator" parent="Layout/Sidebar/SidebarMargin/SidebarContent"]
+layout_mode = 2
+
+[node name="OrderList" type="VBoxContainer" parent="Layout/Sidebar"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 96.0
+offset_right = 260.0
+offset_bottom = 334.0
+theme_override_constants/separation = 14
+
+[node name="DonatRow" type="HBoxContainer" parent="Layout/Sidebar/OrderList"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Layout/Sidebar/OrderList/DonatRow"]
+custom_minimum_size = Vector2(150, 30)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.91, 0.84, 1)
+theme_override_font_sizes/font_size = 16
+text = "Donat kentang"
+
+[node name="Count" type="Label" parent="Layout/Sidebar/OrderList/DonatRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.75, 0.35, 1)
+theme_override_font_sizes/font_size = 16
+text = "0 / 2"
+
+[node name="OndeRow" type="HBoxContainer" parent="Layout/Sidebar/OrderList"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Layout/Sidebar/OrderList/OndeRow"]
+custom_minimum_size = Vector2(150, 30)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.91, 0.84, 1)
+theme_override_font_sizes/font_size = 16
+text = "Onde-onde"
+
+[node name="Count" type="Label" parent="Layout/Sidebar/OrderList/OndeRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.75, 0.35, 1)
+theme_override_font_sizes/font_size = 16
+text = "0 / 2"
+
+[node name="SusRow" type="HBoxContainer" parent="Layout/Sidebar/OrderList"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Layout/Sidebar/OrderList/SusRow"]
+custom_minimum_size = Vector2(150, 30)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.91, 0.84, 1)
+theme_override_font_sizes/font_size = 16
+text = "Kue sus"
+
+[node name="Count" type="Label" parent="Layout/Sidebar/OrderList/SusRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.75, 0.35, 1)
+theme_override_font_sizes/font_size = 16
+text = "0 / 1"
+
+[node name="LemperRow" type="HBoxContainer" parent="Layout/Sidebar/OrderList"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Layout/Sidebar/OrderList/LemperRow"]
+custom_minimum_size = Vector2(150, 30)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.91, 0.84, 1)
+theme_override_font_sizes/font_size = 16
+text = "Lemper"
+
+[node name="Count" type="Label" parent="Layout/Sidebar/OrderList/LemperRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.75, 0.35, 1)
+theme_override_font_sizes/font_size = 16
+text = "0 / 1"
+
+[node name="ProgressLabel" type="Label" parent="Layout/Sidebar"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 376.0
+offset_right = 260.0
+offset_bottom = 430.0
+theme_override_colors/font_color = Color(0.87, 0.81, 0.74, 1)
+theme_override_font_sizes/font_size = 14
+text = "0 dari 6 makanan siap"
+autowrap_mode = 2
+
+[node name="NextButton" type="Button" parent="Layout/Sidebar"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 492.0
+offset_right = 260.0
+offset_bottom = 548.0
+theme_override_colors/font_color = Color(0.15, 0.09, 0.05, 1)
+theme_override_colors/font_disabled_color = Color(0.54, 0.51, 0.48, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button")
+theme_override_styles/disabled = SubResource("Style_button_disabled")
+text = "SELESAI"
+
+[node name="FoodShelf" type="HBoxContainer" parent="Layout"]
+layout_mode = 0
+offset_left = 334.0
+offset_top = 118.0
+offset_right = 1252.0
+offset_bottom = 338.0
+theme_override_constants/separation = 14
+
+[node name="DonatCard" type="PanelContainer" parent="Layout/FoodShelf"]
+custom_minimum_size = Vector2(218, 220)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_food_card")
+
+[node name="Donat" type="TextureRect" parent="Layout/FoodShelf/DonatCard"]
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("4_donat")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_drag")
+food_id = "donat"
+display_name = "Donat kentang"
+
+[node name="Label" type="Label" parent="Layout/FoodShelf/DonatCard/Donat"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.23, 0.12, 0.07, 1)
+theme_override_font_sizes/font_size = 15
+text = "Donat kentang"
+horizontal_alignment = 1
+
+[node name="OndeCard" type="PanelContainer" parent="Layout/FoodShelf"]
+custom_minimum_size = Vector2(218, 220)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_food_card")
+
+[node name="Onde" type="TextureRect" parent="Layout/FoodShelf/OndeCard"]
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("5_onde")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_drag")
+food_id = "onde"
+display_name = "Onde-onde"
+
+[node name="Label" type="Label" parent="Layout/FoodShelf/OndeCard/Onde"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.23, 0.12, 0.07, 1)
+theme_override_font_sizes/font_size = 15
+text = "Onde-onde"
+horizontal_alignment = 1
+
+[node name="SusCard" type="PanelContainer" parent="Layout/FoodShelf"]
+custom_minimum_size = Vector2(218, 220)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_food_card")
+
+[node name="Sus" type="TextureRect" parent="Layout/FoodShelf/SusCard"]
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("6_sus")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_drag")
+food_id = "sus"
+display_name = "Kue sus"
+
+[node name="Label" type="Label" parent="Layout/FoodShelf/SusCard/Sus"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.23, 0.12, 0.07, 1)
+theme_override_font_sizes/font_size = 15
+text = "Kue sus"
+horizontal_alignment = 1
+
+[node name="LemperCard" type="PanelContainer" parent="Layout/FoodShelf"]
+custom_minimum_size = Vector2(218, 220)
+layout_mode = 2
+theme_override_styles/panel = SubResource("Style_food_card")
+
+[node name="Lemper" type="TextureRect" parent="Layout/FoodShelf/LemperCard"]
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("7_lemper")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_drag")
+food_id = "lemper"
+display_name = "Lemper"
+
+[node name="Label" type="Label" parent="Layout/FoodShelf/LemperCard/Lemper"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -42.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.23, 0.12, 0.07, 1)
+theme_override_font_sizes/font_size = 15
+text = "Lemper"
+horizontal_alignment = 1
+
+[node name="WorkArea" type="Panel" parent="Layout"]
+layout_mode = 0
+offset_left = 334.0
+offset_top = 360.0
+offset_right = 1252.0
+offset_bottom = 686.0
+theme_override_styles/panel = SubResource("Style_panel")
+
+[node name="DropBox" type="TextureRect" parent="Layout/WorkArea"]
+layout_mode = 0
+offset_left = 98.0
+offset_top = 12.0
+offset_right = 818.0
+offset_bottom = 318.0
+mouse_filter = 0
+texture = ExtResource("8_box")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("3_drop")
+
+[node name="DropHint" type="Label" parent="Layout/WorkArea/DropBox"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -210.0
+offset_top = -28.0
+offset_right = 210.0
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.96, 0.83, 0.64, 0.8)
+theme_override_font_sizes/font_size = 18
+text = "LETAKKAN PESANAN DI SINI"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FeedbackLabel" type="Label" parent="Layout/WorkArea"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 274.0
+offset_right = 878.0
+offset_bottom = 314.0
+theme_override_colors/font_color = Color(0.94, 0.84, 0.70, 1)
+theme_override_font_sizes/font_size = 15
+text = "Bu Rami menunggu sambil merapikan toples."
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Layout/Sidebar/NextButton" to="." method="_on_next_button_pressed"]

@@ -1,0 +1,204 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/minigames/breathing.gd" id="1_root"]
+[ext_resource type="Texture2D" path="res://assets/Nara/Nara.png" id="2_nara"]
+
+[sub_resource type="Gradient" id="Gradient_circle"]
+offsets = PackedFloat32Array(0, 0.48, 0.78, 1)
+colors = PackedColorArray(1, 1, 1, 0.02, 1, 1, 1, 0.04, 1, 1, 1, 0.52, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture_circle"]
+gradient = SubResource("Gradient_circle")
+width = 360
+height = 360
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Shader" id="Shader_white"]
+code = "shader_type canvas_item;\n\nvoid fragment() {\n    float alpha = texture(TEXTURE, UV).a;\n    COLOR = vec4(1.0, 1.0, 1.0, alpha);\n}\n"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_white"]
+shader = SubResource("Shader_white")
+
+[sub_resource type="StyleBoxFlat" id="Style_progress_bg"]
+bg_color = Color(0.16, 0.16, 0.17, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="Style_progress_fill"]
+bg_color = Color(0.88, 0.88, 0.88, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="Style_instruction"]
+bg_color = Color(0.12, 0.12, 0.13, 0.96)
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(0.64, 0.64, 0.66, 0.65)
+
+[node name="Breathing" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_root")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Thoughts" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Thought01" type="Label" parent="Thoughts"]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 168.0
+offset_right = 444.0
+offset_bottom = 216.0
+rotation = -0.18
+theme_override_colors/font_color = Color(1, 1, 1, 0.72)
+theme_override_font_sizes/font_size = 17
+text = "semua orang juga ribet, Nar"
+
+[node name="Thought02" type="Label" parent="Thoughts"]
+layout_mode = 0
+offset_left = 890.0
+offset_top = 126.0
+offset_right = 1170.0
+offset_bottom = 174.0
+rotation = 0.13
+theme_override_colors/font_color = Color(1, 1, 1, 0.68)
+theme_override_font_sizes/font_size = 18
+text = "kamu hilang"
+
+[node name="Thought03" type="Label" parent="Thoughts"]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 446.0
+offset_right = 414.0
+offset_bottom = 494.0
+rotation = 0.08
+theme_override_colors/font_color = Color(1, 1, 1, 0.62)
+theme_override_font_sizes/font_size = 17
+text = "belum selesai"
+
+[node name="Thought04" type="Label" parent="Thoughts"]
+layout_mode = 0
+offset_left = 924.0
+offset_top = 422.0
+offset_right = 1208.0
+offset_bottom = 470.0
+rotation = -0.1
+theme_override_colors/font_color = Color(1, 1, 1, 0.64)
+theme_override_font_sizes/font_size = 16
+text = "jangan ngecewain"
+
+[node name="Thought05" type="Label" parent="Thoughts"]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 74.0
+offset_right = 824.0
+offset_bottom = 118.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.54)
+theme_override_font_sizes/font_size = 15
+text = "harusnya kamu bisa"
+horizontal_alignment = 1
+
+[node name="BreathCircle" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 152.0
+offset_right = 820.0
+offset_bottom = 512.0
+pivot_offset = Vector2(180, 180)
+mouse_filter = 2
+texture = SubResource("GradientTexture_circle")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NaraTexture" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_white")
+layout_mode = 0
+offset_left = 524.0
+offset_top = 136.0
+offset_right = 756.0
+offset_bottom = 608.0
+mouse_filter = 2
+texture = ExtResource("2_nara")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CycleLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 478.0
+offset_top = 20.0
+offset_right = 802.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(0.64, 0.64, 0.66, 1)
+theme_override_font_sizes/font_size = 13
+text = "NAPAS 1 / 3"
+horizontal_alignment = 1
+
+[node name="InstructionPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 376.0
+offset_top = 544.0
+offset_right = 904.0
+offset_bottom = 600.0
+theme_override_styles/panel = SubResource("Style_instruction")
+
+[node name="InstructionLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 376.0
+offset_top = 552.0
+offset_right = 904.0
+offset_bottom = 592.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 21
+text = "TARIK NAPAS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 360.0
+offset_top = 620.0
+offset_right = 920.0
+offset_bottom = 634.0
+mouse_filter = 2
+theme_override_styles/background = SubResource("Style_progress_bg")
+theme_override_styles/fill = SubResource("Style_progress_fill")
+value = 0.0
+show_percentage = false
+
+[node name="FeedbackLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 650.0
+offset_right = 980.0
+offset_bottom = 688.0
+theme_override_colors/font_color = Color(0.74, 0.74, 0.76, 1)
+theme_override_font_sizes/font_size = 15
+text = "Tahan SPACE saat lingkaran membesar."
+horizontal_alignment = 1
+

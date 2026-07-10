@@ -8,54 +8,107 @@ extends CharacterBody2D
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity") as float
 var facing: float = 1.0
-var animation_time: float = 0.0
+var current_animation: String = ""
+var action_animation: String = ""
+var action_animation_remaining: float = 0.0
+var controls_enabled: bool = true
 
-@onready var body_visual: Polygon2D = $Body
-@onready var hoodie: Polygon2D = $Hoodie
-@onready var head_visual: Polygon2D = $HeadVisual
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var visual: Node2D = $NaraVisual
+@onready var animation_player: AnimationPlayer = $NaraVisual/AnimationPlayer
+
+func _ready() -> void:
+	_play_animation("idle")
 
 func _physics_process(delta: float) -> void:
-	var direction: float = Input.get_axis("move_left", "move_right")
-	var target_speed: float = sprint_speed if Input.is_action_pressed("sprint") else walk_speed
+	var direction: float = 0.0
+	if controls_enabled:
+		direction = Input.get_axis("move_left", "move_right")
+	var target_speed: float = walk_speed
+	if Input.is_action_pressed("sprint"):
+		target_speed = sprint_speed
 
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	if controls_enabled and Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_velocity
 
 	if direction != 0.0:
 		velocity.x = move_toward(velocity.x, direction * target_speed, acceleration * delta)
-		facing = sign(direction)
+		facing = 1.0 if direction > 0.0 else -1.0
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, friction * delta)
 
-	_flip_placeholder_visuals()
-	_update_player_visuals(direction, delta)
+	_flip_visuals()
+	_update_animation(direction, delta)
 	move_and_slide()
 
-func _flip_placeholder_visuals() -> void:
-	body_visual.scale.x = facing
-	hoodie.scale.x = facing
-	head_visual.scale.x = facing
-	sprite.scale.x = abs(sprite.scale.x) * facing
+func _flip_visuals() -> void:
+	visual.scale.x = absf(visual.scale.x) * facing
 
-func _update_player_visuals(direction: float, delta: float) -> void:
-	var moving: bool = absf(direction) > 0.01
-	_update_sprite_frame(moving, delta)
-	_update_placeholder_pose(moving)
-
-func _update_sprite_frame(moving: bool, delta: float) -> void:
-	if moving and is_on_floor():
-		animation_time += delta * 10.0
-		sprite.frame = 8 + (int(animation_time) % 8)
+func _update_animation(direction: float, delta: float) -> void:
+	if action_animation_remaining > 0.0 and is_on_floor():
+		action_animation_remaining = maxf(0.0, action_animation_remaining - delta)
+		_play_animation(action_animation)
+		return
+	if not is_on_floor():
+		if velocity.y < 0.0:
+			_play_animation("jump")
+		else:
+			_play_animation("fall")
+		return
+	if absf(direction) > 0.01:
+		if Input.is_action_pressed("sprint"):
+			_play_animation("run")
+		else:
+			_play_animation("walk")
+		return
+	if GameFlow.has_flag("festival_lights_connected"):
+		_play_animation("tired_idle")
 	else:
-		animation_time = 0.0
-		sprite.frame = 0
+		_play_animation("idle")
 
-func _update_placeholder_pose(moving: bool) -> void:
-	var tired_tint: Color = Color(0.24, 0.31, 0.34, 1)
-	hoodie.color = tired_tint if not moving else Color(0.10, 0.25, 0.28, 1)
-	body_visual.rotation = sin(Time.get_ticks_msec() * 0.012) * 0.025 if moving and is_on_floor() else 0.0
-	head_visual.position.y = sin(Time.get_ticks_msec() * 0.006) * 1.5 if moving else 0.0
+func _play_animation(animation_name: String) -> void:
+	if current_animation == animation_name or not animation_player.has_animation(animation_name):
+		return
+	current_animation = animation_name
+	animation_player.stop()
+	animation_player.play("RESET")
+	animation_player.advance(0.0)
+	animation_player.play(animation_name, 0.08)
+
+func play_interact() -> void:
+	action_animation = "interact"
+	action_animation_remaining = 0.55
+	current_animation = ""
+
+func play_talk(duration: float = 1.2) -> void:
+	action_animation = "talk"
+	action_animation_remaining = duration
+	current_animation = ""
+
+func play_shock() -> void:
+	action_animation = "shock"
+	action_animation_remaining = 0.35
+	current_animation = ""
+
+func play_overwhelmed(duration: float = 1.2) -> void:
+	action_animation = "overwhelmed"
+	action_animation_remaining = duration
+	current_animation = ""
+
+func play_holding_item(duration: float = 1.5) -> void:
+	_play_action_pose("holding_item", duration)
+
+func play_sitting(duration: float = 3.0) -> void:
+	_play_action_pose("sitting", duration)
+
+func _play_action_pose(animation_name: String, duration: float) -> void:
+	action_animation = animation_name
+	action_animation_remaining = duration
+	current_animation = ""
+
+func set_controls_enabled(is_enabled: bool) -> void:
+	controls_enabled = is_enabled
+	if not controls_enabled:
+		velocity.x = 0.0

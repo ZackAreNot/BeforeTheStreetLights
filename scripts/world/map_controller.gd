@@ -5,7 +5,7 @@ extends Node2D
 @export var camera_limit_left: int = -120
 @export var camera_limit_top: int = -260
 @export var camera_limit_right: int = 5200
-@export var camera_limit_bottom: int = 760
+@export var camera_limit_bottom: int = 860
 
 @onready var actors: Node2D = $Actors
 @onready var spawn_point: Marker2D = $SpawnPoints/PlayerSpawn

@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3200" height="1120" viewBox="0 0 3200 1120">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#79aabd"/>
+      <stop offset="0.55" stop-color="#efaa76"/>
+      <stop offset="1" stop-color="#f4c272"/>
+    </linearGradient>
+    <pattern id="tiles" width="44" height="24" patternUnits="userSpaceOnUse">
+      <rect width="44" height="24" fill="#8e3d2e"/>
+      <path d="M0 4h44M0 16h44M11 4v12M33 4v12M0 16v8M22 16v8M44 16v8" stroke="#632a25" stroke-width="3" opacity="0.7"/>
+    </pattern>
+    <pattern id="paving" width="70" height="34" patternUnits="userSpaceOnUse">
+      <rect width="70" height="34" fill="#777875"/>
+      <path d="M0 17h70M35 0v17M15 17v17M55 17v17" stroke="#666763" stroke-width="3"/>
+    </pattern>
+  </defs>
+
+  <rect width="3200" height="1120" fill="url(#sky)"/>
+  <circle cx="2700" cy="170" r="104" fill="#fff6bd" opacity="0.75"/>
+  <path d="M0 560 280 390 560 530 830 345 1120 535 1450 390 1780 540 2060 420 2400 535 2760 365 3200 545v435H0Z" fill="#c77665" opacity="0.28"/>
+  <path d="M0 650 330 520 670 650 1010 505 1350 650 1690 525 2050 655 2420 500 2810 640 3200 520v460H0Z" fill="#687b7a" opacity="0.32"/>
+
+  <g id="distant-town" opacity="0.62">
+    <rect x="0" y="640" width="290" height="340" fill="#557177"/>
+    <rect x="330" y="590" width="320" height="390" fill="#617b79"/>
+    <rect x="700" y="690" width="240" height="290" fill="#4d6b72"/>
+    <rect x="1000" y="620" width="360" height="360" fill="#66807d"/>
+    <rect x="1400" y="675" width="270" height="305" fill="#557077"/>
+    <rect x="1720" y="570" width="390" height="410" fill="#637b78"/>
+    <rect x="2160" y="645" width="260" height="335" fill="#4d6c73"/>
+    <rect x="2470" y="600" width="360" height="380" fill="#607978"/>
+    <rect x="2880" y="680" width="320" height="300" fill="#506e73"/>
+  </g>
+
+  <g id="left-houses">
+    <path d="M0 530 190 390 390 530v450H0Z" fill="#5d3c35"/>
+    <path d="m-30 540 220-185 230 185-25 38-205-160L-6 575Z" fill="url(#tiles)"/>
+    <rect x="54" y="620" width="118" height="178" fill="#6f9896" stroke="#253f43" stroke-width="14"/>
+    <path d="M113 620v178M54 710h118" stroke="#d9ded2" stroke-width="8"/>
+    <rect x="225" y="710" width="128" height="270" fill="#2b3235"/>
+    <rect x="240" y="740" width="98" height="112" fill="#bd7e3d"/>
+    <rect x="420" y="505" width="490" height="475" fill="#d6c0a0"/>
+    <path d="m390 520 275-175 285 175-28 42-257-153-247 157Z" fill="url(#tiles)"/>
+    <rect x="480" y="650" width="138" height="160" fill="#38646b" stroke="#30383a" stroke-width="14"/>
+    <path d="M549 650v160M480 730h138" stroke="#c5d7d0" stroke-width="8"/>
+    <rect x="692" y="650" width="138" height="160" fill="#38646b" stroke="#30383a" stroke-width="14"/>
+    <path d="M761 650v160M692 730h138" stroke="#c5d7d0" stroke-width="8"/>
+    <rect x="535" y="830" width="240" height="150" fill="#7d4c32"/>
+    <rect x="565" y="850" width="180" height="105" fill="#e1a24f" opacity="0.75"/>
+    <text x="655" y="912" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="700" fill="#38251d">WARUNG TUTUP</text>
+  </g>
+
+  <g id="halte">
+    <rect x="980" y="615" width="870" height="365" rx="8" fill="#d8d0bd"/>
+    <rect x="1025" y="662" width="780" height="230" fill="#75a6aa" opacity="0.72" stroke="#2b4246" stroke-width="12"/>
+    <path d="M1285 662v230M1545 662v230" stroke="#d9e2d8" stroke-width="8" opacity="0.85"/>
+    <rect x="935" y="565" width="960" height="76" fill="#324649"/>
+    <path d="M900 565h1030l-52-70H950Z" fill="url(#tiles)"/>
+    <rect x="1010" y="620" width="28" height="360" fill="#283b3f"/>
+    <rect x="1792" y="620" width="28" height="360" fill="#283b3f"/>
+    <rect x="1130" y="820" width="540" height="38" rx="8" fill="#a86131"/>
+    <rect x="1180" y="850" width="28" height="118" fill="#343637"/>
+    <rect x="1592" y="850" width="28" height="118" fill="#343637"/>
+    <rect x="1090" y="590" width="650" height="72" rx="6" fill="#e5b950"/>
+    <text x="1415" y="637" text-anchor="middle" font-family="sans-serif" font-size="34" font-weight="800" fill="#253537">HALTE KOTA RANTING</text>
+    <rect x="1725" y="700" width="45" height="140" fill="#f3ede0"/>
+    <path d="M1738 720h19M1738 742h19M1738 764h19M1738 786h19" stroke="#b44a3a" stroke-width="9"/>
+  </g>
+
+  <g id="taxi">
+    <ellipse cx="2360" cy="973" rx="430" ry="34" fill="#272126" opacity="0.3"/>
+    <path d="M1950 790h520l210 118v72h-770v-120Z" fill="#e6a52f" stroke="#32272a" stroke-width="14"/>
+    <path d="M2100 790 2220 660h260l145 130Z" fill="#efb841" stroke="#32272a" stroke-width="14"/>
+    <path d="m2240 683-88 104h185V683ZM2364 683v104h210l-112-104Z" fill="#517982"/>
+    <path d="M2145 826h470" stroke="#754b25" stroke-width="10" opacity="0.55"/>
+    <rect x="2250" y="845" width="160" height="58" rx="10" fill="#f2d06c"/>
+    <text x="2330" y="885" text-anchor="middle" font-family="sans-serif" font-size="32" font-weight="800" fill="#4b331f">TAKSI</text>
+    <circle cx="2105" cy="968" r="66" fill="#242428"/>
+    <circle cx="2105" cy="968" r="30" fill="#b6aa8b"/>
+    <circle cx="2525" cy="968" r="66" fill="#242428"/>
+    <circle cx="2525" cy="968" r="30" fill="#b6aa8b"/>
+  </g>
+
+  <g id="right-kampung">
+    <rect x="2740" y="555" width="460" height="425" fill="#b55a42"/>
+    <path d="m2695 570 275-180 275 180-28 42-247-158-247 158Z" fill="url(#tiles)"/>
+    <rect x="2810" y="665" width="122" height="160" fill="#3f6970" stroke="#2e3b3d" stroke-width="13"/>
+    <path d="M2871 665v160M2810 745h122" stroke="#c8d7cc" stroke-width="7"/>
+    <rect x="2990" y="650" width="150" height="330" fill="#5b342c"/>
+    <rect x="3014" y="685" width="102" height="124" fill="#d3a35a" opacity="0.7"/>
+    <rect x="2760" y="875" width="190" height="64" fill="#f0dfb8"/>
+    <text x="2855" y="917" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="700" fill="#8c2f2c">DIKONTRAKKAN</text>
+  </g>
+
+  <rect y="980" width="3200" height="140" fill="#29272b"/>
+  <rect y="962" width="3200" height="28" fill="#bbb6a8"/>
+  <rect y="927" width="3200" height="38" fill="url(#paving)"/>
+  <path d="M0 1065h3200" stroke="#e1c46e" stroke-width="9" stroke-dasharray="82 70" opacity="0.65"/>
+  <path d="M0 918h3200" stroke="#3d3536" stroke-width="8"/>
+
+  <g id="poles" fill="#27272b">
+    <rect x="870" y="340" width="24" height="590"/>
+    <rect x="1880" y="305" width="26" height="625"/>
+    <rect x="2700" y="345" width="24" height="585"/>
+  </g>
+  <g fill="none" stroke="#242328" stroke-width="10" stroke-linecap="round">
+    <path d="M0 370C420 405 590 360 882 390c390 40 690-35 1011-5 330 30 522-25 819 0 230 20 330 10 488-8"/>
+    <path d="M0 430c380 35 630 5 882 35 370 45 685-15 1011 20 350 38 540-18 819 18 210 27 350 10 488 6"/>
+  </g>
+  <g fill="#f0c465">
+    <circle cx="882" cy="550" r="19"/><circle cx="1893" cy="525" r="19"/><circle cx="2712" cy="565" r="19"/>
+  </g>
+  <g fill="#b55232" opacity="0.9">
+    <path d="m550 900 18-38 18 38Z"/><path d="m640 915 20-45 20 45Z"/><path d="m2870 900 18-40 18 40Z"/>
+  </g>
+</svg>

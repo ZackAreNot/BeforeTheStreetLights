@@ -1,0 +1,15 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+"_translation_id": "",
+"color": Color(0.46, 0.72, 0.91, 1),
+"custom_info": {"sound_mood_default": "", "sound_moods": {}, "style": ""},
+"default_portrait": "",
+"description": "Penjaga Toko Listrik Kota Ranting.",
+"display_name": "Penjaga Toko",
+"mirror": false,
+"nicknames": ["Pak"],
+"offset": Vector2(0, 0),
+"portraits": {},
+"scale": 1.0
+}

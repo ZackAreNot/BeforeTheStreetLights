@@ -1,0 +1,15 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+"_translation_id": "",
+"color": Color(0.96, 0.61, 0.25, 1),
+"custom_info": {"sound_mood_default": "", "sound_moods": {}, "style": ""},
+"default_portrait": "",
+"description": "Teman lama Nara dan koordinator festival dadakan.",
+"display_name": "Bimo",
+"mirror": false,
+"nicknames": ["Bim"],
+"offset": Vector2(0, 0),
+"portraits": {},
+"scale": 1.0
+}

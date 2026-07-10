@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/loading_screen.gd" id="1_loading"]
+[ext_resource type="Texture2D" path="res://assets/Nara/Nara.png" id="2_nara"]
+
+[sub_resource type="Shader" id="Shader_white"]
+code = "shader_type canvas_item;\n\nvoid fragment() {\n    float alpha = texture(TEXTURE, UV).a;\n    COLOR = vec4(1.0, 1.0, 1.0, alpha);\n}\n"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_white"]
+shader = SubResource("Shader_white")
+
+[node name="LoadingScreen" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_loading")
+
+[node name="FadeRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Backdrop" type="ColorRect" parent="FadeRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="NaraTexture" type="TextureRect" parent="FadeRoot"]
+material = SubResource("ShaderMaterial_white")
+layout_mode = 0
+offset_left = 550.0
+offset_top = 142.0
+offset_right = 730.0
+offset_bottom = 480.0
+mouse_filter = 2
+texture = ExtResource("2_nara")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LoadingLabel" type="Label" parent="FadeRoot"]
+layout_mode = 0
+offset_left = 490.0
+offset_top = 486.0
+offset_right = 790.0
+offset_bottom = 526.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.82)
+theme_override_font_sizes/font_size = 15
+text = "MEMUAT"
+horizontal_alignment = 1

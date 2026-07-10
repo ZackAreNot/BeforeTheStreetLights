@@ -1,0 +1,8 @@
+dr_seno: Terima kasih. Ini kotak P3K untuk festival.
+[signal arg="anim:holding_item"]
+nara: Berat juga.
+dr_seno: Isinya bukan cuma perban. Ada kartu latihan napas dan nomor bantuan. Simpan satu untukmu.
+[signal arg="anim:overwhelmed"]
+nara: Kelihatan sekali, ya?
+dr_seno: Tidak perlu kelihatan parah untuk pantas dibantu. Saat semuanya terasa terlalu ramai, berhenti. Tarik napas, tahan, lepaskan.
+nara: Baik. Satu hal pada satu waktu.

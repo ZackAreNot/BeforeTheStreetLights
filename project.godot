@@ -15,6 +15,45 @@ run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameFlow="*res://scripts/core/game_flow.gd"
+Dialogic="*uid://ds2q0uclmolvu"
+DialogueBridge="*res://scripts/core/dialogue_bridge.gd"
+PauseMenu="*res://scenes/ui/pause_menu.tscn"
+
+[dialogic]
+
+directories/dch_directory={
+"bimo": "res://dialogic/characters/bimo.dch",
+"bu_rami": "res://dialogic/characters/bu_rami.dch",
+"dr_seno": "res://dialogic/characters/dr_seno.dch",
+"nara": "res://dialogic/characters/nara.dch",
+"penjaga_toko": "res://dialogic/characters/penjaga_toko.dch",
+"tara": "res://dialogic/characters/tara.dch"
+}
+directories/dtl_directory={
+"bimo_intro": "res://dialogic/timelines/bimo_intro.dtl",
+"bimo_repeat": "res://dialogic/timelines/bimo_repeat.dtl",
+"bu_rami_after": "res://dialogic/timelines/bu_rami_after.dtl",
+"bu_rami_intro": "res://dialogic/timelines/bu_rami_intro.dtl",
+"bu_rami_repeat": "res://dialogic/timelines/bu_rami_repeat.dtl",
+"dr_seno_after": "res://dialogic/timelines/dr_seno_after.dtl",
+"dr_seno_intro": "res://dialogic/timelines/dr_seno_intro.dtl",
+"dr_seno_repeat": "res://dialogic/timelines/dr_seno_repeat.dtl",
+"festival_epilogue": "res://dialogic/timelines/festival_epilogue.dtl",
+"shopkeeper_cable": "res://dialogic/timelines/shopkeeper_cable.dtl",
+"shopkeeper_repeat": "res://dialogic/timelines/shopkeeper_repeat.dtl",
+"tara_conversation": "res://dialogic/timelines/tara_conversation.dtl",
+"tara_repeat": "res://dialogic/timelines/tara_repeat.dtl"
+}
+layout/default_style="res://dialogic/styles/streetlights_style.tres"
+layout/style_directory={
+"": "res://dialogic/styles/streetlights_style.tres",
+"Streetlights": "res://dialogic/styles/streetlights_style.tres"
+}
+layout/style_list=PackedStringArray("res://dialogic/styles/streetlights_style.tres")
+
 [display]
 
 window/size/viewport_width=1280
@@ -22,8 +61,18 @@ window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/dialogic/plugin.cfg")
+
 [input]
 
+dialogic_default_action={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194309,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":32,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
 move_left={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":65,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)

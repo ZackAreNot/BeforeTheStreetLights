@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3200" height="1120" viewBox="0 0 3200 1120">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4d617d"/><stop offset="0.58" stop-color="#b85f59"/><stop offset="1" stop-color="#e5904f"/>
+    </linearGradient>
+    <pattern id="tiles" width="44" height="24" patternUnits="userSpaceOnUse">
+      <rect width="44" height="24" fill="#914132"/><path d="M0 5h44M0 17h44M11 5v12M33 5v12M0 17v7M22 17v7M44 17v7" stroke="#602c29" stroke-width="3"/>
+    </pattern>
+    <pattern id="brick" width="72" height="36" patternUnits="userSpaceOnUse">
+      <rect width="72" height="36" fill="#75736f"/><path d="M0 18h72M36 0v18M18 18v18M54 18v18" stroke="#61605d" stroke-width="3"/>
+    </pattern>
+  </defs>
+  <rect width="3200" height="1120" fill="url(#sky)"/>
+  <circle cx="2650" cy="175" r="90" fill="#ffe8a2" opacity="0.48"/>
+  <path d="M0 600 360 470 700 610 1030 455 1390 605 1750 470 2100 615 2440 450 2800 605 3200 470v510H0Z" fill="#4f5265" opacity="0.4"/>
+  <g opacity="0.52" fill="#3b4b57">
+    <rect x="0" y="660" width="420" height="320"/><rect x="460" y="575" width="390" height="405"/>
+    <rect x="900" y="655" width="350" height="325"/><rect x="1310" y="590" width="420" height="390"/>
+    <rect x="1800" y="640" width="360" height="340"/><rect x="2220" y="565" width="410" height="415"/>
+    <rect x="2690" y="650" width="510" height="330"/>
+  </g>
+
+  <g id="bakery">
+    <rect x="80" y="475" width="1390" height="505" fill="#a84e3e"/>
+    <path d="M45 490 630 225l880 265-25 55-850-245L62 550Z" fill="url(#tiles)"/>
+    <rect x="180" y="560" width="1170" height="112" rx="8" fill="#f2cd75"/>
+    <text x="765" y="632" text-anchor="middle" font-family="sans-serif" font-size="55" font-weight="900" fill="#6e2c26">TOKO KUE BU RAMI</text>
+    <path d="M150 682h1230v88H150Z" fill="#f4e3bd"/>
+    <path d="M150 682h154v88H150Zm308 0h154v88H458Zm308 0h154v88H766Zm308 0h154v88h-154Z" fill="#b94637"/>
+    <path d="M150 770c34 36 120 36 154 0 34 36 120 36 154 0 34 36 120 36 154 0 34 36 120 36 154 0 34 36 120 36 154 0 34 36 120 36 154 0 34 36 120 36 154 0 34 36 120 36 154 0" fill="#e8d4a9"/>
+    <rect x="160" y="780" width="780" height="170" fill="#7a9d96" stroke="#392c2b" stroke-width="15"/>
+    <path d="M420 780v170M680 780v170M160 865h780" stroke="#e1dec7" stroke-width="8"/>
+    <rect x="1000" y="760" width="340" height="220" fill="#56342f"/>
+    <rect x="1040" y="795" width="260" height="118" fill="#d7a153" opacity="0.75"/>
+    <g fill="#d9b46a" stroke="#75462e" stroke-width="7">
+      <rect x="245" y="810" width="74" height="92" rx="20"/><rect x="350" y="795" width="82" height="108" rx="22"/>
+      <rect x="505" y="814" width="72" height="89" rx="18"/><rect x="615" y="788" width="88" height="115" rx="24"/>
+    </g>
+    <path d="M80 914h1390" stroke="#5a2828" stroke-width="16"/>
+    <rect x="1180" y="520" width="190" height="42" fill="#eee0bd"/><text x="1275" y="550" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="700" fill="#73302a">SEJAK 1987</text>
+  </g>
+
+  <g id="alley">
+    <rect x="1470" y="720" width="260" height="260" fill="#31363b"/>
+    <path d="M1495 950 1660 770l70 75v135Z" fill="#252b30"/>
+    <rect x="1550" y="825" width="92" height="155" fill="#4a5e61"/>
+    <path d="M1600 720V430" stroke="#292a2e" stroke-width="18"/>
+    <path d="M1510 515h190M1510 585h190" stroke="#292a2e" stroke-width="12"/>
+    <rect x="1490" y="890" width="82" height="38" fill="#d9d0b8"/><text x="1531" y="916" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="700" fill="#343b3c">GANG 3</text>
+  </g>
+
+  <g id="flower-shop">
+    <rect x="1730" y="505" width="1390" height="475" fill="#2e6b58"/>
+    <path d="m1690 520 720-275 750 275-26 58-724-257-700 260Z" fill="#263d3b"/>
+    <rect x="1840" y="575" width="1170" height="100" rx="8" fill="#c6cf86"/>
+    <text x="2425" y="641" text-anchor="middle" font-family="sans-serif" font-size="52" font-weight="900" fill="#173f35">BUNGA TARA</text>
+    <rect x="1815" y="705" width="790" height="245" fill="#75a69c" stroke="#203f3b" stroke-width="16"/>
+    <path d="M2080 705v245M2345 705v245M1815 827h790" stroke="#d4ddc8" stroke-width="9"/>
+    <rect x="2660" y="690" width="330" height="290" fill="#183d35"/>
+    <rect x="2710" y="735" width="230" height="145" fill="#91b3a0" opacity="0.66"/>
+    <circle cx="2900" cy="915" r="14" fill="#d8c76c"/>
+    <g id="plants">
+      <g transform="translate(1900 910)"><path d="M0 50V-20M0 5-48-38M0-4 52-52" stroke="#315f3d" stroke-width="18"/><circle cx="-50" cy="-42" r="32" fill="#d65c58"/><circle cx="54" cy="-55" r="35" fill="#e1b94e"/><rect x="-50" y="42" width="100" height="38" fill="#9a5637"/></g>
+      <g transform="translate(2140 915)"><path d="M0 45V-45M0-10-48-70M0-20 55-78" stroke="#396942" stroke-width="17"/><circle cx="-50" cy="-73" r="31" fill="#8e5da2"/><circle cx="57" cy="-80" r="34" fill="#e28a53"/><rect x="-46" y="40" width="92" height="38" fill="#a4673d"/></g>
+      <g transform="translate(2380 920)" opacity="0.72"><path d="M0 40V-35M0-8-45-55M0-20 44-62" stroke="#665d36" stroke-width="15"/><path d="m-68-45 36-12-20 34Zm88-10 42-18-20 38Z" fill="#8b8148"/><rect x="-44" y="35" width="88" height="36" fill="#875038"/></g>
+    </g>
+    <rect x="1910" y="525" width="200" height="42" fill="#eff0d2"/><text x="2010" y="554" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="700" fill="#315e4e">BUKA SAMPAI SORE</text>
+  </g>
+
+  <rect y="980" width="3200" height="140" fill="#252429"/>
+  <rect y="960" width="3200" height="30" fill="#b3ada2"/>
+  <rect y="920" width="3200" height="42" fill="url(#brick)"/>
+  <path d="M0 1065h3200" stroke="#dbb455" stroke-width="9" stroke-dasharray="86 74" opacity="0.58"/>
+
+  <g id="streetlights">
+    <g transform="translate(1510 980)"><rect x="-8" y="-390" width="16" height="390" fill="#24252a"/><path d="M0-384h108" stroke="#24252a" stroke-width="16"/><path d="M86-401h70l-14 48H100Z" fill="#f1bd4f"/><circle cx="121" cy="-374" r="82" fill="#efbc4f" opacity="0.15"/></g>
+  </g>
+  <g fill="none" stroke="#24242a" stroke-width="10" stroke-linecap="round">
+    <path d="M0 350c390 25 650 70 980 32 410-46 710 30 1040-4 380-40 690 30 1180 10"/>
+    <path d="M0 412c420 20 650 58 980 32 410-32 700 38 1040 4 390-40 720 28 1180 16"/>
+  </g>
+</svg>

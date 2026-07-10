@@ -1,0 +1,183 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/prototype_ending.gd" id="1_ending"]
+[ext_resource type="Texture2D" path="res://assets/vector/world/area_05_festival.svg" id="2_world"]
+[ext_resource type="Texture2D" path="res://assets/vector/world/area_05_festival_glow.svg" id="3_glow"]
+[ext_resource type="Texture2D" path="res://assets/Nara/Nara.png" id="4_nara"]
+[ext_resource type="Texture2D" path="res://assets/vector/characters/bimo.svg" id="5_bimo"]
+[ext_resource type="Texture2D" path="res://assets/vector/characters/tara.svg" id="6_tara"]
+
+[sub_resource type="StyleBoxFlat" id="Style_primary"]
+bg_color = Color(0.94, 0.68, 0.29, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.87, 0.58, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="Style_primary_hover"]
+bg_color = Color(1, 0.79, 0.39, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.94, 0.75, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="Shader" id="Shader_nara"]
+code = "shader_type canvas_item;\n\nvoid fragment() {\n    vec4 tex = texture(TEXTURE, UV);\n    tex.rgb = mix(tex.rgb, vec3(1.0, 0.86, 0.58), 0.12);\n    COLOR = tex;\n}\n"
+
+[sub_resource type="ShaderMaterial" id="Material_nara"]
+shader = SubResource("Shader_nara")
+
+[node name="PrototypeEnding" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ending")
+
+[node name="World" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_world")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Glow" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_glow")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Shade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.015, 0.018, 0.04, 0.48)
+
+[node name="Bimo" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 350.0
+offset_top = 350.0
+offset_right = 500.0
+offset_bottom = 640.0
+mouse_filter = 2
+texture = ExtResource("5_bimo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Nara" type="TextureRect" parent="."]
+material = SubResource("Material_nara")
+layout_mode = 0
+offset_left = 550.0
+offset_top = 280.0
+offset_right = 730.0
+offset_bottom = 646.0
+mouse_filter = 2
+texture = ExtResource("4_nara")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Tara" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 780.0
+offset_top = 350.0
+offset_right = 930.0
+offset_bottom = 640.0
+mouse_filter = 2
+texture = ExtResource("6_tara")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="EndingCopy" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 230.0
+offset_top = 52.0
+offset_right = 1050.0
+offset_bottom = 258.0
+theme_override_constants/separation = 8
+
+[node name="Eyebrow" type="Label" parent="EndingCopy"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.73, 0.30, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 15
+text = "BEFORE THE STREETLIGHTS"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="EndingCopy"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.99, 0.96, 0.88, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.86)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 44
+text = "LAMPU-LAMPU MENYALA"
+horizontal_alignment = 1
+
+[node name="Quote" type="Label" parent="EndingCopy"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.91, 0.89, 0.84, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 21
+text = "Tidak semua harus selesai malam ini.\nKadang, tinggal sedikit lebih lama sudah cukup."
+horizontal_alignment = 1
+
+[node name="Actions" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 646.0
+offset_right = 890.0
+offset_bottom = 704.0
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="ReplayButton" type="Button" parent="Actions"]
+custom_minimum_size = Vector2(230, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.13, 0.08, 0.04, 1)
+theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("Style_primary")
+theme_override_styles/hover = SubResource("Style_primary_hover")
+text = "MAIN LAGI"
+
+[node name="MenuButton" type="Button" parent="Actions"]
+custom_minimum_size = Vector2(230, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.93, 0.89, 1)
+theme_override_colors/font_hover_color = Color(1, 0.76, 0.37, 1)
+theme_override_font_sizes/font_size = 17
+text = "MENU UTAMA"
+flat = true
+
+[connection signal="pressed" from="Actions/ReplayButton" to="." method="_on_replay_pressed"]
+[connection signal="pressed" from="Actions/MenuButton" to="." method="_on_menu_pressed"]

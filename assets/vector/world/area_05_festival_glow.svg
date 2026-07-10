@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3200" height="1120" viewBox="0 0 3200 1120">
+  <defs>
+    <radialGradient id="glow"><stop offset="0" stop-color="#ffd878" stop-opacity="0.52"/><stop offset="0.35" stop-color="#f7bd55" stop-opacity="0.25"/><stop offset="1" stop-color="#f1a83e" stop-opacity="0"/></radialGradient>
+    <radialGradient id="lantern"><stop offset="0" stop-color="#ffdc7a" stop-opacity="0.74"/><stop offset="1" stop-color="#f09245" stop-opacity="0"/></radialGradient>
+    <linearGradient id="stage" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f5c56a" stop-opacity="0.26"/><stop offset="1" stop-color="#f19a4b" stop-opacity="0.04"/></linearGradient>
+  </defs>
+  <ellipse cx="1600" cy="760" rx="760" ry="390" fill="url(#stage)"/>
+  <g>
+    <circle cx="688" cy="410" r="155" fill="url(#lantern)"/><rect x="650" y="370" width="64" height="82" rx="10" fill="#e65d49"/><path d="M660 395h44M660 425h44" stroke="#ffd98a" stroke-width="7"/>
+    <circle cx="1268" cy="388" r="155" fill="url(#lantern)"/><rect x="1230" y="348" width="64" height="82" rx="10" fill="#e9aa3f"/><path d="M1240 373h44M1240 403h44" stroke="#fff0a8" stroke-width="7"/>
+    <circle cx="1868" cy="418" r="155" fill="url(#lantern)"/><rect x="1830" y="378" width="64" height="82" rx="10" fill="#4eaa78"/><path d="M1840 403h44M1840 433h44" stroke="#d9f2ad" stroke-width="7"/>
+    <circle cx="2428" cy="410" r="155" fill="url(#lantern)"/><rect x="2390" y="370" width="64" height="82" rx="10" fill="#cc5f7a"/><path d="M2400 395h44M2400 425h44" stroke="#ffd8b0" stroke-width="7"/>
+  </g>
+  <g>
+    <circle cx="688" cy="572" r="260" fill="url(#glow)"/><path d="M656 538h72l-15 48h-42Z" fill="#ffd56c"/>
+    <circle cx="1718" cy="552" r="290" fill="url(#glow)"/><path d="M1686 518h72l-15 48h-42Z" fill="#ffd56c"/>
+    <circle cx="2768" cy="572" r="260" fill="url(#glow)"/><path d="M2736 538h72l-15 48h-42Z" fill="#ffd56c"/>
+  </g>
+  <g fill="#ffd66d" opacity="0.92">
+    <circle cx="1530" cy="905" r="24"/><circle cx="1600" cy="905" r="24"/><circle cx="1670" cy="905" r="24"/>
+  </g>
+  <path d="M1080 665h1040" stroke="#f5c66e" stroke-width="8" opacity="0.42"/>
+  <text x="1600" y="708" text-anchor="middle" font-family="sans-serif" font-size="56" font-weight="900" fill="#f9d980">FESTIVAL</text>
+  <text x="1600" y="770" text-anchor="middle" font-family="sans-serif" font-size="44" font-weight="800" fill="#f7c968">LAMPU JALAN</text>
+</svg>

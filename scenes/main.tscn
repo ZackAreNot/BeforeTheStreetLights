@@ -1,10 +1,314 @@
-[gd_scene format=3 uid="uid://dcq6ogobg5wge"]
+[gd_scene load_steps=14 format=3 uid="uid://dcq6ogobg5wge"]
 
-[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="1"]
-[ext_resource type="PackedScene" path="res://scenes/maps/map_01_city_ranting.tscn" id="2"]
+[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_menu"]
+[ext_resource type="Texture2D" path="res://assets/Nara/Nara.png" id="2_nara"]
 
-[node name="Main" type="Node2D" unique_id=506195361]
+[sub_resource type="Gradient" id="Gradient_sky"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0.08, 0.22, 0.24, 1, 0.68, 0.33, 0.34, 1, 0.96, 0.59, 0.27, 1)
 
-[node name="HUD" parent="." unique_id=1576240650 instance=ExtResource("1")]
+[sub_resource type="GradientTexture2D" id="GradientTexture_sky"]
+gradient = SubResource("Gradient_sky")
+width = 1280
+height = 720
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
 
-[node name="Map01CityRanting" parent="." unique_id=1511051 instance=ExtResource("2")]
+[sub_resource type="Gradient" id="Gradient_city"]
+colors = PackedColorArray(0.08, 0.09, 0.12, 1, 0.14, 0.12, 0.15, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture_city"]
+gradient = SubResource("Gradient_city")
+width = 32
+height = 32
+
+[sub_resource type="Gradient" id="Gradient_road"]
+colors = PackedColorArray(0.055, 0.05, 0.055, 1, 0.11, 0.09, 0.09, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture_road"]
+gradient = SubResource("Gradient_road")
+width = 64
+height = 64
+
+[sub_resource type="Shader" id="Shader_silhouette"]
+code = "shader_type canvas_item;\n\nvoid fragment() {\n    float alpha = texture(TEXTURE, UV).a;\n    COLOR = vec4(0.98, 0.94, 0.84, alpha);\n}\n"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_silhouette"]
+shader = SubResource("Shader_silhouette")
+
+[sub_resource type="StyleBoxFlat" id="Style_button"]
+bg_color = Color(0.93, 0.69, 0.32, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.84, 0.52, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="Style_button_hover"]
+bg_color = Color(1, 0.79, 0.42, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.93, 0.72, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="Style_button_pressed"]
+bg_color = Color(0.71, 0.46, 0.20, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="Style_credits"]
+bg_color = Color(0.035, 0.031, 0.035, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.94, 0.66, 0.28, 0.95)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="SkyTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture_sky")
+expand_mode = 1
+
+[node name="CitySilhouette" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -270.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+texture = SubResource("GradientTexture_city")
+expand_mode = 1
+
+[node name="RoofLine" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, 520, 0, 450, 130, 450, 130, 390, 285, 390, 285, 465, 430, 465, 430, 355, 640, 355, 640, 440, 805, 440, 805, 380, 995, 380, 995, 470, 1120, 470, 1120, 410, 1280, 410, 1280, 520)
+color = Color(0.10, 0.10, 0.13, 1)
+
+[node name="RoadTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+texture = SubResource("GradientTexture_road")
+expand_mode = 1
+
+[node name="NaraSilhouette" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_silhouette")
+layout_mode = 0
+offset_left = 830.0
+offset_top = 116.0
+offset_right = 1080.0
+offset_bottom = 574.0
+mouse_filter = 2
+texture = ExtResource("2_nara")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleBlock" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 86.0
+offset_top = 112.0
+offset_right = 660.0
+offset_bottom = 596.0
+theme_override_constants/separation = 18
+
+[node name="PrototypeTag" type="Label" parent="TitleBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.76, 0.36, 1)
+theme_override_font_sizes/font_size = 16
+text = "KISAH KOTA RANTING"
+
+[node name="Title" type="Label" parent="TitleBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.95, 0.88, 1)
+theme_override_font_sizes/font_size = 58
+text = "BEFORE THE\nSTREETLIGHTS"
+
+[node name="Subtitle" type="Label" parent="TitleBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.82, 0.81, 0.78, 1)
+theme_override_font_sizes/font_size = 18
+text = "Satu sore di Kota Ranting."
+
+[node name="Spacer" type="Control" parent="TitleBlock"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="TitleBlock"]
+custom_minimum_size = Vector2(310, 54)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.12, 0.08, 0.05, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_pressed")
+text = "MULAI"
+
+[node name="CreditsButton" type="Button" parent="TitleBlock"]
+custom_minimum_size = Vector2(310, 48)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.92, 0.90, 0.86, 1)
+theme_override_colors/font_hover_color = Color(1, 0.78, 0.42, 1)
+theme_override_font_sizes/font_size = 18
+text = "KREDIT"
+flat = true
+
+[node name="ExitButton" type="Button" parent="TitleBlock"]
+custom_minimum_size = Vector2(310, 48)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.92, 0.90, 0.86, 1)
+theme_override_colors/font_hover_color = Color(1, 0.78, 0.42, 1)
+theme_override_font_sizes/font_size = 18
+text = "KELUAR"
+flat = true
+
+[node name="CreditsOverlay" type="Control" parent="."]
+visible = false
+z_index = 50
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Backdrop" type="ColorRect" parent="CreditsOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.012, 0.011, 0.014, 0.84)
+
+[node name="CreditsPanel" type="PanelContainer" parent="CreditsOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -250.0
+offset_right = 300.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("Style_credits")
+
+[node name="Margin" type="MarginContainer" parent="CreditsOverlay/CreditsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 42
+theme_override_constants/margin_top = 34
+theme_override_constants/margin_right = 42
+theme_override_constants/margin_bottom = 30
+
+[node name="Content" type="VBoxContainer" parent="CreditsOverlay/CreditsPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="CreditsOverlay/CreditsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.95, 0.89, 1)
+theme_override_font_sizes/font_size = 34
+text = "KREDIT"
+horizontal_alignment = 1
+
+[node name="Rule" type="HSeparator" parent="CreditsOverlay/CreditsPanel/Margin/Content"]
+layout_mode = 2
+
+[node name="GameDesignTitle" type="Label" parent="CreditsOverlay/CreditsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.72, 0.30, 1)
+theme_override_font_sizes/font_size = 13
+text = "KONSEP DAN GAME DESIGN"
+
+[node name="GameDesign" type="Label" parent="CreditsOverlay/CreditsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.92, 0.88, 1)
+theme_override_font_sizes/font_size = 18
+text = "Tim Before The Streetlights"
+
+[node name="ProductionTitle" type="Label" parent="CreditsOverlay/CreditsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.72, 0.30, 1)
+theme_override_font_sizes/font_size = 13
+text = "PROTOTYPE"
+
+[node name="Production" type="Label" parent="CreditsOverlay/CreditsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.92, 0.88, 1)
+theme_override_font_sizes/font_size = 18
+text = "Godot 4.6 | Dialogic 2"
+
+[node name="ArtTitle" type="Label" parent="CreditsOverlay/CreditsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.72, 0.30, 1)
+theme_override_font_sizes/font_size = 13
+text = "VISUAL"
+
+[node name="Art" type="Label" parent="CreditsOverlay/CreditsPanel/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.92, 0.88, 1)
+theme_override_font_sizes/font_size = 17
+text = "Nara oleh tim Before The Streetlights\nDunia dan karakter prototype dibuat orisinal"
+autowrap_mode = 2
+
+[node name="Spacer" type="Control" parent="CreditsOverlay/CreditsPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="CloseButton" type="Button" parent="CreditsOverlay/CreditsPanel/Margin/Content"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.12, 0.08, 0.04, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("Style_button")
+theme_override_styles/hover = SubResource("Style_button_hover")
+theme_override_styles/pressed = SubResource("Style_button_pressed")
+text = "KEMBALI"
+
+[connection signal="pressed" from="TitleBlock/StartButton" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="TitleBlock/CreditsButton" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="TitleBlock/ExitButton" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="CreditsOverlay/CreditsPanel/Margin/Content/CloseButton" to="." method="_on_close_credits_pressed"]

@@ -1,59 +1,83 @@
 # Before The Streetlights
 
-Prototype awal untuk game narrative 2D side-scrolling tentang Nara dan Kota Ranting.
+Vertical slice game naratif 2D side-scrolling tentang Nara yang kembali ke Kota Ranting dan membantu persiapan Festival Lampu Jalan.
 
-## Cara Jalanin
+Semua visual prototype dunia dibuat orisinal sebagai SVG yang mudah diganti. Arah visual memakai bentuk flat vector yang ekspresif dan detail kota kecil Indonesia, tanpa menyalin aset game referensi.
 
-1. Buka folder ini dari Godot 4.x.
-2. Jalankan scene utama `res://scenes/main.tscn` atau tekan Play.
-3. Kontrol prototype:
-   - `A/D` atau arrow key: jalan.
-   - `Shift`: jalan cepat ringan.
-   - `Space`: lompat kecil.
-   - `E`: disiapkan untuk interaksi berikutnya.
+## Menjalankan Proyek
 
-## Isi Prototype Sekarang
+1. Gunakan Godot `4.6.2` atau versi `4.6.x` yang kompatibel.
+2. Import folder proyek ini dari Godot Project Manager.
+3. Pastikan `Project > Project Settings > Plugins > Dialogic` berstatus `Enabled`.
+4. Tekan `F6` pada `res://scenes/main.tscn` atau tekan `F5` untuk menjalankan game.
 
-- Player dummy Nara dengan `CharacterBody2D` dan sprite sheet sementara.
-- Movement side-scrolling: jalan, sprint ringan, lompat kecil, gravity.
-- Kamera follow dengan batas level.
-- Level linear Kota Ranting sudah berbasis scene:
-  - Taxi Stop
-  - Jalan Utama
-  - Toko Listrik
-  - Toko Kue Bu Rami
-  - Toko Bunga Tara
-  - Klinik St. Ranting
-  - Taman Festival
-- HUD objective sederhana yang berubah saat Nara masuk area lokasi.
+Dialogic 2 Alpha 19 sudah disertakan di `addons/dialogic`, jadi tidak perlu mengunduh addon lagi setelah clone.
 
-## Struktur Folder
+Versi vendored ini membawa patch kompatibilitas lokal untuk cleanup subsystem pada Godot 4.6. Setelah mengganti atau memperbarui folder addon, jalankan kembali smoke test dialog dan shutdown.
 
-- `scenes/main.tscn`: entry point prototype.
-- `scenes/maps/map_01_city_ranting.tscn`: scene map pertama. Background, collision, label lokasi, marker, spawn point, dan dekor utama ada di sini.
-- `scenes/player/player.tscn`: scene player.
-- `scenes/ui/hud.tscn`: scene HUD objective dan location label.
-- `scripts/player_controller.gd`: movement player.
-- `scripts/world/map_controller.gd`: wiring map, spawn player, marker lokasi, dan HUD.
-- `scripts/world/location_marker.gd`: data lokasi dan objective untuk setiap marker.
-- `scripts/ui/hud.gd`: fungsi update teks HUD.
-- `docs/ASSET_NEEDS.md`: daftar asset yang dibutuhkan untuk fase awal.
+## Kontrol
 
-## Cara Edit Map
+- `A/D` atau panah kiri/kanan: berjalan.
+- `Shift`: berlari.
+- `Space`: melompat; pada minigame napas digunakan untuk tarik dan buang napas.
+- `E`: berinteraksi dengan NPC, objek, dan pintu keluar area.
+- `Enter` atau `Space`: melanjutkan dialog.
+- Mouse atau keyboard: memilih respons dialog.
+- `Esc`: pause saat eksplorasi atau minigame.
 
-Edit visual dan tatanan level dari `scenes/maps/map_01_city_ranting.tscn`.
+## Flow Game
 
-- `Environment/BackgroundChunks`: layer background yang diulang sepanjang level.
-- `Decor/LocationLabels`: label nama lokasi yang bisa digeser langsung di editor.
-- `Decor/LampPosts`: dekor lampu jalan.
-- `LevelGeometry`: collision ground dan step.
-- `Markers`: area trigger objective.
-- `SpawnPoints/PlayerSpawn`: posisi awal Nara.
+1. Halte Kota Ranting: Nara bertemu Bimo.
+2. Jalan Toko Listrik: mengambil kabel festival.
+3. Lorong Bu Rami dan Tara: minigame pesanan bakery dan dialog bercabang dengan Tara.
+4. Klinik St. Ranting: minigame formulir keluhan pasien dan kartu bantuan.
+5. Taman Festival: minigame kabel, latihan napas tiga siklus, dialog penutup, dan ending.
 
-## Next Step
+Setiap perpindahan memakai loading screen hitam dengan siluet putih Nara. Objective, inventory, flag quest, serta hasil minigame disimpan oleh autoload `GameFlow`.
 
-1. Tambah interaction system untuk NPC/objek.
-2. Setup Dialogic untuk dialog Bimo dan quest pertama.
-3. Tambah quest manager ringan untuk objective dan item festival.
-4. Mulai pecah interior toko/klinik menjadi scene terpisah.
-5. Ganti asset dummy dengan asset original Before The Streetlights.
+## Dialogic
+
+- Karakter: `dialogic/characters/*.dch`
+- Timeline: `dialogic/timelines/*.dtl`
+- Tema textbox dan choice: `dialogic/styles/streetlights_style.tres`
+- Integrasi quest, kontrol pemain, animasi, dan follow-up minigame: `scripts/core/dialogue_bridge.gd`
+
+Untuk mengedit dialog, buka tab `Dialogic` di editor lalu pilih timeline. File `.dtl` juga bisa diedit sebagai teks. Jangan menghapus autoload `Dialogic` atau `DialogueBridge` dari `project.godot`.
+
+## Struktur Utama
+
+- `scenes/areas/`: lima area dunia.
+- `scenes/player/`: scene player dan cutout rig Nara.
+- `scenes/minigames/`: bakery, klinik, kabel, dan napas.
+- `scenes/components/`: interaction zone dan komponen dunia yang dapat dipakai ulang.
+- `scenes/ui/`: HUD, loading, pause, dan ending.
+- `assets/vector/world/`: background SVG 3200x1120 per area.
+- `assets/vector/characters/`: NPC vector placeholder.
+- `scripts/core/game_flow.gd`: state quest, inventory, loading, dan perpindahan scene.
+- `scenes/qa/`: smoke test timeline, flow, visual capture, dan logika minigame.
+- `docs/ASSET_NEEDS.md`: spesifikasi aset final yang masih dibutuhkan.
+
+## QA
+
+Jalankan dari root proyek dengan executable Godot tersedia sebagai `godot`:
+
+```powershell
+godot --headless --path . res://scenes/qa/flow_smoke.tscn
+godot --headless --path . res://scenes/qa/minigame_logic_smoke.tscn
+```
+
+Smoke test dialog memakai renderer karena juga membuat screenshot:
+
+```powershell
+godot --path . res://scenes/qa/dialogue_smoke.tscn
+```
+
+## Export Windows
+
+1. Dari Godot pilih `Editor > Manage Export Templates` dan pasang template `4.6.2` bila belum ada.
+2. Buka `Project > Export`.
+3. Pilih preset `Windows Desktop` yang sudah tersedia.
+4. Export ke `builds/BeforeTheStreetlights.exe`; preset sudah memakai `x86_64` dan PCK tertanam.
+5. Commit source proyeknya, bukan file `.exe` atau `.pck`; keduanya sudah diabaikan `.gitignore`.
+
+Game saat ini sudah dapat dimainkan dari menu sampai ending sebagai vertical slice. SVG dunia dan NPC masih berfungsi sebagai aset produksi sementara sampai ilustrasi final tersedia.

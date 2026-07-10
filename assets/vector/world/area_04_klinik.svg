@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3200" height="1120" viewBox="0 0 3200 1120">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#33465f"/><stop offset="0.6" stop-color="#76566a"/><stop offset="1" stop-color="#b86852"/></linearGradient>
+    <pattern id="tiles" width="44" height="24" patternUnits="userSpaceOnUse"><rect width="44" height="24" fill="#853d36"/><path d="M0 5h44M0 17h44M11 5v12M33 5v12M0 17v7M22 17v7M44 17v7" stroke="#552c2b" stroke-width="3"/></pattern>
+    <pattern id="brick" width="72" height="36" patternUnits="userSpaceOnUse"><rect width="72" height="36" fill="#666768"/><path d="M0 18h72M36 0v18M18 18v18M54 18v18" stroke="#535556" stroke-width="3"/></pattern>
+    <radialGradient id="windowGlow"><stop offset="0" stop-color="#ffd77b" stop-opacity="0.9"/><stop offset="1" stop-color="#f4b752" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="3200" height="1120" fill="url(#sky)"/>
+  <circle cx="480" cy="210" r="72" fill="#f5d69a" opacity="0.28"/>
+  <path d="M0 620 320 500 650 615 980 480 1330 620 1680 490 2020 615 2380 470 2750 610 3200 465v515H0Z" fill="#323b4c" opacity="0.52"/>
+  <g fill="#293542" opacity="0.64"><rect x="0" y="665" width="450" height="315"/><rect x="510" y="590" width="390" height="390"/><rect x="950" y="675" width="320" height="305"/><rect x="1320" y="610" width="400" height="370"/><rect x="1760" y="670" width="300" height="310"/><rect x="2110" y="575" width="460" height="405"/><rect x="2620" y="655" width="580" height="325"/></g>
+
+  <g id="lower-neighborhood">
+    <rect x="0" y="700" width="850" height="280" fill="#47707a"/>
+    <path d="M0 700 360 510 890 700l-25 48-505-172L0 755Z" fill="url(#tiles)"/>
+    <rect x="90" y="775" width="230" height="205" fill="#4a3836"/>
+    <rect x="380" y="770" width="370" height="145" fill="#6f9994" stroke="#293f43" stroke-width="14"/>
+    <path d="M565 770v145M380 842h370" stroke="#d2d8cc" stroke-width="8"/>
+    <rect x="420" y="920" width="270" height="44" fill="#e1d2a8"/><text x="555" y="950" text-anchor="middle" font-family="sans-serif" font-size="23" font-weight="800" fill="#70443a">WARUNG BU RAMI</text>
+  </g>
+
+  <g id="hill-wall">
+    <path d="M760 980V835l550-280h300v425Z" fill="#444044"/>
+    <path d="m800 930 540-285" stroke="#a75d4f" stroke-width="90"/>
+    <path d="m805 910 540-285" stroke="#d0b2a2" stroke-width="18" stroke-dasharray="36 28" opacity="0.75"/>
+    <rect x="1260" y="590" width="80" height="390" fill="#303136"/>
+    <rect x="1280" y="620" width="40" height="320" fill="#5d5b59"/>
+  </g>
+
+  <g id="clinic">
+    <rect x="1400" y="370" width="1640" height="610" fill="#8d9996"/>
+    <path d="m1350 390 850-260 890 260-30 62-860-240-822 242Z" fill="#353b40"/>
+    <rect x="1540" y="470" width="1360" height="122" rx="8" fill="#b84d47"/>
+    <text x="2220" y="550" text-anchor="middle" font-family="sans-serif" font-size="58" font-weight="900" fill="#f6efe0">+ KLINIK ST. RANTING</text>
+    <circle cx="1720" cy="760" r="260" fill="url(#windowGlow)" opacity="0.45"/>
+    <circle cx="2700" cy="760" r="260" fill="url(#windowGlow)" opacity="0.45"/>
+    <rect x="1515" y="650" width="470" height="270" fill="#e6b75f" stroke="#303a3b" stroke-width="16"/>
+    <path d="M1750 650v270M1515 785h470" stroke="#f0e2bd" stroke-width="9"/>
+    <rect x="2460" y="650" width="430" height="270" fill="#e6b75f" stroke="#303a3b" stroke-width="16"/>
+    <path d="M2675 650v270M2460 785h430" stroke="#f0e2bd" stroke-width="9"/>
+    <rect x="2045" y="620" width="350" height="360" fill="#243e43"/>
+    <rect x="2095" y="680" width="250" height="175" fill="#8babb0" opacity="0.72"/>
+    <circle cx="2345" cy="885" r="14" fill="#f0c260"/>
+    <rect x="1510" y="430" width="350" height="42" fill="#eee8d8"/><text x="1685" y="459" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="700" fill="#8a3736">IGD 24 JAM</text>
+    <rect x="2640" y="430" width="280" height="42" fill="#eee8d8"/><text x="2780" y="459" text-anchor="middle" font-family="sans-serif" font-size="20" font-weight="700" fill="#315b57">PUSKESMAS PEMBANTU</text>
+    <rect x="2520" y="710" width="310" height="140" fill="#f2eee0"/>
+    <text x="2675" y="760" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="800" fill="#2f4745">KESEHATAN BUKAN</text><text x="2675" y="793" text-anchor="middle" font-family="sans-serif" font-size="22" font-weight="800" fill="#2f4745">CUMA SOAL TUBUH</text>
+    <path d="M2675 812c-36-34-75 20 0 63 75-43 36-97 0-63Z" fill="#d85d58"/>
+    <g fill="#4d5554" opacity="0.65"><rect x="1450" y="900" width="500" height="20"/><rect x="2480" y="900" width="450" height="20"/></g>
+  </g>
+
+  <g id="clinic-sign">
+    <rect x="1180" y="600" width="36" height="380" fill="#292c31"/><rect x="1000" y="590" width="400" height="145" rx="8" fill="#eee4ca" stroke="#292c31" stroke-width="12"/>
+    <text x="1200" y="650" text-anchor="middle" font-family="sans-serif" font-size="30" font-weight="900" fill="#a63d3b">KLINIK</text><text x="1200" y="696" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="700" fill="#344c4d">120 M</text>
+    <path d="m1340 675 45-28v56Z" fill="#a63d3b"/>
+  </g>
+
+  <rect y="980" width="3200" height="140" fill="#222329"/><rect y="960" width="3200" height="30" fill="#a9a7a0"/><rect y="920" width="3200" height="42" fill="url(#brick)"/>
+  <path d="M0 1065h3200" stroke="#cba74f" stroke-width="9" stroke-dasharray="88 76" opacity="0.5"/>
+  <g id="streetlights">
+    <g transform="translate(940 980)"><rect x="-8" y="-380" width="16" height="380" fill="#22242a"/><path d="M0-375h104" stroke="#22242a" stroke-width="16"/><path d="M82-392h70l-14 48H98Z" fill="#edb84d"/><circle cx="118" cy="-365" r="80" fill="#efbc50" opacity="0.18"/></g>
+    <g transform="translate(3060 980)"><rect x="-8" y="-380" width="16" height="380" fill="#22242a"/><path d="M0-375h-104" stroke="#22242a" stroke-width="16"/><path d="M-152-392h70l-14 48h-40Z" fill="#edb84d"/><circle cx="-118" cy="-365" r="80" fill="#efbc50" opacity="0.18"/></g>
+  </g>
+  <g fill="none" stroke="#222329" stroke-width="10" stroke-linecap="round"><path d="M0 350c520 45 810 5 1180 48 430 50 760-30 1130 20 350 47 590 12 890 18"/><path d="M0 414c500 38 800 18 1180 62 420 49 760-15 1130 34 360 48 610 12 890 19"/></g>
+</svg>

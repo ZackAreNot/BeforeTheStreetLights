@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3200" height="1120" viewBox="0 0 3200 1120">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#101a36"/><stop offset="0.58" stop-color="#283152"/><stop offset="1" stop-color="#493b53"/></linearGradient>
+    <pattern id="brick" width="72" height="36" patternUnits="userSpaceOnUse"><rect width="72" height="36" fill="#3e4245"/><path d="M0 18h72M36 0v18M18 18v18M54 18v18" stroke="#323639" stroke-width="3"/></pattern>
+  </defs>
+  <rect width="3200" height="1120" fill="url(#sky)"/>
+  <circle cx="2680" cy="175" r="94" fill="#e7dfb9" opacity="0.72"/>
+  <circle cx="2650" cy="145" r="92" fill="#151e3a"/>
+  <g fill="#d7d6cf" opacity="0.48"><circle cx="280" cy="170" r="4"/><circle cx="580" cy="270" r="3"/><circle cx="1040" cy="140" r="4"/><circle cx="1520" cy="230" r="3"/><circle cx="1960" cy="120" r="4"/><circle cx="2360" cy="285" r="3"/><circle cx="2960" cy="250" r="4"/></g>
+  <path d="M0 640 360 500 720 640 1100 475 1480 635 1860 500 2220 640 2580 470 2860 620 3200 510v470H0Z" fill="#16233a" opacity="0.8"/>
+  <g fill="#111c2c"><rect x="0" y="685" width="460" height="295"/><rect x="510" y="625" width="400" height="355"/><rect x="960" y="700" width="340" height="280"/><rect x="1350" y="620" width="420" height="360"/><rect x="1830" y="690" width="340" height="290"/><rect x="2230" y="610" width="430" height="370"/><rect x="2720" y="675" width="480" height="305"/></g>
+
+  <g id="foliage" fill="#14352f">
+    <path d="M0 980V520c80-115 190-120 270-30 60-120 230-105 285 20 95-55 220 22 220 145v325Z"/>
+    <path d="M3200 980V500c-90-95-210-92-280 22-85-105-235-62-260 65-100-60-240 25-235 148v245Z"/>
+    <g fill="#1c493d"><circle cx="130" cy="520" r="108"/><circle cx="340" cy="485" r="135"/><circle cx="560" cy="560" r="120"/><circle cx="3030" cy="480" r="135"/><circle cx="2820" cy="545" r="125"/><circle cx="2600" cy="560" r="105"/></g>
+  </g>
+
+  <g id="park-fence">
+    <path d="M480 790H2760" stroke="#3e3c43" stroke-width="22"/>
+    <path d="M520 720v260M720 720v260M920 720v260M1120 720v260M1320 720v260M1520 720v260M1720 720v260M1920 720v260M2120 720v260M2320 720v260M2520 720v260M2720 720v260" stroke="#3e3c43" stroke-width="15"/>
+    <path d="m500 720 20-34 20 34m160 0 20-34 20 34m160 0 20-34 20 34m160 0 20-34 20 34m160 0 20-34 20 34m160 0 20-34 20 34m160 0 20-34 20 34m160 0 20-34 20 34m160 0 20-34 20 34m160 0 20-34 20 34m160 0 20-34 20 34m160 0 20-34 20 34" fill="none" stroke="#3e3c43" stroke-width="12"/>
+  </g>
+
+  <g id="stage">
+    <rect x="940" y="565" width="1320" height="415" fill="#4d293d"/>
+    <path d="m900 580 700-245 700 245-32 58-668-224-668 224Z" fill="#2b2938"/>
+    <rect x="1050" y="635" width="1100" height="210" fill="#593247"/>
+    <path d="M1120 650v190M2080 650v190" stroke="#a35f5e" stroke-width="18"/>
+    <rect x="820" y="900" width="1560" height="80" fill="#774334"/>
+    <rect x="780" y="968" width="1640" height="30" fill="#362a2e"/>
+    <text x="1600" y="708" text-anchor="middle" font-family="sans-serif" font-size="56" font-weight="900" fill="#bca36b">FESTIVAL</text>
+    <text x="1600" y="770" text-anchor="middle" font-family="sans-serif" font-size="44" font-weight="800" fill="#bca36b">LAMPU JALAN</text>
+    <g fill="#65413a"><rect x="1060" y="850" width="210" height="50"/><rect x="1930" y="850" width="210" height="50"/></g>
+    <g fill="#a66b42"><circle cx="1120" cy="850" r="30"/><circle cx="1210" cy="850" r="30"/><circle cx="1990" cy="850" r="30"/><circle cx="2080" cy="850" r="30"/></g>
+  </g>
+
+  <g id="lantern-string">
+    <path d="M360 360c620 95 1060-75 1500 20 480 104 720-20 990 30" fill="none" stroke="#242532" stroke-width="10"/>
+    <g fill="#6e3f3f"><rect x="650" y="370" width="64" height="82" rx="10"/><rect x="1230" y="348" width="64" height="82" rx="10"/><rect x="1830" y="378" width="64" height="82" rx="10"/><rect x="2390" y="370" width="64" height="82" rx="10"/></g>
+    <g stroke="#8e6950" stroke-width="8"><path d="M682 350v20M1262 330v18M1862 360v18M2422 352v18"/></g>
+  </g>
+
+  <g id="streetlights" fill="#2a2b31">
+    <g transform="translate(570 980)"><rect x="-9" y="-430" width="18" height="430"/><path d="M0-424h112" stroke="#2a2b31" stroke-width="18"/><path d="M86-442h78l-16 52h-46Z" fill="#55525a"/></g>
+    <g transform="translate(1600 980)"><rect x="-9" y="-450" width="18" height="450"/><path d="M0-444h112" stroke="#2a2b31" stroke-width="18"/><path d="M86-462h78l-16 52h-46Z" fill="#55525a"/></g>
+    <g transform="translate(2650 980)"><rect x="-9" y="-430" width="18" height="430"/><path d="M0-424h112" stroke="#2a2b31" stroke-width="18"/><path d="M86-442h78l-16 52h-46Z" fill="#55525a"/></g>
+  </g>
+
+  <g id="bench">
+    <rect x="2520" y="865" width="430" height="58" rx="10" fill="#714433"/>
+    <rect x="2550" y="805" width="370" height="46" rx="10" fill="#714433"/>
+    <path d="M2580 920v60M2890 920v60" stroke="#2b2c31" stroke-width="24"/>
+  </g>
+
+  <g id="panel-box">
+    <rect x="1450" y="845" width="300" height="135" rx="8" fill="#70513d" stroke="#2c2b31" stroke-width="12"/>
+    <circle cx="1530" cy="905" r="24" fill="#7b282b"/><circle cx="1600" cy="905" r="24" fill="#255848"/><circle cx="1670" cy="905" r="24" fill="#2e426f"/>
+    <text x="1600" y="962" text-anchor="middle" font-family="sans-serif" font-size="18" font-weight="700" fill="#d8c49e">PANEL LAMPU</text>
+  </g>
+
+  <g id="market-stalls">
+    <rect x="430" y="820" width="350" height="160" fill="#5c3933"/><path d="M390 820h430l-45-90H435Z" fill="#963f38"/>
+    <rect x="2420" y="815" width="340" height="165" fill="#3f4e48"/><path d="M2380 815h420l-45-90h-330Z" fill="#476e5c"/>
+    <g fill="#9f6a40"><circle cx="500" cy="850" r="26"/><circle cx="570" cy="850" r="26"/><circle cx="650" cy="850" r="26"/></g>
+    <g fill="#745f37"><rect x="2480" y="842" width="60" height="72"/><rect x="2580" y="842" width="60" height="72"/><rect x="2680" y="842" width="60" height="72"/></g>
+  </g>
+
+  <rect y="980" width="3200" height="140" fill="#171820"/><rect y="960" width="3200" height="30" fill="#68666c"/><rect y="920" width="3200" height="42" fill="url(#brick)"/>
+  <path d="M0 1065h3200" stroke="#7c6e42" stroke-width="9" stroke-dasharray="88 76" opacity="0.42"/>
+</svg>

@@ -1,0 +1,15 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+"_translation_id": "",
+"color": Color(0.28, 0.72, 0.69, 1),
+"custom_info": {"sound_mood_default": "", "sound_moods": {}, "style": ""},
+"default_portrait": "",
+"description": "Tokoh utama yang baru kembali ke Kota Ranting.",
+"display_name": "Nara",
+"mirror": false,
+"nicknames": ["Nar"],
+"offset": Vector2(0, 0),
+"portraits": {},
+"scale": 1.0
+}

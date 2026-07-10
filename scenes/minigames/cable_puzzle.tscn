@@ -1,0 +1,375 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/minigames/cable_puzzle.gd" id="1_root"]
+[ext_resource type="Script" path="res://scripts/minigames/cable_plug.gd" id="2_plug"]
+[ext_resource type="Script" path="res://scripts/minigames/cable_socket.gd" id="3_socket"]
+[ext_resource type="Texture2D" path="res://assets/placeholders/solid_texture.tres" id="4_solid"]
+
+[sub_resource type="Gradient" id="Gradient_socket"]
+offsets = PackedFloat32Array(0, 0.62, 1)
+colors = PackedColorArray(0.10, 0.11, 0.13, 1, 0.18, 0.19, 0.21, 1, 0.35, 0.36, 0.38, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture_socket"]
+gradient = SubResource("Gradient_socket")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="StyleBoxFlat" id="Style_header"]
+bg_color = Color(0.12, 0.13, 0.15, 0.94)
+border_width_left = 2
+border_width_bottom = 2
+border_color = Color(0.65, 0.55, 0.40, 0.7)
+
+[sub_resource type="StyleBoxFlat" id="Style_board"]
+bg_color = Color(0.72, 0.72, 0.69, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18, 0.19, 0.20, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="CablePuzzle" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_root")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.90, 0.87, 0.79, 1)
+
+[node name="Header" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 90.0
+theme_override_styles/panel = SubResource("Style_header")
+
+[node name="Title" type="Label" parent="Header"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 14.0
+offset_right = 520.0
+offset_bottom = 52.0
+theme_override_colors/font_color = Color(0.96, 0.89, 0.75, 1)
+theme_override_font_sizes/font_size = 24
+text = "PANEL LAMPU FESTIVAL"
+
+[node name="FeedbackLabel" type="Label" parent="Header"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 53.0
+offset_right = 960.0
+offset_bottom = 82.0
+theme_override_colors/font_color = Color(0.76, 0.74, 0.70, 1)
+theme_override_font_sizes/font_size = 14
+text = "Tarik setiap steker ke soket dengan warna yang sama."
+
+[node name="ProgressLabel" type="Label" parent="Header"]
+layout_mode = 0
+offset_left = 1030.0
+offset_top = 24.0
+offset_right = 1240.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(1, 0.74, 0.34, 1)
+theme_override_font_sizes/font_size = 18
+text = "0 / 3 jalur"
+horizontal_alignment = 2
+
+[node name="SocketBoard" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 220.0
+offset_top = 122.0
+offset_right = 1060.0
+offset_bottom = 324.0
+theme_override_styles/panel = SubResource("Style_board")
+
+[node name="PowerSource" type="TextureRect" parent="SocketBoard"]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 30.0
+offset_right = 106.0
+offset_bottom = 172.0
+mouse_filter = 2
+texture = ExtResource("4_solid")
+expand_mode = 1
+self_modulate = Color(0.76, 0.14, 0.16, 1)
+
+[node name="PowerLabel" type="Label" parent="SocketBoard"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 174.0
+offset_right = 120.0
+offset_bottom = 198.0
+theme_override_colors/font_color = Color(0.23, 0.20, 0.19, 1)
+theme_override_font_sizes/font_size = 12
+text = "SUMBER"
+horizontal_alignment = 1
+
+[node name="RedMarker" type="TextureRect" parent="SocketBoard"]
+layout_mode = 0
+offset_left = 244.0
+offset_top = 20.0
+offset_right = 344.0
+offset_bottom = 34.0
+mouse_filter = 2
+texture = ExtResource("4_solid")
+expand_mode = 1
+self_modulate = Color(0.82, 0.24, 0.25, 1)
+
+[node name="RedSocket" type="TextureRect" parent="SocketBoard"]
+layout_mode = 0
+offset_left = 244.0
+offset_top = 46.0
+offset_right = 344.0
+offset_bottom = 146.0
+mouse_filter = 0
+texture = SubResource("GradientTexture_socket")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("3_socket")
+cable_id = "merah"
+
+[node name="BlueMarker" type="TextureRect" parent="SocketBoard"]
+layout_mode = 0
+offset_left = 442.0
+offset_top = 20.0
+offset_right = 542.0
+offset_bottom = 34.0
+mouse_filter = 2
+texture = ExtResource("4_solid")
+expand_mode = 1
+self_modulate = Color(0.28, 0.42, 0.80, 1)
+
+[node name="BlueSocket" type="TextureRect" parent="SocketBoard"]
+layout_mode = 0
+offset_left = 442.0
+offset_top = 46.0
+offset_right = 542.0
+offset_bottom = 146.0
+mouse_filter = 0
+texture = SubResource("GradientTexture_socket")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("3_socket")
+cable_id = "biru"
+
+[node name="GreenMarker" type="TextureRect" parent="SocketBoard"]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 20.0
+offset_right = 740.0
+offset_bottom = 34.0
+mouse_filter = 2
+texture = ExtResource("4_solid")
+expand_mode = 1
+self_modulate = Color(0.25, 0.69, 0.42, 1)
+
+[node name="GreenSocket" type="TextureRect" parent="SocketBoard"]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 46.0
+offset_right = 740.0
+offset_bottom = 146.0
+mouse_filter = 0
+texture = SubResource("GradientTexture_socket")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("3_socket")
+cable_id = "hijau"
+
+[node name="CableLines" type="Node2D" parent="."]
+z_index = 2
+
+[node name="PlugTray" type="Control" parent="."]
+layout_mode = 0
+offset_left = 130.0
+offset_top = 390.0
+offset_right = 1150.0
+offset_bottom = 690.0
+
+[node name="RedPlug" type="TextureRect" parent="PlugTray"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 92.0
+offset_right = 210.0
+offset_bottom = 270.0
+mouse_filter = 0
+texture = ExtResource("4_solid")
+expand_mode = 1
+self_modulate = Color(0.82, 0.24, 0.25, 1)
+script = ExtResource("2_plug")
+cable_id = "merah"
+
+[node name="Grip" type="TextureRect" parent="PlugTray/RedPlug"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = -26.0
+offset_right = 48.0
+offset_bottom = 22.0
+mouse_filter = 2
+texture = ExtResource("4_solid")
+expand_mode = 1
+self_modulate = Color(0.82, 0.24, 0.25, 1)
+
+[node name="Prong" type="TextureRect" parent="PlugTray/RedPlug"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = -26.0
+offset_right = 102.0
+offset_bottom = 22.0
+mouse_filter = 2
+texture = ExtResource("4_solid")
+expand_mode = 1
+self_modulate = Color(0.82, 0.24, 0.25, 1)
+
+[node name="GreenPlug" type="TextureRect" parent="PlugTray"]
+layout_mode = 0
+offset_left = 444.0
+offset_top = 92.0
+offset_right = 574.0
+offset_bottom = 270.0
+mouse_filter = 0
+texture = ExtResource("4_solid")
+expand_mode = 1
+self_modulate = Color(0.25, 0.69, 0.42, 1)
+script = ExtResource("2_plug")
+cable_id = "hijau"
+
+[node name="Grip" type="TextureRect" parent="PlugTray/GreenPlug"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = -26.0
+offset_right = 48.0
+offset_bottom = 22.0
+mouse_filter = 2
+texture = ExtResource("4_solid")
+expand_mode = 1
+self_modulate = Color(0.25, 0.69, 0.42, 1)
+
+[node name="Prong" type="TextureRect" parent="PlugTray/GreenPlug"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = -26.0
+offset_right = 102.0
+offset_bottom = 22.0
+mouse_filter = 2
+texture = ExtResource("4_solid")
+expand_mode = 1
+self_modulate = Color(0.25, 0.69, 0.42, 1)
+
+[node name="BluePlug" type="TextureRect" parent="PlugTray"]
+layout_mode = 0
+offset_left = 810.0
+offset_top = 92.0
+offset_right = 940.0
+offset_bottom = 270.0
+mouse_filter = 0
+texture = ExtResource("4_solid")
+expand_mode = 1
+self_modulate = Color(0.28, 0.42, 0.80, 1)
+script = ExtResource("2_plug")
+cable_id = "biru"
+
+[node name="Grip" type="TextureRect" parent="PlugTray/BluePlug"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = -26.0
+offset_right = 48.0
+offset_bottom = 22.0
+mouse_filter = 2
+texture = ExtResource("4_solid")
+expand_mode = 1
+self_modulate = Color(0.28, 0.42, 0.80, 1)
+
+[node name="Prong" type="TextureRect" parent="PlugTray/BluePlug"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = -26.0
+offset_right = 102.0
+offset_bottom = 22.0
+mouse_filter = 2
+texture = ExtResource("4_solid")
+expand_mode = 1
+self_modulate = Color(0.28, 0.42, 0.80, 1)
+
+[node name="PressureOverlay" type="ColorRect" parent="."]
+z_index = 20
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="PressureWords" type="Control" parent="."]
+z_index = 21
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Deadline" type="Label" parent="PressureWords"]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 162.0
+offset_right = 390.0
+offset_bottom = 210.0
+rotation = -0.18
+theme_override_colors/font_color = Color(1, 1, 1, 0.88)
+theme_override_font_sizes/font_size = 20
+text = "deadline"
+
+[node name="Reply" type="Label" parent="PressureWords"]
+layout_mode = 0
+offset_left = 930.0
+offset_top = 178.0
+offset_right = 1218.0
+offset_bottom = 226.0
+rotation = 0.15
+theme_override_colors/font_color = Color(1, 1, 1, 0.84)
+theme_override_font_sizes/font_size = 18
+text = "balas chat"
+
+[node name="Should" type="Label" parent="PressureWords"]
+layout_mode = 0
+offset_left = 450.0
+offset_top = 570.0
+offset_right = 830.0
+offset_bottom = 626.0
+theme_override_colors/font_color = Color(1, 1, 1, 0.90)
+theme_override_font_sizes/font_size = 22
+text = "harusnya kamu bisa"
+horizontal_alignment = 1
+
+[node name="Disappoint" type="Label" parent="PressureWords"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 476.0
+offset_right = 420.0
+offset_bottom = 524.0
+rotation = 0.1
+theme_override_colors/font_color = Color(1, 1, 1, 0.78)
+theme_override_font_sizes/font_size = 17
+text = "jangan ngecewain"
+

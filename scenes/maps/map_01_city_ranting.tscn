@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://before_streetlights_map_01"]
+[gd_scene load_steps=13 format=3 uid="uid://before_streetlights_map_01"]
 
 [ext_resource type="Script" path="res://scripts/world/map_controller.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="2"]
@@ -12,13 +12,10 @@
 [ext_resource type="Texture2D" path="res://assets/Dummy/WorldBuild/City4/Bright/road.png" id="10"]
 
 [sub_resource type="RectangleShape2D" id="GroundShape"]
-size = Vector2(5600, 88)
-
-[sub_resource type="RectangleShape2D" id="StepShape"]
-size = Vector2(260, 28)
+size = Vector2(5600, 96)
 
 [sub_resource type="RectangleShape2D" id="MarkerShape"]
-size = Vector2(360, 190)
+size = Vector2(360, 240)
 
 [node name="Map01CityRanting" type="Node2D"]
 script = ExtResource("1")
@@ -27,7 +24,7 @@ hud_path = NodePath("../HUD")
 camera_limit_left = -120
 camera_limit_top = -260
 camera_limit_right = 5200
-camera_limit_bottom = 760
+camera_limit_bottom = 860
 
 [node name="Environment" type="Node2D" parent="."]
 
@@ -287,37 +284,16 @@ polygon = PackedVector2Array(0, 0, 54, 0, 54, 18, 0, 18)
 [node name="LevelGeometry" type="Node2D" parent="."]
 
 [node name="Ground" type="StaticBody2D" parent="LevelGeometry"]
-position = Vector2(2500, 636)
+position = Vector2(2500, 736)
 collision_layer = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGeometry/Ground"]
 shape = SubResource("GroundShape")
 
-[node name="BakeryStep" type="StaticBody2D" parent="LevelGeometry"]
-position = Vector2(1480, 534)
-collision_layer = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGeometry/BakeryStep"]
-shape = SubResource("StepShape")
-
-[node name="FlowerShopStep" type="StaticBody2D" parent="LevelGeometry"]
-position = Vector2(2320, 528)
-collision_layer = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGeometry/FlowerShopStep"]
-shape = SubResource("StepShape")
-
-[node name="ClinicStep" type="StaticBody2D" parent="LevelGeometry"]
-position = Vector2(3150, 536)
-collision_layer = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LevelGeometry/ClinicStep"]
-shape = SubResource("StepShape")
-
 [node name="Markers" type="Node2D" parent="."]
 
 [node name="TaxiStopMarker" type="Area2D" parent="Markers"]
-position = Vector2(180, 500)
+position = Vector2(180, 610)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("3")
@@ -328,7 +304,7 @@ objective_text = "Tujuan: Temui Bimo di jalan utama."
 shape = SubResource("MarkerShape")
 
 [node name="MainStreetMarker" type="Area2D" parent="Markers"]
-position = Vector2(620, 500)
+position = Vector2(620, 610)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("3")
@@ -339,7 +315,7 @@ objective_text = "Tujuan: Ambil kabel lampu di Toko Listrik."
 shape = SubResource("MarkerShape")
 
 [node name="ElectricShopMarker" type="Area2D" parent="Markers"]
-position = Vector2(1040, 500)
+position = Vector2(1040, 610)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("3")
@@ -350,7 +326,7 @@ objective_text = "Tujuan: Lanjut ke toko kue untuk makanan festival."
 shape = SubResource("MarkerShape")
 
 [node name="BakeryMarker" type="Area2D" parent="Markers"]
-position = Vector2(1660, 500)
+position = Vector2(1660, 610)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("3")
@@ -361,7 +337,7 @@ objective_text = "Tujuan: Bantu Bu Rami, lalu cari Tara."
 shape = SubResource("MarkerShape")
 
 [node name="FlowerShopMarker" type="Area2D" parent="Markers"]
-position = Vector2(2380, 500)
+position = Vector2(2380, 610)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("3")
@@ -372,7 +348,7 @@ objective_text = "Tujuan: Setelah bicara Tara, pergi ke klinik."
 shape = SubResource("MarkerShape")
 
 [node name="ClinicMarker" type="Area2D" parent="Markers"]
-position = Vector2(3180, 500)
+position = Vector2(3180, 610)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("3")
@@ -383,7 +359,7 @@ objective_text = "Tujuan: Ambil P3K, lalu ke taman festival."
 shape = SubResource("MarkerShape")
 
 [node name="FestivalMarker" type="Area2D" parent="Markers"]
-position = Vector2(4180, 500)
+position = Vector2(4180, 610)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("3")
@@ -396,6 +372,6 @@ shape = SubResource("MarkerShape")
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="PlayerSpawn" type="Marker2D" parent="SpawnPoints"]
-position = Vector2(120, 540)
+position = Vector2(120, 688)
 
 [node name="Actors" type="Node2D" parent="."]

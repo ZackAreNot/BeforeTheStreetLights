@@ -1,0 +1,15 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+"_translation_id": "",
+"color": Color(0.50, 0.82, 0.57, 1),
+"custom_info": {"sound_mood_default": "", "sound_moods": {}, "style": ""},
+"default_portrait": "",
+"description": "Dokter klinik yang tenang dan tidak menghakimi.",
+"display_name": "dr. Seno",
+"mirror": false,
+"nicknames": ["Seno"],
+"offset": Vector2(0, 0),
+"portraits": {},
+"scale": 1.0
+}

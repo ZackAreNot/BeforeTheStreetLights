@@ -1,62 +1,27 @@
-[gd_scene format=3 uid="uid://beoncecitkrra"]
+[gd_scene load_steps=4 format=3 uid="uid://beoncecitkrra"]
 
-[ext_resource type="Script" uid="uid://dn7wto472on3w" path="res://scripts/player_controller.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://cva2ucmt3nbhm" path="res://assets/Dummy/Character/FreePlayer.png" id="2"]
+[ext_resource type="Script" uid="uid://dn7wto472on3w" path="res://scripts/player_controller.gd" id="1_controller"]
+[ext_resource type="PackedScene" path="res://scenes/player/nara_visual.tscn" id="2_visual"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
-size = Vector2(34, 78)
+[sub_resource type="RectangleShape2D" id="RectangleShape_player"]
+size = Vector2(72, 184)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_head"]
-radius = 17.0
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_feet"]
-radius = 11.0
-height = 22.0
-
-[node name="Player" type="CharacterBody2D" unique_id=1907698935]
+[node name="Player" type="CharacterBody2D" unique_id=1907698935 groups=["player"]]
 collision_layer = 2
-script = ExtResource("1")
+collision_mask = 1
+script = ExtResource("1_controller")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1194420756]
-position = Vector2(0, -40)
-shape = SubResource("RectangleShape2D_player")
+position = Vector2(0, -92)
+shape = SubResource("RectangleShape_player")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2079576649]
-position = Vector2(0, -56)
-scale = Vector2(0.55, 0.55)
-texture = ExtResource("2")
-hframes = 8
-vframes = 4
-
-[node name="Body" type="Polygon2D" parent="." unique_id=1146639352]
-visible = false
-color = Color(0.31, 0.18, 0.11, 1)
-polygon = PackedVector2Array(-18, -72, 18, -72, 21, -12, -21, -12)
-
-[node name="Hoodie" type="Polygon2D" parent="." unique_id=964572732]
-visible = false
-color = Color(0.13, 0.21, 0.24, 1)
-polygon = PackedVector2Array(-23, -61, 23, -61, 19, -18, -19, -18)
-
-[node name="Head" type="CollisionShape2D" parent="." unique_id=1372337846]
-position = Vector2(0, -89)
-shape = SubResource("CircleShape2D_head")
-disabled = true
-
-[node name="HeadVisual" type="Polygon2D" parent="." unique_id=1951997194]
-visible = false
-color = Color(0.48, 0.31, 0.18, 1)
-polygon = PackedVector2Array(-17, -105, 14, -106, 21, -91, 16, -76, -16, -75, -22, -91)
-
-[node name="FeetGuide" type="CollisionShape2D" parent="." unique_id=1709340774]
-position = Vector2(0, -11)
-shape = SubResource("CapsuleShape2D_feet")
-disabled = true
+[node name="NaraVisual" parent="." instance=ExtResource("2_visual")]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1635311892]
-limit_left = -160
-limit_top = -400
-limit_right = 5200
+limit_left = 0
+limit_top = -360
+limit_right = 3200
 limit_bottom = 760
+zoom = Vector2(0.65, 0.65)
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0

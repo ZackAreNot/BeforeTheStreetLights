@@ -1,0 +1,19 @@
+tara: Jadi benar kamu pulang.
+nara: Hai, Ta.
+tara: Enam bulan tidak membalas pesan, lalu muncul sambil membawa kardus kue. Gaya masuk yang berani.
+nara: Aku tahu. Aku tidak punya kalimat yang cukup bagus untuk menjelaskannya.
+tara: Aku tidak minta kalimat bagus. Aku minta yang jujur.
+- Maaf. Aku kabur dari semua orang.
+	[signal arg="choice:tara:apology"]
+	nara: Maaf. Aku kabur dari semua orang, termasuk kamu.
+	tara: Aku marah. Tapi setidaknya itu jawaban yang nyata.
+- Aku belum bisa cerita semuanya.
+	[signal arg="choice:tara:honest"]
+	nara: Aku belum bisa cerita semuanya. Tapi aku ingin berhenti menghilang.
+	tara: Baik. Jangan janjikan semuanya. Mulai dari satu pesan yang dibalas.
+- Aku lelah dianggap baik-baik saja.
+	[signal arg="choice:tara:frustrated"]
+	nara: Aku lelah kalau pulang selalu dianggap baik-baik saja hanya karena aku bisa bercanda.
+	tara: Aku juga lelah menebak. Kita bisa sama-sama berhenti pura-pura.
+nara: Datang ke taman malam ini?
+tara: Aku belum janji. Tapi... aku dengar.
