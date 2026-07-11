@@ -39,3 +39,9 @@ func _sample_drift(time: float) -> Vector2:
 		+ sin(scaled_time * 0.29 + 5.2) * 0.20
 	)
 	return Vector2(horizontal * drift_amplitude.x, vertical * drift_amplitude.y)
+
+
+func reset_drift() -> void:
+	_current_drift = Vector2.ZERO
+	position = _base_offset
+	rotation = 0.0

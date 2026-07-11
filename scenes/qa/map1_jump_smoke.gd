@@ -15,6 +15,7 @@ func _run() -> void:
 	var player := scene.get_node("RoadTrack/MaleTrackPlayer") as PathFollow2D
 	var visual_pivot := player.get_node("VisualPivot") as Node2D
 
+	player.call("set_controls_enabled", true)
 	Input.action_press("jump")
 	player.call("_update_jump", 0.1)
 	Input.action_release("jump")
