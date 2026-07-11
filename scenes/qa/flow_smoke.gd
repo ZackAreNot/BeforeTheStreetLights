@@ -136,16 +136,43 @@ func _area_boundaries_are_valid(area: Node) -> bool:
 	return true
 
 func _area_exit_is_automatic(area_id: String, area: Node) -> bool:
-	var exit_found := false
+	var expected_targets: Dictionary = {
+		"area_01_arrival": {"area_02_electric": GameFlow.ENTRY_SIDE_LEFT},
+		"area_02_electric": {
+			"area_01_arrival": GameFlow.ENTRY_SIDE_RIGHT,
+			"area_03_shops": GameFlow.ENTRY_SIDE_LEFT
+		},
+		"area_03_shops": {
+			"area_02_electric": GameFlow.ENTRY_SIDE_RIGHT,
+			"area_04_clinic": GameFlow.ENTRY_SIDE_LEFT
+		},
+		"area_04_clinic": {
+			"area_03_shops": GameFlow.ENTRY_SIDE_RIGHT,
+			"area_05_festival": GameFlow.ENTRY_SIDE_LEFT
+		},
+		"area_05_festival": {"area_04_clinic": GameFlow.ENTRY_SIDE_RIGHT}
+	}
+	var area_targets: Dictionary = expected_targets[area_id]
+	var found_targets: Dictionary = {}
 	for interaction: Node in area.get_node("Interactions").get_children():
 		if int(interaction.get("action_type")) != 3:
 			continue
-		exit_found = true
 		if not bool(interaction.get("trigger_automatically")):
 			_fail("Area exit still requires interact input in " + area_id)
 			return false
-	if area_id != "area_05_festival" and not exit_found:
-		_fail("Area is missing its forward exit in " + area_id)
+		var target_area: String = str(interaction.get("target_area_id"))
+		if not area_targets.has(target_area):
+			_fail("Area has an unexpected exit from %s to %s" % [area_id, target_area])
+			return false
+		if int(interaction.get("target_entry_side")) != int(area_targets[target_area]):
+			_fail("Area exit uses the wrong entry side from %s to %s" % [
+				area_id,
+				target_area
+			])
+			return false
+		found_targets[target_area] = true
+	if found_targets.size() != area_targets.size():
+		_fail("Area is missing a bidirectional exit in " + area_id)
 		return false
 	return true
 

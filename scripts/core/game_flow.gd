@@ -10,6 +10,9 @@ signal progress_changed
 const LOADING_SCREEN_SCENE: PackedScene = preload("res://scenes/ui/loading_screen.tscn")
 const MAIN_MENU_SCENE: String = "res://scenes/main.tscn"
 const ENDING_SCENE: String = "res://scenes/ui/prototype_ending.tscn"
+const ENTRY_SIDE_DEFAULT: int = 0
+const ENTRY_SIDE_LEFT: int = 1
+const ENTRY_SIDE_RIGHT: int = 2
 const AREA_SCENES: Dictionary = {
 	"area_01_arrival": "res://scenes/areas/area_01_arrival.tscn",
 	"area_02_electric": "res://scenes/areas/area_02_electric_street.tscn",
@@ -31,6 +34,7 @@ var return_area_id: String = ""
 var minigame_return_position: Vector2 = Vector2.ZERO
 var minigame_return_facing: float = 1.0
 var has_minigame_return_state: bool = false
+var pending_area_entry_side: int = ENTRY_SIDE_DEFAULT
 var transition_busy: bool = false
 var loading_screen: CanvasLayer
 var pending_dialogue_id: String = ""
@@ -45,6 +49,7 @@ func start_new_game() -> void:
 	inventory.clear()
 	current_area_id = ""
 	clear_minigame_return_state()
+	pending_area_entry_side = ENTRY_SIDE_DEFAULT
 	pending_dialogue_id = ""
 	inventory_changed.emit(inventory)
 	go_to_area("area_01_arrival")
@@ -56,12 +61,20 @@ func enter_area(area_id: String, location_name: String) -> void:
 	inventory_changed.emit(inventory)
 	progress_changed.emit()
 
-func go_to_area(area_id: String) -> void:
+func go_to_area(area_id: String, entry_side: int = ENTRY_SIDE_DEFAULT) -> void:
 	if not AREA_SCENES.has(area_id):
 		push_error("Unknown area id: " + area_id)
 		return
 	current_area_id = area_id
+	pending_area_entry_side = entry_side
 	transition_to_scene(str(AREA_SCENES[area_id]))
+
+func consume_area_entry_side(area_id: String) -> int:
+	if area_id != current_area_id:
+		return ENTRY_SIDE_DEFAULT
+	var entry_side: int = pending_area_entry_side
+	pending_area_entry_side = ENTRY_SIDE_DEFAULT
+	return entry_side
 
 func start_minigame(minigame_id: String) -> void:
 	if not MINIGAME_SCENES.has(minigame_id):

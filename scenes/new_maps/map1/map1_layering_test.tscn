@@ -1,0 +1,117 @@
+[gd_scene format=3 uid="uid://b6bfvjww3d3nl"]
+
+[ext_resource type="Texture2D" uid="uid://dk56ko7b8g58j" path="res://assets/NewMaps/Map1/FullMap1.png" id="1_map"]
+[ext_resource type="Script" uid="uid://cy5rqe82vhs2a" path="res://scripts/new_maps/map1_track_player.gd" id="2_controller"]
+[ext_resource type="Texture2D" uid="uid://fydopn2ehdl" path="res://assets/Dummy/Character/male_hero_template-idle.png" id="3_idle"]
+[ext_resource type="Texture2D" uid="uid://dhu6s7gmi07gw" path="res://assets/Dummy/Character/male_hero_template-walk.png" id="4_walk"]
+[ext_resource type="Texture2D" uid="uid://br2j073a1oce3" path="res://assets/Dummy/Character/male_hero_template-run.png" id="5_run"]
+[ext_resource type="Texture2D" uid="uid://dkh7gs3l6aq5b" path="res://assets/Dummy/Character/male_hero_template-jump.png" id="6_jump"]
+[ext_resource type="Texture2D" uid="uid://b3lajf7wtrhtg" path="res://assets/Dummy/Character/male_hero_template-fall.png" id="7_fall"]
+[ext_resource type="Script" uid="uid://0mfk831y76hh" path="res://scripts/new_maps/editable_track_guide.gd" id="8_track_guide"]
+[ext_resource type="Shader" uid="uid://y8ksgfo6xv73" path="res://shaders/map1_cozy_grade.gdshader" id="9_cozy_shader"]
+[ext_resource type="Script" uid="uid://bnyle154vue0p" path="res://scripts/new_maps/cozy_camera_drift.gd" id="10_camera_drift"]
+
+[sub_resource type="Curve2D" id="Curve2D_road"]
+bake_interval = 8.0
+_data = {
+"points": PackedVector2Array(0, 0, 81.36, 1.6200001, 92, 3106, -147.24, -2.16, 147.24, 2.16, 544, 3115, -146.34001, -0.54, 146.34001, 0.54, 910, 3118, -158.58, 0.36, 158.58, -0.36, 1357, 3118, -145.8, 1.44, 145.8, -1.44, 1791, 3116, -150.84001, 3.2400002, 150.84001, -3.2400002, 2167, 3110, -150.3, 5.2200003, 150.3, -5.2200003, 2629, 3098, -138.78, 8.46, 138.78, -8.46, 3002, 3081, -146.34001, 14.76, 146.34001, -14.76, 3400, 3051, -136.8, 20.7, 136.8, -20.7, 3815, 2999, -131.58, 27.000002, 131.58, -27.000002, 4160, 2936, -153, 36.9, 153, -36.9, 4546, 2849, -155.16, 41.58, 155.16, -41.58, 5010, 2731, -131.76001, 38.52, 131.76001, -38.52, 5408, 2618, -121.50001, 37.980003, 121.50001, -37.980003, 5742, 2517, -61.38, 19.800001, 0, 0, 6083, 2407)
+}
+point_count = 16
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cozy"]
+shader = ExtResource("9_cozy_shader")
+shader_parameter/exposure = 0.02
+shader_parameter/contrast = 1.1
+shader_parameter/saturation = 1.12
+shader_parameter/warmth = 0.52
+shader_parameter/cool_shadows = 0.32
+shader_parameter/golden_glow = 0.13
+shader_parameter/vignette_strength = 0.17
+
+[node name="Map1LayeringTest" type="Node2D" unique_id=1631900999]
+
+[node name="MapArtwork" type="Node2D" parent="." unique_id=1155436297]
+
+[node name="FullMapBackground" type="Sprite2D" parent="MapArtwork" unique_id=513133156]
+texture_filter = 1
+texture = ExtResource("1_map")
+centered = false
+
+[node name="RoadTrack" type="Path2D" parent="." unique_id=558585304]
+editor_description = "Pilih node ini lalu gunakan tool Edit Curve di viewport 2D. Titik kurva adalah posisi telapak kaki karakter, jadi pasangkan langsung ke kontur tanah atau jalan."
+position = Vector2(-92, 104)
+curve = SubResource("Curve2D_road")
+script = ExtResource("8_track_guide")
+guide_color = Color(0, 0.88235295, 0.92941177, 0)
+guide_outline_color = Color(0, 0, 0, 0.47843137)
+guide_width = 9.5
+
+[node name="MaleTrackPlayer" type="PathFollow2D" parent="RoadTrack" unique_id=2141296269]
+z_index = 2
+position = Vector2(731.897, 3117.141)
+progress = 640.0
+rotates = false
+loop = false
+script = ExtResource("2_controller")
+idle_texture = ExtResource("3_idle")
+walk_texture = ExtResource("4_walk")
+run_texture = ExtResource("5_run")
+jump_texture = ExtResource("6_jump")
+fall_texture = ExtResource("7_fall")
+
+[node name="VisualPivot" type="Node2D" parent="RoadTrack/MaleTrackPlayer" unique_id=2010347063]
+editor_description = "Origin node ini tepat di telapak kaki dan mengikuti tangent RoadTrack."
+
+[node name="FootPivotGuide" type="Marker2D" parent="RoadTrack/MaleTrackPlayer/VisualPivot" unique_id=770377398]
+editor_description = "Penanda editor untuk titik kontak telapak dengan tanah. Marker ini tidak dirender saat game berjalan."
+gizmo_extents = 34.0
+
+[node name="MaleSprite" type="Sprite2D" parent="RoadTrack/MaleTrackPlayer/VisualPivot" unique_id=1538331617]
+texture_filter = 1
+position = Vector2(0, -97.5)
+scale = Vector2(6.5, 6.5)
+texture = ExtResource("3_idle")
+hframes = 10
+
+[node name="Camera2D" type="Camera2D" parent="RoadTrack/MaleTrackPlayer" unique_id=484556124]
+position = Vector2(0, -360)
+zoom = Vector2(0.58, 0.58)
+limit_left = 0
+limit_top = 1050
+limit_right = 6000
+limit_bottom = 3426
+limit_smoothed = true
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
+script = ExtResource("10_camera_drift")
+
+[node name="ForegroundPoles" type="Node2D" parent="." unique_id=111420181]
+z_index = 5
+
+[node name="PoleWest" type="Polygon2D" parent="ForegroundPoles" unique_id=1595861068]
+color = Color(0.254902, 0.207843, 0.160784, 1)
+polygon = PackedVector2Array(1195, 1902, 1234, 1902, 1250, 3198, 1207, 3198)
+
+[node name="PoleCenter" type="Polygon2D" parent="ForegroundPoles" unique_id=1121140536]
+color = Color(0.254902, 0.207843, 0.160784, 1)
+polygon = PackedVector2Array(2764, 1880, 2808, 1880, 2785, 3160, 2742, 3160)
+
+[node name="PoleHill" type="Polygon2D" parent="ForegroundPoles" unique_id=916835154]
+color = Color(0.254902, 0.207843, 0.160784, 1)
+polygon = PackedVector2Array(4328, 1675, 4372, 1675, 4420, 2945, 4375, 2955)
+
+[node name="PoleEast" type="Polygon2D" parent="ForegroundPoles" unique_id=717499862]
+color = Color(0.254902, 0.207843, 0.160784, 1)
+polygon = PackedVector2Array(5830, 1255, 5876, 1255, 5920, 2515, 5870, 2530)
+
+[node name="CozyPostProcess" type="CanvasLayer" parent="." unique_id=270409802]
+layer = 90
+
+[node name="ColorGrade" type="ColorRect" parent="CozyPostProcess" unique_id=1755942942]
+material = SubResource("ShaderMaterial_cozy")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

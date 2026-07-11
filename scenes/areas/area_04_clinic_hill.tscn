@@ -271,9 +271,18 @@ shape = SubResource("GroundShape")
 z_index = 20
 
 [node name="Player" parent="Actors" instance=ExtResource("2_player")]
-position = Vector2(120, 620)
+position = Vector2(360, 620)
 
 [node name="Interactions" type="Node2D" parent="."]
+
+[node name="ReturnToShops" parent="Interactions" instance=ExtResource("4_interaction")]
+position = Vector2(160, 620)
+scale = Vector2(1.3, 1.2)
+action_type = 3
+prompt_text = "Kembali ke lorong pertokoan"
+target_area_id = "area_03_shops"
+trigger_automatically = true
+target_entry_side = 2
 
 [node name="ClinicMinigame" parent="Interactions" instance=ExtResource("4_interaction")]
 position = Vector2(2080, 620)
@@ -294,5 +303,6 @@ blocked_message = "Aku belum selesai membantu di klinik."
 target_area_id = "area_05_festival"
 required_flags = PackedStringArray("minigame_clinic_complete")
 trigger_automatically = true
+target_entry_side = 1
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]

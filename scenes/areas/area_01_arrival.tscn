@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" path="res://scenes/components/interaction_zone.tscn" id="4_interaction"]
 [ext_resource type="PackedScene" path="res://scenes/components/streetlight_placeholder.tscn" id="5_lamp"]
 [ext_resource type="PackedScene" path="res://scenes/components/npc_placeholder.tscn" id="6_npc"]
-[ext_resource type="Texture2D" path="res://assets/placeholders/solid_texture.tres" id="7_solid"]
+[ext_resource type="Texture2D" uid="uid://cdsslpgo8ednt" path="res://assets/placeholders/solid_texture.tres" id="7_solid"]
 [ext_resource type="Texture2D" uid="uid://clgy6id0hkm4r" path="res://assets/vector/world/area_01_halte.svg" id="8_vector_world"]
 [ext_resource type="Texture2D" uid="uid://c0n6isbgjbo7m" path="res://assets/vector/characters/bimo.svg" id="9_bimo"]
 [ext_resource type="PackedScene" path="res://scenes/components/map_boundaries.tscn" id="10_boundaries"]
@@ -31,7 +31,7 @@ area_id = "area_01_arrival"
 location_name = "Halte Kota Ranting"
 clear_color = Color(0.49, 0.63, 0.72, 1)
 
-[node name="MapBoundaries" parent="." instance=ExtResource("10_boundaries")]
+[node name="MapBoundaries" parent="." unique_id=1528968357 instance=ExtResource("10_boundaries")]
 
 [node name="Art" type="Node2D" parent="." unique_id=2134002431]
 
@@ -375,5 +375,6 @@ blocked_message = "Aku belum menyapa Bimo. Dia bakal teriak lebih keras kalau ku
 target_area_id = "area_02_electric"
 required_flags = PackedStringArray("met_bimo")
 trigger_automatically = true
+target_entry_side = 1
 
 [node name="HUD" parent="." unique_id=1328403125 instance=ExtResource("3_hud")]

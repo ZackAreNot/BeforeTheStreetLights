@@ -13,12 +13,32 @@ func run() -> void:
 		return
 
 	GameFlow.set_flag("met_bimo", true)
-	_enter_exit_zone()
+	_enter_right_exit_zone()
+	if not await _wait_for_scene(AREA_02):
+		return
+	if not _assert_player_state(Vector2(360, 620), 1.0, "area 2 left entry"):
+		return
+	_enter_left_exit_zone()
+	if not await _wait_for_scene(AREA_01):
+		return
+	if not _assert_player_state(Vector2(2840, 620), -1.0, "area 1 right entry"):
+		return
+	_enter_right_exit_zone()
 	if not await _wait_for_scene(AREA_02):
 		return
 
 	GameFlow.set_flag("cable_collected", true)
-	_enter_exit_zone()
+	_enter_right_exit_zone()
+	if not await _wait_for_scene(AREA_03):
+		return
+	if not _assert_player_state(Vector2(360, 620), 1.0, "area 3 left entry"):
+		return
+	_enter_left_exit_zone()
+	if not await _wait_for_scene(AREA_02):
+		return
+	if not _assert_player_state(Vector2(2840, 620), -1.0, "area 2 right entry"):
+		return
+	_enter_right_exit_zone()
 	if not await _wait_for_scene(AREA_03):
 		return
 
@@ -35,7 +55,17 @@ func run() -> void:
 		return
 
 	GameFlow.set_flag("tara_invited", true)
-	_enter_exit_zone()
+	_enter_right_exit_zone()
+	if not await _wait_for_scene(AREA_04):
+		return
+	if not _assert_player_state(Vector2(360, 620), 1.0, "area 4 left entry"):
+		return
+	_enter_left_exit_zone()
+	if not await _wait_for_scene(AREA_03):
+		return
+	if not _assert_player_state(Vector2(2840, 620), -1.0, "area 3 right entry"):
+		return
+	_enter_right_exit_zone()
 	if not await _wait_for_scene(AREA_04):
 		return
 
@@ -51,7 +81,17 @@ func run() -> void:
 	if not _assert_player_state(clinic_return_position, 1.0, "clinic"):
 		return
 
-	_enter_exit_zone()
+	_enter_right_exit_zone()
+	if not await _wait_for_scene(AREA_05):
+		return
+	if not _assert_player_state(Vector2(360, 620), 1.0, "area 5 left entry"):
+		return
+	_enter_left_exit_zone()
+	if not await _wait_for_scene(AREA_04):
+		return
+	if not _assert_player_state(Vector2(2840, 620), -1.0, "area 4 right entry"):
+		return
+	_enter_right_exit_zone()
 	if not await _wait_for_scene(AREA_05):
 		return
 
@@ -108,12 +148,19 @@ func _set_player_state(player_position: Vector2, facing: float) -> void:
 	player.global_position = player_position
 	player.set("facing", facing)
 
-func _enter_exit_zone() -> void:
+func _enter_right_exit_zone() -> void:
 	var player: CharacterBody2D = get_tree().get_first_node_in_group(
 		&"player"
 	) as CharacterBody2D
 	player.velocity = Vector2.ZERO
 	player.global_position = Vector2(3040.0, 620.0)
+
+func _enter_left_exit_zone() -> void:
+	var player: CharacterBody2D = get_tree().get_first_node_in_group(
+		&"player"
+	) as CharacterBody2D
+	player.velocity = Vector2.ZERO
+	player.global_position = Vector2(160.0, 620.0)
 
 func _assert_player_state(
 	expected_position: Vector2,

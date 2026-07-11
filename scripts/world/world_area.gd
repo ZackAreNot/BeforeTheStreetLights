@@ -7,6 +7,8 @@ extends Node2D
 @export var camera_limit_top: int = -360
 @export var camera_limit_right: int = 3200
 @export var camera_limit_bottom: int = 760
+@export var left_entry_position: Vector2 = Vector2(360.0, 620.0)
+@export var right_entry_position: Vector2 = Vector2(2840.0, 620.0)
 
 @onready var player: CharacterBody2D = $Actors/Player
 @onready var hud: CanvasLayer = $HUD
@@ -17,7 +19,10 @@ func _ready() -> void:
 		area_id,
 		player
 	)
-	_configure_camera(restored_from_minigame)
+	var restored_from_area_entry := false
+	if not restored_from_minigame:
+		restored_from_area_entry = _apply_area_entry_position()
+	_configure_camera(restored_from_minigame or restored_from_area_entry)
 	GameFlow.enter_area(area_id, location_name)
 	if hud.has_method("set_location"):
 		hud.call("set_location", location_name)
@@ -34,6 +39,20 @@ func _configure_camera(reset_smoothing: bool = false) -> void:
 	camera.limit_bottom = camera_limit_bottom
 	if reset_smoothing:
 		camera.reset_smoothing()
+
+func _apply_area_entry_position() -> bool:
+	var entry_side: int = GameFlow.consume_area_entry_side(area_id)
+	match entry_side:
+		GameFlow.ENTRY_SIDE_LEFT:
+			player.global_position = left_entry_position
+			player.set("facing", 1.0)
+		GameFlow.ENTRY_SIDE_RIGHT:
+			player.global_position = right_entry_position
+			player.set("facing", -1.0)
+		_:
+			return false
+	player.velocity = Vector2.ZERO
+	return true
 
 func _update_festival_visuals() -> void:
 	if area_id != "area_05_festival":

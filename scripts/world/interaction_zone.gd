@@ -12,6 +12,7 @@ extends Area2D
 @export var target_area_id: String = ""
 @export var required_flags: PackedStringArray = PackedStringArray()
 @export var trigger_automatically: bool = false
+@export_enum("Default", "Left", "Right") var target_entry_side: int = 0
 
 var player_inside: bool = false
 var player_body: Node2D
@@ -87,7 +88,7 @@ func _change_area() -> void:
 	if not GameFlow.requirements_met(required_flags):
 		GameFlow.show_message(message_speaker, blocked_message)
 		return
-	GameFlow.go_to_area(target_area_id)
+	GameFlow.go_to_area(target_area_id, target_entry_side)
 
 func _change_to_ending() -> void:
 	if not GameFlow.requirements_met(required_flags):
