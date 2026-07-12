@@ -191,20 +191,22 @@ position = Vector2(1600, 3218)
 [node name="PosterArtwork" type="Sprite2D" parent="InspectableObjects/PosterPoint" unique_id=1223443824]
 z_index = 1
 texture_filter = 1
-position = Vector2(-47, -306)
+position = Vector2(-27, -223)
 texture = ExtResource("21_poster")
 
 [node name="PosterInspection" parent="InspectableObjects/PosterPoint" unique_id=1174789003 instance=ExtResource("20_inspectable")]
+position = Vector2(-53, -426)
+scale = Vector2(0.28, 0.28)
 dialogue_id = "map1_poster_comment"
 show_interaction_guide = true
-prompt_offset = Vector2(0, -610)
 
 [node name="ClosedShopPoint" type="Node2D" parent="InspectableObjects" unique_id=240707882]
 position = Vector2(3940, 3090)
 
 [node name="DoorInspection" parent="InspectableObjects/ClosedShopPoint" unique_id=63655318 instance=ExtResource("20_inspectable")]
+position = Vector2(-48, -705)
+scale = Vector2(0.28, 0.28)
 dialogue_id = "map1_closed_shop_comment"
-prompt_offset = Vector2(0, -690)
 
 [node name="Layer2Foreground" type="Node2D" parent="." unique_id=111420181]
 editor_description = "Foreground layer tiang listrik dan lampu jalan. Posisi y=910 sudah dicocokkan pixel-perfect dengan FullMap1."

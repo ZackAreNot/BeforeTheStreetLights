@@ -3,11 +3,9 @@ extends Node2D
 @export var dialogue_id: String = ""
 @export var interaction_distance: float = 260.0
 @export var show_interaction_guide: bool = false
-@export var prompt_offset := Vector2(0.0, -520.0)
-@export var prompt_scale: float = 0.28
 @export var prompt_fps: float = 12.0
 @export var prompt_frame_count: int = 31
-@export var bob_amount: float = 12.0
+@export var bob_amount: float = 43.0
 @export var bob_speed: float = 2.4
 
 @onready var prompt: Sprite2D = $InteractionPrompt
@@ -16,12 +14,14 @@ var _player: Node2D
 var _elapsed_time := 0.0
 var _player_is_near := false
 var _player_was_in_range := false
+var _base_prompt_position := Vector2.ZERO
+var _base_prompt_scale := Vector2.ONE
 
 
 func _ready() -> void:
 	_player = get_tree().get_first_node_in_group(&"player") as Node2D
-	prompt.position = prompt_offset
-	prompt.scale = Vector2.ONE * prompt_scale
+	_base_prompt_position = prompt.position
+	_base_prompt_scale = prompt.scale
 
 
 func _process(delta: float) -> void:
@@ -53,12 +53,12 @@ func _process(delta: float) -> void:
 
 	prompt.visible = guide_ready and not dialogue_active
 	prompt.frame = int(_elapsed_time * prompt_fps) % maxi(prompt_frame_count, 1)
-	prompt.position = prompt_offset + Vector2(
+	prompt.position = _base_prompt_position + Vector2(
 		0.0,
 		sin(_elapsed_time * bob_speed) * bob_amount
 	)
 	var emphasis := 1.12 if _player_is_near else 1.0
-	prompt.scale = Vector2.ONE * prompt_scale * emphasis
+	prompt.scale = _base_prompt_scale * emphasis
 	prompt.modulate.a = 1.0 if _player_is_near else 0.82
 
 	if _player_is_near and Input.is_action_just_pressed("interact"):

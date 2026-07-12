@@ -50,7 +50,10 @@ func _run() -> void:
 	assert(poster_prompt.hframes == 5 and poster_prompt.vframes == 7)
 	assert(door_prompt.hframes == poster_prompt.hframes)
 	assert(door_prompt.vframes == poster_prompt.vframes)
-	assert(is_equal_approx(float(poster.get("prompt_scale")), float(door.get("prompt_scale"))))
+	assert(poster_prompt.scale.is_equal_approx(door_prompt.scale))
+	assert(poster_prompt.scale.is_equal_approx(Vector2.ONE))
+	assert(poster.scale.is_equal_approx(Vector2(0.28, 0.28)))
+	assert(door.scale.is_equal_approx(Vector2(0.28, 0.28)))
 	var first_frame := poster_prompt.frame
 	poster.call("_process", 0.2)
 	assert(poster_prompt.frame != first_frame, "Interaction prompt animation did not advance.")
