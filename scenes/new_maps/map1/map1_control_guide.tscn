@@ -1,0 +1,162 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/new_maps/map1_control_guide.gd" id="1_guide"]
+[ext_resource type="Shader" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Textbubble/text_bubble.gdshader" id="2_wobble"]
+[ext_resource type="FontFile" path="res://assets/fonts/patrick_hand_sc/PatrickHandSC-Regular.ttf" id="3_font"]
+[ext_resource type="Texture2D" path="res://assets/Guide/GuideControl/Outline/a.png" id="4_a"]
+[ext_resource type="Texture2D" path="res://assets/Guide/GuideControl/Outline/d.png" id="5_d"]
+[ext_resource type="Texture2D" path="res://assets/Guide/GuideControl/Outline/w.png" id="6_w"]
+[ext_resource type="Texture2D" path="res://assets/Guide/GuideControl/Outline/space_md.png" id="7_space"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_guide"]
+resource_local_to_scene = true
+shader = ExtResource("2_wobble")
+shader_parameter/radius = 42.0
+shader_parameter/box_size = Vector2(700, 330)
+shader_parameter/box_padding = 12.0
+shader_parameter/wobble_amount = 0.28
+shader_parameter/wobble_speed = 0.8
+shader_parameter/wobble_detail = 0.4
+
+[node name="Map1ControlGuide" type="CanvasLayer" groups=["map1_control_guide"]]
+layer = 100
+script = ExtResource("1_guide")
+
+[node name="PanelRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -165.0
+offset_right = 350.0
+offset_bottom = 165.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(350, 165)
+mouse_filter = 2
+
+[node name="Background" type="ColorRect" parent="PanelRoot"]
+material = SubResource("ShaderMaterial_guide")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.025, 0.023, 0.028, 0.98)
+mouse_filter = 2
+
+[node name="Margin" type="MarginContainer" parent="PanelRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 38.0
+offset_top = 26.0
+offset_right = -38.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Content" type="VBoxContainer" parent="PanelRoot/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Title" type="Label" parent="PanelRoot/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.97, 0.94, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 36
+text = "GERAK DASAR"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="PanelRoot/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.7, 0.67, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 19
+text = "KENALI LANGKAHMU SEBELUM MENYUSURI KOTA"
+horizontal_alignment = 1
+
+[node name="Controls" type="HBoxContainer" parent="PanelRoot/Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 54
+alignment = 1
+
+[node name="Move" type="VBoxContainer" parent="PanelRoot/Margin/Content/Controls"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Keys" type="HBoxContainer" parent="PanelRoot/Margin/Content/Controls/Move"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="A" type="TextureRect" parent="PanelRoot/Margin/Content/Controls/Move/Keys"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("4_a")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="D" type="TextureRect" parent="PanelRoot/Margin/Content/Controls/Move/Keys"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("5_d")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="PanelRoot/Margin/Content/Controls/Move"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.97, 0.94, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 22
+text = "KIRI  /  KANAN"
+horizontal_alignment = 1
+
+[node name="Jump" type="VBoxContainer" parent="PanelRoot/Margin/Content/Controls"]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Keys" type="HBoxContainer" parent="PanelRoot/Margin/Content/Controls/Jump"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="W" type="TextureRect" parent="PanelRoot/Margin/Content/Controls/Jump/Keys"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("6_w")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Space" type="TextureRect" parent="PanelRoot/Margin/Content/Controls/Jump/Keys"]
+custom_minimum_size = Vector2(121, 64)
+layout_mode = 2
+texture = ExtResource("7_space")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="PanelRoot/Margin/Content/Controls/Jump"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.97, 0.94, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 22
+text = "MELOMPAT"
+horizontal_alignment = 1
+
+[node name="Continue" type="Label" parent="PanelRoot/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.34, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 20
+text = "TEKAN E UNTUK MULAI"
+horizontal_alignment = 1
+

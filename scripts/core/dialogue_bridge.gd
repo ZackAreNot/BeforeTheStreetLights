@@ -4,6 +4,12 @@ signal dialogue_started(dialogue_id: String)
 signal dialogue_finished(dialogue_id: String)
 
 const DIALOGUES: Dictionary = {
+	"map1_poster_comment": {
+		"timeline": "res://dialogic/timelines/map1_poster_comment.dtl"
+	},
+	"map1_closed_shop_comment": {
+		"timeline": "res://dialogic/timelines/map1_closed_shop_comment.dtl"
+	},
 	"bimo_intro": {
 		"timeline": "res://dialogic/timelines/bimo_intro.dtl",
 		"repeat_timeline": "res://dialogic/timelines/bimo_repeat.dtl",

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/new_maps/map1_inspectable.gd" id="1_inspectable"]
+[ext_resource type="Texture2D" path="res://assets/Guide/Interectsprite.png" id="2_prompt"]
+
+[node name="Map1Inspectable" type="Node2D"]
+z_index = 6
+script = ExtResource("1_inspectable")
+
+[node name="InteractionPrompt" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_prompt")
+hframes = 5
+vframes = 7
+

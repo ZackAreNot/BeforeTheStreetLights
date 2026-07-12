@@ -2,13 +2,15 @@ extends Node
 
 signal opening_finished
 signal camera_handoff_ready
+signal taxi_departed
 
 @export_category("Opening Sequence")
 @export var play_on_ready: bool = true
 @export_range(0.214, 0.58, 0.005) var initial_zoom: float = 0.214
 @export var taxi_stop_progress: float = 640.0
 @export var nara_exit_progress: float = 850.0
-@export var taxi_departure_progress: float = 2800.0
+@export var taxi_departure_speed: float = 320.0
+@export var taxi_camera_lead_time: float = 1.4
 @export var camera_transition_duration: float = 2.25
 
 @onready var player: PathFollow2D = $"../RoadTrack/MaleTrackPlayer"
@@ -18,6 +20,7 @@ signal camera_handoff_ready
 @onready var cutscene_camera: Camera2D = $"../CutsceneCamera"
 
 var _sequence_started := false
+var _taxi_departure_tween: Tween
 
 
 func _ready() -> void:
@@ -74,13 +77,8 @@ func _play_opening() -> void:
 	await get_tree().create_timer(0.35).timeout
 
 	taxi.call("set_facing", 1.0)
-	taxi.call("set_driving", true)
-	var depart := create_tween()
-	depart.tween_property(taxi_path, "progress", taxi_departure_progress, 2.1).set_trans(
-		Tween.TRANS_QUAD
-	).set_ease(Tween.EASE_OUT)
-	await depart.finished
-	taxi.call("set_driving", false)
+	_start_taxi_departure()
+	await get_tree().create_timer(taxi_camera_lead_time).timeout
 
 	var start_center := cutscene_camera.global_position
 	var start_zoom := cutscene_camera.zoom
@@ -105,7 +103,6 @@ func _play_opening() -> void:
 	await get_tree().process_frame
 	camera_handoff_ready.emit()
 
-	taxi.visible = false
 	player_camera.call("reset_drift")
 	player_camera.enabled = true
 	player_camera.make_current()
@@ -117,6 +114,28 @@ func _play_opening() -> void:
 	player_camera.set("drift_enabled", true)
 	player.set_controls_enabled(true)
 	opening_finished.emit()
+
+
+func _start_taxi_departure() -> void:
+	var taxi_track := taxi_path.get_parent() as Path2D
+	var end_progress := taxi_track.curve.get_baked_length()
+	var remaining_distance := maxf(end_progress - taxi_path.progress, 0.0)
+	var departure_duration := remaining_distance / maxf(taxi_departure_speed, 1.0)
+	taxi.call("set_driving", true)
+	_taxi_departure_tween = create_tween()
+	_taxi_departure_tween.tween_property(
+		taxi_path,
+		"progress",
+		end_progress,
+		departure_duration
+	).set_trans(Tween.TRANS_LINEAR)
+	_taxi_departure_tween.finished.connect(_on_taxi_departure_finished, CONNECT_ONE_SHOT)
+
+
+func _on_taxi_departure_finished() -> void:
+	taxi.call("set_driving", false)
+	taxi.visible = false
+	taxi_departed.emit()
 
 
 func _get_gameplay_camera_center() -> Vector2:

@@ -18,6 +18,9 @@
 [ext_resource type="Texture2D" uid="uid://c6nkqfpygq52a" path="res://assets/NewMaps/Map1/TaxiCar/Roda2.png" id="16_taxi_front_wheel"]
 [ext_resource type="Script" uid="uid://q8veku8lfshd" path="res://scripts/new_maps/map1_taxi_car.gd" id="17_taxi_car"]
 [ext_resource type="Script" uid="uid://c14hf74e0trfx" path="res://scripts/new_maps/map1_opening_cutscene.gd" id="18_opening_cutscene"]
+[ext_resource type="PackedScene" path="res://scenes/new_maps/map1/map1_control_guide.tscn" id="19_control_guide"]
+[ext_resource type="PackedScene" path="res://scenes/new_maps/map1/map1_inspectable.tscn" id="20_inspectable"]
+[ext_resource type="Texture2D" path="res://assets/Guide/Poster1.png" id="21_poster"]
 
 [sub_resource type="Curve2D" id="Curve2D_road"]
 bake_interval = 8.0
@@ -114,6 +117,7 @@ rotation = 0.019910313
 loop = false
 
 [node name="TaxiVisual" type="Node2D" parent="TaxiRoadTrack/TaxiPathFollow" unique_id=753352827]
+scale = Vector2(2, 2)
 script = ExtResource("17_taxi_car")
 
 [node name="BodyBob" type="Node2D" parent="TaxiRoadTrack/TaxiPathFollow/TaxiVisual" unique_id=1869897186]
@@ -175,7 +179,31 @@ limit_bottom = 3826
 
 [node name="OpeningCutscene" type="Node" parent="." unique_id=1618502250]
 script = ExtResource("18_opening_cutscene")
-initial_zoom = 0.349
+initial_zoom = 0.519
+
+[node name="ControlGuide" parent="." instance=ExtResource("19_control_guide")]
+
+[node name="InspectableObjects" type="Node2D" parent="."]
+
+[node name="PosterPoint" type="Node2D" parent="InspectableObjects"]
+position = Vector2(1600, 3218)
+
+[node name="PosterArtwork" type="Sprite2D" parent="InspectableObjects/PosterPoint"]
+z_index = 1
+position = Vector2(0, -380)
+texture_filter = 1
+texture = ExtResource("21_poster")
+
+[node name="PosterInspection" parent="InspectableObjects/PosterPoint" instance=ExtResource("20_inspectable")]
+dialogue_id = "map1_poster_comment"
+prompt_offset = Vector2(0, -610)
+
+[node name="ClosedShopPoint" type="Node2D" parent="InspectableObjects"]
+position = Vector2(3940, 3090)
+
+[node name="DoorInspection" parent="InspectableObjects/ClosedShopPoint" instance=ExtResource("20_inspectable")]
+dialogue_id = "map1_closed_shop_comment"
+prompt_offset = Vector2(0, -690)
 
 [node name="Layer2Foreground" type="Node2D" parent="." unique_id=111420181]
 editor_description = "Foreground layer tiang listrik dan lampu jalan. Posisi y=910 sudah dicocokkan pixel-perfect dengan FullMap1."

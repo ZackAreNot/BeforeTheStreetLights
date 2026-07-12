@@ -42,6 +42,8 @@ directories/dtl_directory={
 "dr_seno_intro": "res://dialogic/timelines/dr_seno_intro.dtl",
 "dr_seno_repeat": "res://dialogic/timelines/dr_seno_repeat.dtl",
 "festival_epilogue": "res://dialogic/timelines/festival_epilogue.dtl",
+"map1_closed_shop_comment": "res://dialogic/timelines/map1_closed_shop_comment.dtl",
+"map1_poster_comment": "res://dialogic/timelines/map1_poster_comment.dtl",
 "shopkeeper_cable": "res://dialogic/timelines/shopkeeper_cable.dtl",
 "shopkeeper_repeat": "res://dialogic/timelines/shopkeeper_repeat.dtl",
 "tara_conversation": "res://dialogic/timelines/tara_conversation.dtl",

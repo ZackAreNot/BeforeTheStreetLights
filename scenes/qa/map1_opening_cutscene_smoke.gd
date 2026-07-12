@@ -30,6 +30,10 @@ func _run() -> void:
 		push_error("MAP1_OPENING_TAXI_NOT_VISIBLE")
 		quit(1)
 		return
+	if not taxi.scale.is_equal_approx(Vector2(2.0, 2.0)):
+		push_error("MAP1_OPENING_TAXI_SCALE_FAILED")
+		quit(1)
+		return
 	var expected_initial_zoom := Vector2.ONE * float(opening.get("initial_zoom"))
 	if not cutscene_camera.zoom.is_equal_approx(expected_initial_zoom):
 		push_error("MAP1_OPENING_MANUAL_ZOOM_SETTING_FAILED")
@@ -48,16 +52,14 @@ func _run() -> void:
 		push_error("MAP1_OPENING_CUTSCENE_END_STATE_FAILED")
 		quit(1)
 		return
-	if taxi.visible:
-		push_error("MAP1_OPENING_TAXI_DID_NOT_LEAVE")
-		quit(1)
-		return
 	if not is_equal_approx(player.progress, 850.0):
 		push_error("MAP1_OPENING_NARA_EXIT_POSITION_FAILED")
 		quit(1)
 		return
-	if not is_equal_approx(taxi_path.progress, 2800.0):
-		push_error("MAP1_OPENING_TAXI_DEPARTURE_POSITION_FAILED")
+	var taxi_track := scene.get_node("TaxiRoadTrack") as Path2D
+	var taxi_end_progress := taxi_track.curve.get_baked_length()
+	if not taxi.visible or taxi_path.progress <= 640.0 or taxi_path.progress >= taxi_end_progress:
+		push_error("MAP1_OPENING_TAXI_MUST_KEEP_DRIVING_AFTER_CAMERA_HANDOFF")
 		quit(1)
 		return
 	if is_zero_approx((taxi.get_node("RearWheel") as Sprite2D).rotation):
@@ -74,6 +76,16 @@ func _run() -> void:
 		return
 	if not is_zero_approx(player_camera.rotation) or not is_zero_approx(cutscene_camera.rotation):
 		push_error("MAP1_OPENING_CAMERA_ROTATION_RESET_FAILED")
+		quit(1)
+		return
+
+	await opening.taxi_departed
+	if taxi.visible:
+		push_error("MAP1_OPENING_TAXI_DID_NOT_DISAPPEAR_AT_MAP_END")
+		quit(1)
+		return
+	if not is_equal_approx(taxi_path.progress, taxi_end_progress):
+		push_error("MAP1_OPENING_TAXI_DID_NOT_REACH_MAP_END")
 		quit(1)
 		return
 	print("MAP1_OPENING_CUTSCENE_SMOKE_OK")

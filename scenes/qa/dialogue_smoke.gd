@@ -1,6 +1,8 @@
 extends Node
 
 const TIMELINES: PackedStringArray = [
+	"res://dialogic/timelines/map1_poster_comment.dtl",
+	"res://dialogic/timelines/map1_closed_shop_comment.dtl",
 	"res://dialogic/timelines/bimo_intro.dtl",
 	"res://dialogic/timelines/bimo_repeat.dtl",
 	"res://dialogic/timelines/shopkeeper_cable.dtl",
