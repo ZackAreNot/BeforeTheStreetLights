@@ -15,6 +15,7 @@ func _run() -> void:
 
 	var guide := scene.get_node("ControlGuide") as CanvasLayer
 	var panel := guide.get_node("PanelRoot") as Control
+	var interaction_panel := guide.get_node("InteractionGuideRoot") as Control
 	assert(bool(guide.call("is_completed")), "Headless guide must not lock player controls.")
 	assert(not panel.visible, "Headless guide panel must remain hidden.")
 	var player := scene.get_node("RoadTrack/MaleTrackPlayer") as PathFollow2D
@@ -59,6 +60,14 @@ func _run() -> void:
 	player.progress = track.curve.get_closest_offset(
 		track.to_local(Vector2(poster_point.global_position.x, player.global_position.y))
 	)
+	poster.call("_process", 0.05)
+	assert(interaction_panel.visible, "Poster did not open the contextual interaction guide.")
+	assert(not bool(player.get("_controls_enabled")), "Interaction guide did not lock movement.")
+	assert(not bool(poster.get("_player_is_near")), "Poster remained active behind its guide.")
+	guide.call("_dismiss_interaction_guide")
+	await guide.interaction_guide_completed
+	assert(not interaction_panel.visible, "Interaction guide did not close.")
+	assert(bool(player.get("_controls_enabled")), "Interaction guide did not restore movement.")
 	poster.call("_process", 0.05)
 	assert(bool(poster.get("_player_is_near")), "Poster interaction range did not activate.")
 

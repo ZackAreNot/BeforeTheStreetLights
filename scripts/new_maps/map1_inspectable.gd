@@ -2,6 +2,7 @@ extends Node2D
 
 @export var dialogue_id: String = ""
 @export var interaction_distance: float = 260.0
+@export var show_interaction_guide: bool = false
 @export var prompt_offset := Vector2(0.0, -520.0)
 @export var prompt_scale: float = 0.28
 @export var prompt_fps: float = 12.0
@@ -14,6 +15,7 @@ extends Node2D
 var _player: Node2D
 var _elapsed_time := 0.0
 var _player_is_near := false
+var _player_was_in_range := false
 
 
 func _ready() -> void:
@@ -33,11 +35,20 @@ func _process(delta: float) -> void:
 		dialogue_bridge != null
 		and bool(dialogue_bridge.call("is_dialogue_active"))
 	)
-	var guide_ready := _is_guide_completed()
-	_player_is_near = (
+	var guide := get_tree().get_first_node_in_group(&"map1_control_guide")
+	var guide_ready := guide == null or bool(guide.call("is_completed"))
+	var player_in_range := (
 		guide_ready
-		and not dialogue_active
 		and absf(_player.global_position.x - global_position.x) <= interaction_distance
+	)
+	if player_in_range and not _player_was_in_range and show_interaction_guide and guide != null:
+		guide.call("show_interaction_guide")
+	_player_was_in_range = player_in_range
+	var guide_blocking := guide != null and bool(guide.call("is_interaction_blocked"))
+	_player_is_near = (
+		player_in_range
+		and not guide_blocking
+		and not dialogue_active
 	)
 
 	prompt.visible = guide_ready and not dialogue_active

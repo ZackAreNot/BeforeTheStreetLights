@@ -18,6 +18,10 @@ func _ready() -> void:
 	camera.reset_smoothing()
 	camera.force_update_scroll()
 	await get_tree().create_timer(0.35).timeout
+	_save_capture("res://tmp/map1_guide_interaction_box.png")
+	guide.call("_dismiss_interaction_guide")
+	await guide.interaction_guide_completed
+	await get_tree().process_frame
 	_save_capture("res://tmp/map1_guide_poster.png")
 
 	poster.call("_start_comment")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/new_maps/map1_control_guide.gd" id="1_guide"]
 [ext_resource type="Shader" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Textbubble/text_bubble.gdshader" id="2_wobble"]
@@ -7,12 +7,23 @@
 [ext_resource type="Texture2D" path="res://assets/Guide/GuideControl/Outline/d.png" id="5_d"]
 [ext_resource type="Texture2D" path="res://assets/Guide/GuideControl/Outline/w.png" id="6_w"]
 [ext_resource type="Texture2D" path="res://assets/Guide/GuideControl/Outline/space_md.png" id="7_space"]
+[ext_resource type="Texture2D" path="res://assets/Guide/GuideControl/Outline/e.png" id="8_e"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_guide"]
 resource_local_to_scene = true
 shader = ExtResource("2_wobble")
 shader_parameter/radius = 42.0
 shader_parameter/box_size = Vector2(700, 330)
+shader_parameter/box_padding = 12.0
+shader_parameter/wobble_amount = 0.28
+shader_parameter/wobble_speed = 0.8
+shader_parameter/wobble_detail = 0.4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_interaction"]
+resource_local_to_scene = true
+shader = ExtResource("2_wobble")
+shader_parameter/radius = 38.0
+shader_parameter/box_size = Vector2(620, 250)
 shader_parameter/box_padding = 12.0
 shader_parameter/wobble_amount = 0.28
 shader_parameter/wobble_speed = 0.8
@@ -160,3 +171,91 @@ theme_override_font_sizes/font_size = 20
 text = "TEKAN E UNTUK MULAI"
 horizontal_alignment = 1
 
+[node name="InteractionGuideRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -310.0
+offset_top = -125.0
+offset_right = 310.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(310, 125)
+mouse_filter = 2
+
+[node name="Background" type="ColorRect" parent="InteractionGuideRoot"]
+material = SubResource("ShaderMaterial_interaction")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.025, 0.023, 0.028, 0.98)
+mouse_filter = 2
+
+[node name="Margin" type="MarginContainer" parent="InteractionGuideRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 34.0
+offset_top = 22.0
+offset_right = -34.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Content" type="VBoxContainer" parent="InteractionGuideRoot/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 7
+alignment = 1
+
+[node name="Title" type="Label" parent="InteractionGuideRoot/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.97, 0.94, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 34
+text = "INTERAKSI"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="InteractionGuideRoot/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.76, 0.74, 0.71, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 19
+text = "SAAT TANDA TANYA MUNCUL DI ATAS OBJEK"
+horizontal_alignment = 1
+
+[node name="Action" type="HBoxContainer" parent="InteractionGuideRoot/Margin/Content"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="E" type="TextureRect" parent="InteractionGuideRoot/Margin/Content/Action"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("8_e")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="InteractionGuideRoot/Margin/Content/Action"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.98, 0.97, 0.94, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 24
+text = "TEKAN UNTUK MEMERIKSA"
+vertical_alignment = 1
+
+[node name="Continue" type="Label" parent="InteractionGuideRoot/Margin/Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.78, 0.34, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 18
+text = "TEKAN E UNTUK LANJUT"
+horizontal_alignment = 1
