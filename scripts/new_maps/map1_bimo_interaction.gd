@@ -2,9 +2,14 @@
 extends Node2D
 
 @export var dialogue_id: String = "bimo_intro"
-@export var interaction_distance: float = 185.0
+@export var interaction_distance: float = 260.0
 @export var prompt_text: String = "E - Bicara dengan Bimo"
 @export_range(1.0, 12.0, 0.1) var idle_fps: float = 5.0
+@export_category("Interaction Prompt")
+@export var prompt_fps: float = 12.0
+@export var prompt_frame_count: int = 31
+@export var prompt_bob_amount: float = 12.0
+@export var prompt_bob_speed: float = 2.4
 @export_category("Track Placement")
 @export var snap_to_nara_track: bool = true
 @export var track_foot_offset: float = 0.0
@@ -15,9 +20,11 @@ var _idle_time := 0.0
 var _prompt_time := 0.0
 var _interaction_prompt_unlocked := false
 var _prompt_base_position := Vector2.ZERO
+var _prompt_base_scale := Vector2.ONE
 
 @onready var _sprite: Sprite2D = $VisualPivot/MaleSprite
-@onready var _interaction_prompt: Sprite2D = $InteractionPrompt
+@onready var _interaction_prompt: Node2D = $InteractionPrompt
+@onready var _interaction_prompt_sprite: Sprite2D = $InteractionPrompt/PromptSprite
 
 
 func _ready() -> void:
@@ -26,6 +33,7 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		_player = get_tree().get_first_node_in_group("player") as Node2D
 		_prompt_base_position = _interaction_prompt.position
+		_prompt_base_scale = _interaction_prompt.scale
 		_interaction_prompt.visible = false
 
 
@@ -38,10 +46,13 @@ func _process(delta: float) -> void:
 	_idle_time += delta
 	_sprite.frame = int(_idle_time * idle_fps) % _sprite.hframes
 	_prompt_time += delta
-	_interaction_prompt.frame = int(_prompt_time * 12.0) % 31
+	_interaction_prompt_sprite.frame = int(_prompt_time * prompt_fps) % maxi(
+		prompt_frame_count,
+		1
+	)
 	_interaction_prompt.position = _prompt_base_position + Vector2(
 		0.0,
-		sin(_prompt_time * 2.4) * 12.0
+		sin(_prompt_time * prompt_bob_speed) * prompt_bob_amount
 	)
 
 	if not is_instance_valid(_player):
@@ -52,18 +63,20 @@ func _process(delta: float) -> void:
 	var game_flow := get_node_or_null("/root/GameFlow")
 	if dialogue_bridge == null or game_flow == null:
 		return
-	_interaction_prompt.visible = (
-		_interaction_prompt_unlocked
-		and not bool(dialogue_bridge.call("is_dialogue_active"))
-	)
+	var dialogue_active := bool(dialogue_bridge.call("is_dialogue_active"))
 
 	var should_offer_dialogue := (
-		not bool(dialogue_bridge.call("is_dialogue_active"))
+		not dialogue_active
 		and global_position.distance_to(_player.global_position) <= interaction_distance
 	)
 	if should_offer_dialogue != _player_is_near:
 		_player_is_near = should_offer_dialogue
 		game_flow.call("set_prompt", prompt_text if _player_is_near else "", _player_is_near)
+
+	_interaction_prompt.visible = _interaction_prompt_unlocked and not dialogue_active
+	var emphasis := 1.12 if _player_is_near else 1.0
+	_interaction_prompt.scale = _prompt_base_scale * emphasis
+	_interaction_prompt.modulate.a = 1.0 if _player_is_near else 0.82
 
 	if _player_is_near and Input.is_action_just_pressed("interact"):
 		get_viewport().set_input_as_handled()

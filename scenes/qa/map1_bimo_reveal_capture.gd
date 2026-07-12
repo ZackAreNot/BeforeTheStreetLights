@@ -20,7 +20,12 @@ func _ready() -> void:
 	_save_capture("res://tmp/map1_bimo_reveal_exclamation.png")
 	await reveal.reveal_finished
 
-	player.progress = 2160.0
+	var bimo := scene.get_node("BimoDummy") as Node2D
+	var track := scene.get_node("RoadTrack") as Path2D
+	player.progress = track.curve.get_closest_offset(
+		track.to_local(Vector2(bimo.global_position.x - 180.0, player.global_position.y))
+	)
+	bimo.call("_process", 0.05)
 	(player.get_node("Camera2D") as Camera2D).reset_smoothing()
 	await get_tree().process_frame
 	await RenderingServer.frame_post_draw

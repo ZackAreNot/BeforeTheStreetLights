@@ -24,7 +24,8 @@ func _run() -> void:
 	var cutscene_camera := scene.get_node("CutsceneCamera") as Camera2D
 	var bimo := scene.get_node("BimoDummy") as Node2D
 	var bimo_sprite := bimo.get_node("VisualPivot/MaleSprite") as Sprite2D
-	var prompt := bimo.get_node("InteractionPrompt") as Sprite2D
+	var prompt := bimo.get_node("InteractionPrompt") as Node2D
+	var prompt_sprite := prompt.get_node("PromptSprite") as Sprite2D
 	var bubble := bimo.get_node("CinematicBubble") as Node2D
 
 	if bimo_sprite.flip_h:
@@ -33,6 +34,14 @@ func _run() -> void:
 		return
 	if prompt.visible:
 		push_error("MAP1_BIMO_PROMPT_MUST_START_LOCKED")
+		quit(1)
+		return
+	if not prompt.scale.is_equal_approx(Vector2(0.28, 0.28)):
+		push_error("MAP1_BIMO_PROMPT_SCALE_DOES_NOT_MATCH_OTHER_PROMPTS")
+		quit(1)
+		return
+	if prompt_sprite.hframes != 5 or prompt_sprite.vframes != 7:
+		push_error("MAP1_BIMO_PROMPT_SHEET_LAYOUT_FAILED")
 		quit(1)
 		return
 
@@ -50,6 +59,29 @@ func _run() -> void:
 		return
 	if not prompt.visible or not bool(bimo.get("_interaction_prompt_unlocked")):
 		push_error("MAP1_BIMO_INTERACTION_PROMPT_WAS_NOT_UNLOCKED")
+		quit(1)
+		return
+	if not is_equal_approx(float(bimo.get("interaction_distance")), 260.0):
+		push_error("MAP1_BIMO_INTERACTION_DISTANCE_FAILED")
+		quit(1)
+		return
+	await process_frame
+	if not is_equal_approx(prompt.modulate.a, 0.82):
+		push_error("MAP1_BIMO_PROMPT_FAR_OPACITY_FAILED")
+		quit(1)
+		return
+	var base_prompt_scale := Vector2(0.28, 0.28)
+	var track := scene.get_node("RoadTrack") as Path2D
+	player.progress = track.curve.get_closest_offset(
+		track.to_local(Vector2(bimo.global_position.x, player.global_position.y))
+	)
+	bimo.call("_process", 0.05)
+	if not is_equal_approx(prompt.modulate.a, 1.0):
+		push_error("MAP1_BIMO_PROMPT_NEAR_OPACITY_FAILED")
+		quit(1)
+		return
+	if not prompt.scale.is_equal_approx(base_prompt_scale * 1.12):
+		push_error("MAP1_BIMO_PROMPT_NEAR_EMPHASIS_FAILED")
 		quit(1)
 		return
 	if bubble.visible:
