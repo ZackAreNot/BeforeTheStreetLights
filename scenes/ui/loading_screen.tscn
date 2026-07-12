@@ -4,10 +4,19 @@
 [ext_resource type="Texture2D" path="res://assets/Nara/Nara.png" id="2_nara"]
 
 [sub_resource type="Shader" id="Shader_white"]
-code = "shader_type canvas_item;\n\nvoid fragment() {\n    float alpha = texture(TEXTURE, UV).a;\n    COLOR = vec4(1.0, 1.0, 1.0, alpha);\n}\n"
+code = "shader_type canvas_item;\n\nvoid fragment() {\n    vec2 pixel = TEXTURE_PIXEL_SIZE * 2.5;\n    float body = texture(TEXTURE, UV).a;\n    float glow = 0.0;\n    glow = max(glow, texture(TEXTURE, UV + vec2(pixel.x, 0.0)).a);\n    glow = max(glow, texture(TEXTURE, UV - vec2(pixel.x, 0.0)).a);\n    glow = max(glow, texture(TEXTURE, UV + vec2(0.0, pixel.y)).a);\n    glow = max(glow, texture(TEXTURE, UV - vec2(0.0, pixel.y)).a);\n    glow = max(glow, texture(TEXTURE, UV + pixel).a);\n    glow = max(glow, texture(TEXTURE, UV - pixel).a);\n    float alpha = max(body, glow * 0.42);\n    COLOR = vec4(1.0, 1.0, 1.0, alpha);\n}\n"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_white"]
 shader = SubResource("Shader_white")
+
+[sub_resource type="Shader" id="Shader_shutter"]
+code = "shader_type canvas_item;\n\nuniform float aperture : hint_range(0.0, 1.35) = 1.35;\nuniform float edge_slant : hint_range(-0.2, 0.2) = 0.075;\n\nvoid fragment() {\n    vec2 centered = UV - vec2(0.5);\n    float slanted_x = centered.x + centered.y * edge_slant;\n    float half_width = aperture * 0.5;\n    float inside_aperture = 1.0 - step(half_width, abs(slanted_x));\n    COLOR = vec4(0.0, 0.0, 0.0, 1.0 - inside_aperture);\n}\n"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_shutter"]
+resource_local_to_scene = true
+shader = SubResource("Shader_shutter")
+shader_parameter/aperture = 1.35
+shader_parameter/edge_slant = 0.075
 
 [node name="LoadingScreen" type="CanvasLayer"]
 layer = 100
@@ -22,7 +31,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Backdrop" type="ColorRect" parent="FadeRoot"]
+[node name="Shutter" type="ColorRect" parent="FadeRoot"]
+material = SubResource("ShaderMaterial_shutter")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,21 +40,31 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 1)
+color = Color(1, 1, 1, 1)
 
 [node name="NaraTexture" type="TextureRect" parent="FadeRoot"]
+visible = false
 material = SubResource("ShaderMaterial_white")
-layout_mode = 0
-offset_left = 550.0
-offset_top = 142.0
-offset_right = 730.0
-offset_bottom = 480.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
+offset_top = -90.0
+offset_right = 48.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(48, 90)
 mouse_filter = 2
 texture = ExtResource("2_nara")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="LoadingLabel" type="Label" parent="FadeRoot"]
+visible = false
 layout_mode = 0
 offset_left = 490.0
 offset_top = 486.0

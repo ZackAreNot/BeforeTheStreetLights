@@ -2,6 +2,8 @@
 
 Vertical slice game naratif 2D side-scrolling tentang Nara yang kembali ke Kota Ranting dan membantu persiapan Festival Lampu Jalan.
 
+Dokumen utama untuk GDD, konteks implementasi, status Map 1, keputusan desain, dan handoff agent tersedia di [`GDD_AND_AI_HANDOFF.md`](GDD_AND_AI_HANDOFF.md). Baca dokumen tersebut sebelum melanjutkan pengembangan.
+
 Semua visual prototype dunia dibuat orisinal sebagai SVG yang mudah diganti. Arah visual memakai bentuk flat vector yang ekspresif dan detail kota kecil Indonesia, tanpa menyalin aset game referensi.
 
 ## Menjalankan Proyek
@@ -27,13 +29,9 @@ Versi vendored ini membawa patch kompatibilitas lokal untuk cleanup subsystem pa
 
 ## Flow Game
 
-1. Halte Kota Ranting: Nara bertemu Bimo.
-2. Jalan Toko Listrik: mengambil kabel festival.
-3. Lorong Bu Rami dan Tara: minigame pesanan bakery dan dialog bercabang dengan Tara.
-4. Klinik St. Ranting: minigame formulir keluhan pasien dan kartu bantuan.
-5. Taman Festival: minigame kabel, latihan napas tiga siklus, dialog penutup, dan ending.
+Tombol `MULAI` sekarang membuka production Map 1 di `scenes/new_maps/map1/map1_layering_test.tscn`. Map ini menjadi awal flow utama dan memuat opening taxi, guide kontrol, interaksi lingkungan, serta pertemuan dengan Bimo.
 
-Setiap perpindahan memakai loading screen hitam dengan siluet putih Nara. Objective, inventory, flag quest, serta hasil minigame disimpan oleh autoload `GameFlow`.
+Transisi dari menu menutup layar dengan shutter hitam miring, menampilkan siluet putih Nara, mengganti scene saat layar tertutup, lalu membuka Map 1 dari tengah. Lima area vector lama dan empat minigame tetap disimpan sebagai vertical slice legacy sampai production map berikutnya selesai dimigrasikan.
 
 ## Dialogic
 
@@ -47,6 +45,7 @@ Untuk mengedit dialog, buka tab `Dialogic` di editor lalu pilih timeline. File `
 ## Struktur Utama
 
 - `scenes/areas/`: lima area dunia.
+- `scenes/new_maps/map1/`: production Map 1 yang menjadi scene awal game.
 - `scenes/player/`: scene player dan cutout rig Nara.
 - `scenes/minigames/`: bakery, klinik, kabel, dan napas.
 - `scenes/components/`: interaction zone dan komponen dunia yang dapat dipakai ulang.
@@ -55,7 +54,7 @@ Untuk mengedit dialog, buka tab `Dialogic` di editor lalu pilih timeline. File `
 - `assets/vector/characters/`: NPC vector placeholder.
 - `scripts/core/game_flow.gd`: state quest, inventory, loading, dan perpindahan scene.
 - `scenes/qa/`: smoke test timeline, flow, visual capture, dan logika minigame.
-- `docs/ASSET_NEEDS.md`: spesifikasi aset final yang masih dibutuhkan.
+- `GDD_AND_AI_HANDOFF.md`: living GDD, status implementasi, dan konteks handoff.
 
 ## QA
 

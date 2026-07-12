@@ -10,6 +10,7 @@ signal progress_changed
 const LOADING_SCREEN_SCENE: PackedScene = preload("res://scenes/ui/loading_screen.tscn")
 const MAIN_MENU_SCENE: String = "res://scenes/main.tscn"
 const ENDING_SCENE: String = "res://scenes/ui/prototype_ending.tscn"
+const PRODUCTION_MAP1_SCENE: String = "res://scenes/new_maps/map1/map1_layering_test.tscn"
 const ENTRY_SIDE_DEFAULT: int = 0
 const ENTRY_SIDE_LEFT: int = 1
 const ENTRY_SIDE_RIGHT: int = 2
@@ -36,12 +37,12 @@ var minigame_return_facing: float = 1.0
 var has_minigame_return_state: bool = false
 var pending_area_entry_side: int = ENTRY_SIDE_DEFAULT
 var transition_busy: bool = false
-var loading_screen: CanvasLayer
+var loading_screen: Node
 var pending_dialogue_id: String = ""
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	loading_screen = LOADING_SCREEN_SCENE.instantiate() as CanvasLayer
+	loading_screen = LOADING_SCREEN_SCENE.instantiate()
 	add_child(loading_screen)
 
 func start_new_game() -> void:
@@ -52,7 +53,8 @@ func start_new_game() -> void:
 	pending_area_entry_side = ENTRY_SIDE_DEFAULT
 	pending_dialogue_id = ""
 	inventory_changed.emit(inventory)
-	go_to_area("area_01_arrival")
+	current_area_id = "map1_production"
+	transition_to_scene(PRODUCTION_MAP1_SCENE)
 
 func enter_area(area_id: String, location_name: String) -> void:
 	current_area_id = area_id
@@ -161,8 +163,9 @@ func transition_to_scene(scene_path: String) -> void:
 		return
 	transition_busy = true
 	set_prompt("", false)
+	var covered_signal := Signal(loading_screen, &"covered")
 	loading_screen.call("begin")
-	await get_tree().create_timer(0.22, true).timeout
+	await covered_signal
 
 	var packed_scene: PackedScene = null
 	var request_error: Error = ResourceLoader.load_threaded_request(scene_path)
@@ -179,14 +182,17 @@ func transition_to_scene(scene_path: String) -> void:
 		packed_scene = load(scene_path) as PackedScene
 	if packed_scene == null:
 		push_error("Could not load scene: " + scene_path)
+		var failed_transition_finished := Signal(loading_screen, &"transition_finished")
 		loading_screen.call("end")
+		await failed_transition_finished
 		transition_busy = false
 		return
 
 	get_tree().change_scene_to_packed(packed_scene)
 	await get_tree().process_frame
-	await get_tree().create_timer(0.28, true).timeout
+	var transition_finished_signal := Signal(loading_screen, &"transition_finished")
 	loading_screen.call("end")
+	await transition_finished_signal
 	transition_busy = false
 
 func set_flag(flag_name: String, value: bool = true) -> void:

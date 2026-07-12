@@ -5,10 +5,14 @@ const AREA_02: String = "res://scenes/areas/area_02_electric_street.tscn"
 const AREA_03: String = "res://scenes/areas/area_03_bakery_flower.tscn"
 const AREA_04: String = "res://scenes/areas/area_04_clinic_hill.tscn"
 const AREA_05: String = "res://scenes/areas/area_05_festival_park.tscn"
+const PRODUCTION_MAP1: String = "res://scenes/new_maps/map1/map1_layering_test.tscn"
 
 func run() -> void:
 	await get_tree().process_frame
 	GameFlow.start_new_game()
+	if not await _wait_for_scene(PRODUCTION_MAP1):
+		return
+	GameFlow.go_to_area("area_01_arrival")
 	if not await _wait_for_scene(AREA_01):
 		return
 
