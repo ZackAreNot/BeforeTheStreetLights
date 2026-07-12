@@ -264,7 +264,7 @@ show_interaction_guide = true
 position = Vector2(3940, 3090)
 
 [node name="DoorInspection" parent="InspectableObjects/ClosedShopPoint" unique_id=63655318 instance=ExtResource("20_inspectable")]
-position = Vector2(-54, -770)
+position = Vector2(-46, -768)
 scale = Vector2(0.28, 0.28)
 dialogue_id = "map1_closed_shop_comment"
 nara_dialogue_y_offset = -260.0
