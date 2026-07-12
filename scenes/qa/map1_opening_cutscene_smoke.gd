@@ -34,6 +34,13 @@ func _run() -> void:
 		push_error("MAP1_OPENING_TAXI_SCALE_FAILED")
 		quit(1)
 		return
+	if not is_equal_approx(
+		float(opening.get("taxi_stop_progress")),
+		float(opening.get("nara_exit_progress"))
+	):
+		push_error("MAP1_OPENING_DROP_AND_START_POSITION_MUST_MATCH")
+		quit(1)
+		return
 	var expected_initial_zoom := Vector2.ONE * float(opening.get("initial_zoom"))
 	if not cutscene_camera.zoom.is_equal_approx(expected_initial_zoom):
 		push_error("MAP1_OPENING_MANUAL_ZOOM_SETTING_FAILED")
@@ -52,13 +59,17 @@ func _run() -> void:
 		push_error("MAP1_OPENING_CUTSCENE_END_STATE_FAILED")
 		quit(1)
 		return
-	if not is_equal_approx(player.progress, 850.0):
+	if not is_equal_approx(player.progress, float(opening.get("nara_exit_progress"))):
 		push_error("MAP1_OPENING_NARA_EXIT_POSITION_FAILED")
 		quit(1)
 		return
 	var taxi_track := scene.get_node("TaxiRoadTrack") as Path2D
 	var taxi_end_progress := taxi_track.curve.get_baked_length()
-	if not taxi.visible or taxi_path.progress <= 640.0 or taxi_path.progress >= taxi_end_progress:
+	if (
+		not taxi.visible
+		or taxi_path.progress <= float(opening.get("taxi_stop_progress"))
+		or taxi_path.progress >= taxi_end_progress
+	):
 		push_error("MAP1_OPENING_TAXI_MUST_KEEP_DRIVING_AFTER_CAMERA_HANDOFF")
 		quit(1)
 		return

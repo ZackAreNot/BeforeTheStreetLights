@@ -7,8 +7,8 @@ signal taxi_departed
 @export_category("Opening Sequence")
 @export var play_on_ready: bool = true
 @export_range(0.214, 0.58, 0.005) var initial_zoom: float = 0.214
-@export var taxi_stop_progress: float = 640.0
-@export var nara_exit_progress: float = 850.0
+@export var taxi_stop_progress: float = 330.0
+@export var nara_exit_progress: float = 330.0
 @export var taxi_departure_speed: float = 320.0
 @export var taxi_camera_lead_time: float = 1.4
 @export var camera_transition_duration: float = 2.25
@@ -68,12 +68,7 @@ func _play_opening() -> void:
 	await get_tree().create_timer(0.45).timeout
 
 	player.visible = true
-	player.progress = taxi_stop_progress
-	var disembark := create_tween()
-	disembark.tween_property(player, "progress", nara_exit_progress, 0.6).set_trans(
-		Tween.TRANS_SINE
-	).set_ease(Tween.EASE_OUT)
-	await disembark.finished
+	player.progress = nara_exit_progress
 	await get_tree().create_timer(0.35).timeout
 
 	taxi.call("set_facing", 1.0)

@@ -67,7 +67,7 @@ guide_width = 9.5
 [node name="MaleTrackPlayer" type="PathFollow2D" parent="RoadTrack" unique_id=2141296269 groups=["player"]]
 z_index = 2
 position = Vector2(731.897, 3117.141)
-progress = 640.0
+progress = 330.0
 rotates = false
 loop = false
 script = ExtResource("2_controller")
