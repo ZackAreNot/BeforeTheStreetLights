@@ -14,6 +14,10 @@ const PRODUCTION_MAP1_SCENE: String = "res://scenes/new_maps/map1/map1_layering_
 const ENTRY_SIDE_DEFAULT: int = 0
 const ENTRY_SIDE_LEFT: int = 1
 const ENTRY_SIDE_RIGHT: int = 2
+const PRODUCTION_MAP_SCENES: Dictionary = {
+	"map1_production": "res://scenes/new_maps/map1/map1_layering_test.tscn",
+	"map2_production": "res://scenes/new_maps/map2/map2.tscn"
+}
 const AREA_SCENES: Dictionary = {
 	"area_01_arrival": "res://scenes/areas/area_01_arrival.tscn",
 	"area_02_electric": "res://scenes/areas/area_02_electric_street.tscn",
@@ -64,12 +68,13 @@ func enter_area(area_id: String, location_name: String) -> void:
 	progress_changed.emit()
 
 func go_to_area(area_id: String, entry_side: int = ENTRY_SIDE_DEFAULT) -> void:
-	if not AREA_SCENES.has(area_id):
+	var scene_path := str(PRODUCTION_MAP_SCENES.get(area_id, AREA_SCENES.get(area_id, "")))
+	if scene_path.is_empty():
 		push_error("Unknown area id: " + area_id)
 		return
 	current_area_id = area_id
 	pending_area_entry_side = entry_side
-	transition_to_scene(str(AREA_SCENES[area_id]))
+	transition_to_scene(scene_path)
 
 func consume_area_entry_side(area_id: String) -> int:
 	if area_id != current_area_id:
@@ -231,6 +236,10 @@ func show_message(speaker_name: String, message_text: String) -> void:
 
 func get_area_objective(area_id: String) -> String:
 	match area_id:
+		"map1_production":
+			return "Susuri jalan menuju kawasan toko listrik."
+		"map2_production":
+			return "Jelajahi kawasan toko listrik."
 		"area_01_arrival":
 			if not has_flag("met_bimo"):
 				return "Temui Bimo di halte."

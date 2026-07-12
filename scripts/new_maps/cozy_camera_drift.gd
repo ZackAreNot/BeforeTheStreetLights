@@ -45,3 +45,8 @@ func reset_drift() -> void:
 	_current_drift = Vector2.ZERO
 	position = _base_offset
 	rotation = 0.0
+
+
+func set_base_camera_position(base_position: Vector2) -> void:
+	_base_offset = base_position
+	position = _base_offset + _current_drift

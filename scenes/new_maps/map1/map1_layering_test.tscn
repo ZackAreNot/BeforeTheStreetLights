@@ -26,6 +26,7 @@
 [ext_resource type="Shader" uid="uid://byskpb7ypvuab" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Textbubble/text_bubble.gdshader" id="24_bubble_shader"]
 [ext_resource type="FontFile" uid="uid://coebofpwm764r" path="res://assets/fonts/patrick_hand_sc/PatrickHandSC-Regular.ttf" id="25_bubble_font"]
 [ext_resource type="Texture2D" uid="uid://sglnjkhgpe1n" path="res://assets/NewMaps/Map1/NewMap1Layer3.png" id="26_layer3"]
+[ext_resource type="Script" path="res://scripts/new_maps/path_world_map.gd" id="27_world_map"]
 
 [sub_resource type="Curve2D" id="Curve2D_road"]
 bake_interval = 8.0
@@ -62,6 +63,11 @@ shader_parameter/golden_glow = 0.13
 shader_parameter/vignette_strength = 0.17
 
 [node name="Map1LayeringTest" type="Node2D" unique_id=1631900999]
+script = ExtResource("27_world_map")
+area_id = "map1_production"
+location_name = "Jalan Halte Kota Ranting"
+right_target_area_id = "map2_production"
+right_target_entry_side = 1
 
 [node name="MapArtwork" type="Node2D" parent="." unique_id=1155436297]
 

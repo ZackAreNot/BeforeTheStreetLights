@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://b1qn0rbw5c6np"]
+
+[ext_resource type="Texture2D" uid="uid://rdvj43ggar8e" path="res://assets/NewMaps/Map2/Map2.png" id="1_map"]
+[ext_resource type="Texture2D" uid="uid://bc5vubp2be3u4" path="res://assets/NewMaps/Map2/Map2Layer2.png" id="2_layer2"]
+[ext_resource type="Texture2D" uid="uid://hgyx3bonb3rv" path="res://assets/NewMaps/Map2/Map2Layer3.png" id="3_layer3"]
+[ext_resource type="Script" uid="uid://dhwukjjulkvo8" path="res://scripts/new_maps/path_world_map.gd" id="4_world_map"]
+[ext_resource type="Script" uid="uid://0mfk831y76hh" path="res://scripts/new_maps/editable_track_guide.gd" id="5_track_guide"]
+[ext_resource type="Script" uid="uid://cy5rqe82vhs2a" path="res://scripts/new_maps/map1_track_player.gd" id="6_player"]
+[ext_resource type="Script" uid="uid://bnyle154vue0p" path="res://scripts/new_maps/cozy_camera_drift.gd" id="7_camera"]
+[ext_resource type="Shader" uid="uid://y8ksgfo6xv73" path="res://shaders/map1_cozy_grade.gdshader" id="8_shader"]
+[ext_resource type="Texture2D" uid="uid://fydopn2ehdl" path="res://assets/Dummy/Character/male_hero_template-idle.png" id="9_idle"]
+[ext_resource type="Texture2D" uid="uid://dhu6s7gmi07gw" path="res://assets/Dummy/Character/male_hero_template-walk.png" id="10_walk"]
+[ext_resource type="Texture2D" uid="uid://br2j073a1oce3" path="res://assets/Dummy/Character/male_hero_template-run.png" id="11_run"]
+[ext_resource type="Texture2D" uid="uid://dkh7gs3l6aq5b" path="res://assets/Dummy/Character/male_hero_template-jump.png" id="12_jump"]
+[ext_resource type="Texture2D" uid="uid://b3lajf7wtrhtg" path="res://assets/Dummy/Character/male_hero_template-fall.png" id="13_fall"]
+
+[sub_resource type="Curve2D" id="Curve2D_road"]
+bake_interval = 8.0
+_data = {
+"points": PackedVector2Array(0, 0, 145, 0, 80, 1682, -145, 0, 145, 0, 620, 1682, -145, 0, 145, 0, 1180, 1681, -145, 0, 145, 0, 1740, 1681, -145, 0, 145, 0, 2300, 1682, -145, 0, 145, 0, 2860, 1682, -145, 0, 145, 0, 3420, 1684, -145, 0, 145, 0, 3980, 1686, -145, 0, 145, 0, 4540, 1688, -145, 0, 145, 0, 5100, 1689, -145, 0, 0, 0, 5920, 1691)
+}
+point_count = 11
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cozy"]
+shader = ExtResource("8_shader")
+shader_parameter/exposure = 0.02
+shader_parameter/contrast = 1.1
+shader_parameter/saturation = 1.12
+shader_parameter/warmth = 0.52
+shader_parameter/cool_shadows = 0.32
+shader_parameter/golden_glow = 0.13
+shader_parameter/vignette_strength = 0.17
+
+[node name="Map2" type="Node2D" unique_id=725007282]
+script = ExtResource("4_world_map")
+area_id = "map2_production"
+location_name = "Kawasan Toko Listrik"
+override_camera_zoom = true
+gameplay_camera_zoom = 0.39
+gameplay_camera_offset_y = -725.0
+left_target_area_id = "map1_production"
+left_target_entry_side = 2
+
+[node name="MapArtwork" type="Node2D" parent="." unique_id=1155759562]
+
+[node name="FullMapBackground" type="Sprite2D" parent="MapArtwork" unique_id=1708126610]
+texture_filter = 1
+texture = ExtResource("1_map")
+centered = false
+
+[node name="RoadTrack" type="Path2D" parent="." unique_id=1722028592]
+editor_description = "Pilih node ini lalu gunakan Edit Curve. Garis cyan adalah posisi telapak kaki; geser titiknya mengikuti kontur trotoar Map 2."
+curve = SubResource("Curve2D_road")
+script = ExtResource("5_track_guide")
+guide_color = Color(0.1, 0.95, 1, 0.92)
+guide_outline_color = Color(0.02, 0.08, 0.1, 0.82)
+
+[node name="MaleTrackPlayer" type="PathFollow2D" parent="RoadTrack" unique_id=1142090583 groups=["player"]]
+z_index = 2
+position = Vector2(299.99954, 1682)
+progress = 220.0
+rotates = false
+loop = false
+script = ExtResource("6_player")
+idle_texture = ExtResource("9_idle")
+walk_texture = ExtResource("10_walk")
+run_texture = ExtResource("11_run")
+jump_texture = ExtResource("12_jump")
+fall_texture = ExtResource("13_fall")
+
+[node name="VisualPivot" type="Node2D" parent="RoadTrack/MaleTrackPlayer" unique_id=74820331]
+editor_description = "Pivot telapak kaki yang mengikuti RoadTrack Map 2."
+scale = Vector2(1.5, 1.5)
+
+[node name="FootPivotGuide" type="Marker2D" parent="RoadTrack/MaleTrackPlayer/VisualPivot" unique_id=1343278922]
+editor_description = "Titik kontak telapak kaki dengan garis track."
+gizmo_extents = 34.0
+
+[node name="MaleSprite" type="Sprite2D" parent="RoadTrack/MaleTrackPlayer/VisualPivot" unique_id=1449709074]
+texture_filter = 1
+position = Vector2(0, -127.5)
+scale = Vector2(8.5, 8.5)
+texture = ExtResource("9_idle")
+hframes = 10
+
+[node name="NaraDialogueAnchor" type="Marker2D" parent="RoadTrack/MaleTrackPlayer/VisualPivot" unique_id=1105986596 groups=["dialogue_nara"]]
+editor_description = "Anchor dialog di atas kepala; ikut bergerak saat melompat dan mengikuti platform."
+position = Vector2(0, -260)
+
+[node name="Camera2D" type="Camera2D" parent="RoadTrack/MaleTrackPlayer" unique_id=1099721517]
+position = Vector2(0, -580)
+zoom = Vector2(0.42, 0.42)
+limit_left = 0
+limit_top = 0
+limit_right = 6000
+limit_bottom = 2000
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
+script = ExtResource("7_camera")
+
+[node name="MapLayer2" type="Node2D" parent="." unique_id=1653950301]
+editor_description = "Foreground tiang Map 2, hasil alignment aset pada posisi (270, 108)."
+z_index = 3
+
+[node name="Map2Layer2" type="Sprite2D" parent="MapLayer2" unique_id=1552209485]
+texture_filter = 1
+position = Vector2(270, 108)
+texture = ExtResource("2_layer2")
+centered = false
+
+[node name="MapLayer3" type="Node2D" parent="." unique_id=1626512990]
+editor_description = "Foreground semak bawah Map 2."
+z_index = 5
+
+[node name="Map2Layer3" type="Sprite2D" parent="MapLayer3" unique_id=15470308]
+texture_filter = 1
+position = Vector2(0, 1623)
+texture = ExtResource("3_layer3")
+centered = false
+
+[node name="CozyPostProcess" type="CanvasLayer" parent="." unique_id=2139945038]
+layer = 90
+
+[node name="ColorGrade" type="ColorRect" parent="CozyPostProcess" unique_id=1660748878]
+material = SubResource("ShaderMaterial_cozy")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

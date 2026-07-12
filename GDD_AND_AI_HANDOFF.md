@@ -310,7 +310,7 @@ Area transitions at map edges are automatic. Left and right entry sides are pres
 
 The repository currently contains two parallel implementations:
 
-1. **Production main flow** starts at `scenes/new_maps/map1/map1_layering_test.tscn`. Since 2026-07-12, `GameFlow.start_new_game()` routes the menu Start button directly to this scene. It has the newest art, curved track movement, taxi opening, layered foreground, shader, camera work, guides, object comments, and Bimo cutscene.
+1. **Production main flow** starts at `scenes/new_maps/map1/map1_layering_test.tscn`. Since 2026-07-12, `GameFlow.start_new_game()` routes the menu Start button directly to this scene. Map 1 now connects bidirectionally to production Map 2 through automatic edge transitions. These maps use the newest art, curved track movement, layered foreground, shader, and camera work.
 2. **Legacy vertical slice** remains in `scenes/areas/`. It is still playable and tested when called explicitly, and it contains the old full quest/minigame path from Area 1 to the prototype ending.
 
 Do not delete either implementation. New production maps should gradually replace the legacy route while preserving useful `GameFlow`, Dialogic, minigame, loading, and quest systems. The menu must continue to start at production Map 1.
@@ -540,7 +540,7 @@ The user describes the target as 1920 x 1080. Technically the project currently 
 ```mermaid
 flowchart LR
     M["Main menu"] --> P1["Production Map 1"]
-    P1 -. "future production route" .-> P2["Production Map 2"]
+    P1 <--> P2["Production Map 2: Toko Listrik"]
     L["Legacy flow called explicitly"] --> A1["Area 01: Halte"]
     A1 --> A2["Area 02: Toko Listrik"]
     A2 --> A3["Area 03: Bu Rami and Tara"]
@@ -563,13 +563,14 @@ flowchart LR
 - Visual rig: `scenes/player/nara_visual.tscn`.
 - Uses CharacterBody2D, collisions, map boundaries, and regular world-area ground.
 
-### New Map 1 Player
+### Production Path Player
 
 - Controller: `scripts/new_maps/map1_track_player.gd`.
 - Uses PathFollow2D on a manually authored Path2D contour.
 - This is a separate movement architecture from the reusable CharacterBody2D player.
 - It rotates the visual pivot to match the track slope while keeping Camera2D outside the rotating pivot.
 - It supports walk, run, jump, fall, and one-way platform landing.
+- Production Maps 1 and 2 share `scripts/new_maps/path_world_map.gd` for automatic edge transitions and entry-side spawning.
 
 Do not casually merge the two controllers. Decide the production architecture first and test all transitions, dialogue control locking, jumping, minigame return, and camera behavior.
 
@@ -736,6 +737,18 @@ Manual Bimo prompt placement:
 - Current scale is `(0.28, 0.28)`.
 - Runtime bob, opacity, and near emphasis are relative to this authored transform.
 
+### Production Map 2
+
+- Scene: `scenes/new_maps/map2/map2.tscn`.
+- Assets: `assets/NewMaps/Map2/Map2.png`, `Map2Layer2.png`, and `Map2Layer3.png`.
+- Base art size: 6000 x 2000.
+- `Map2Layer2` is aligned at `(270, 108)` with foreground z-index 3.
+- `Map2Layer3` is aligned at `(0, 1623)` with foreground z-index 5.
+- Map 2 uses the same temporary player sheets, camera drift, cozy shader, jump behavior, and dialogue anchor convention as Map 1.
+- `RoadTrack` is an editable cyan foot contour with 11 starter points. Select `RoadTrack`, enable Edit Curve in the 2D viewport, and move its points to refine the sidewalk contour manually.
+- Walking off Map 1's right edge loads Map 2 at its left entrance through the loading shutter. Walking back through Map 2's left edge returns to the right entrance of Map 1.
+- Returning to Map 1 skips the taxi opening and completed control guide.
+
 ## 19. Art and Asset Status
 
 ### Production or Near-Production Assets Present
@@ -854,14 +867,14 @@ Build artifacts are ignored by `.gitignore` and should not be committed.
 
 ### Architecture
 
-- The integrated vertical slice and polished Map 1 are not connected.
+- The legacy vertical slice remains separate from the production Map 1 -> Map 2 route.
 - There are two player movement architectures: CharacterBody2D and PathFollow2D.
-- Production strategy for Maps 2-5 has not yet been finalized based on Map 1.
+- Production Maps 3-5 have not yet been created from the Map 1/Map 2 path architecture.
 - There is no full save/load system; state persists only in the running autoload session.
 
 ### Content
 
-- Polished production art only exists substantially for Map 1.
+- Polished production art currently exists for Maps 1 and 2.
 - Map 1 still uses dummy Nara and Bimo character sheets.
 - Most integrated five-area worlds and NPCs remain production placeholders.
 - The complete eight-chapter story is condensed in current Dialogic timelines.
