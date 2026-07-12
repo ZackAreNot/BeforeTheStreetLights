@@ -403,6 +403,7 @@ Each minigame is a separate scene under `scenes/minigames/`.
 - Style: `dialogic/styles/streetlights_style.tres`.
 - Default letter speed: `0.028` seconds.
 - Speaker anchors use groups such as `dialogue_nara`, `dialogue_bimo`, and `dialogue_tara`.
+- In Map 1, `NaraDialogueAnchor` is a child of the player's `VisualPivot` at local position `(0, -260)`. This makes the bubble follow Nara on slopes, jumps, and one-way platforms. Tune this single head anchor when the character size changes; do not add per-interaction bubble offsets.
 
 `DialogueBridge` also:
 

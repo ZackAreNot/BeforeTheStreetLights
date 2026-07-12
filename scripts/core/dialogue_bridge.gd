@@ -158,11 +158,6 @@ func _on_timeline_ended() -> void:
 	var finished_id: String = active_dialogue_id
 	var finished_config: Dictionary = active_config.duplicate(true)
 	var was_repeat: bool = active_is_repeat
-	_set_player_controls(true)
-	release_dialogue_references()
-	active_dialogue_id = ""
-	active_config.clear()
-	active_is_repeat = false
 
 	if not was_repeat:
 		if finished_config.has("completion_flag"):
@@ -170,8 +165,18 @@ func _on_timeline_ended() -> void:
 		if finished_config.has("inventory_item"):
 			GameFlow.add_inventory_item(str(finished_config["inventory_item"]))
 
-	dialogue_finished.emit(finished_id)
+	# The final dialogue advance and jump share Space. Keep gameplay locked until
+	# that press has ended so it cannot become a jump on the closing frame.
 	await get_tree().process_frame
+	while Input.is_action_pressed(&"jump"):
+		await get_tree().process_frame
+	_set_player_controls(true)
+	release_dialogue_references()
+	active_dialogue_id = ""
+	active_config.clear()
+	active_is_repeat = false
+
+	dialogue_finished.emit(finished_id)
 	if not was_repeat and finished_config.has("followup_minigame"):
 		GameFlow.start_minigame(str(finished_config["followup_minigame"]))
 	elif bool(finished_config.get("show_ending", false)):

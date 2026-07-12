@@ -117,7 +117,8 @@ position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 script = ExtResource("10_camera_drift")
 
-[node name="NaraDialogueAnchor" type="Marker2D" parent="RoadTrack/MaleTrackPlayer" unique_id=882706672 groups=["dialogue_nara"]]
+[node name="NaraDialogueAnchor" type="Marker2D" parent="RoadTrack/MaleTrackPlayer/VisualPivot" unique_id=882706672 groups=["dialogue_nara"]]
+editor_description = "Titik kepala untuk dialog Nara. Geser lokal jika tinggi karakter berubah; node ini mengikuti platform dan lompatan melalui VisualPivot."
 position = Vector2(0, -260)
 
 [node name="TaxiRoadTrack" type="Path2D" parent="." unique_id=286598581]
@@ -267,7 +268,6 @@ position = Vector2(3940, 3090)
 position = Vector2(-46, -768)
 scale = Vector2(0.28, 0.28)
 dialogue_id = "map1_closed_shop_comment"
-nara_dialogue_y_offset = -260.0
 
 [node name="MapLayer2" type="Node2D" parent="." unique_id=111420181]
 editor_description = "Layer 2 di depan karakter"

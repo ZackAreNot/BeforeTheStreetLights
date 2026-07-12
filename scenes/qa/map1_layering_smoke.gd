@@ -10,8 +10,8 @@ func _init() -> void:
 	var track := scene.get_node("RoadTrack") as Path2D
 	var taxi_track := scene.get_node("TaxiRoadTrack") as Path2D
 	var player := scene.get_node("RoadTrack/MaleTrackPlayer") as PathFollow2D
-	var foreground := scene.get_node("Layer2Foreground") as Node2D
-	var power_pole_layer := scene.get_node("Layer2Foreground/PowerPoleLayer") as Sprite2D
+	var foreground := scene.get_node("MapLayer2") as Node2D
+	var power_pole_layer := scene.get_node("MapLayer2/NewMapLayer2") as Sprite2D
 	var color_grade := scene.get_node("CozyPostProcess/ColorGrade") as ColorRect
 	var camera := player.get_node("Camera2D") as Camera2D
 	var bimo := scene.get_node("BimoDummy") as Node2D
@@ -30,7 +30,7 @@ func _init() -> void:
 	assert(first_drift.distance_to(later_drift) > 5.0, "Camera drift must remain perceptible from second to second.")
 	assert((camera.get("drift_amplitude") as Vector2).y > (camera.get("drift_amplitude") as Vector2).x, "Camera drift should favor vertical handheld movement.")
 	assert(foreground.z_index > player.z_index, "Foreground layer must render above the player.")
-	assert(power_pole_layer.texture.resource_path.ends_with("layer2tianglistrik.png"), "Map 1 foreground power-pole layer is missing.")
+	assert(power_pole_layer.texture.resource_path.ends_with("NewMap1Layer2.png"), "Map 1 foreground layer is missing.")
 	assert(is_equal_approx(power_pole_layer.position.y, 910.0), "Power-pole layer vertical alignment must match FullMap1.")
 	assert(bimo.get_script().resource_path.ends_with("map1_bimo_interaction.gd"), "Bimo interaction controller is missing.")
 	assert(bimo.position.x < 2627.0 and 2627.0 - bimo.position.x < 400.0, "Bimo must stand just before the second street lamp.")
@@ -58,7 +58,10 @@ func _init() -> void:
 	assert((player.get("fall_texture") as Texture2D).resource_path.ends_with("male_hero_template-fall.png"), "Fall animation texture is missing.")
 	assert(player.get_node("Camera2D").get_parent() == player, "Camera must stay outside the rotating visual pivot.")
 	assert(player.is_in_group("player"), "Map 1 track player must be available to dialogue interactions.")
-	assert(player.has_node("NaraDialogueAnchor"), "Player dialogue bubble anchor is missing.")
+	assert(visual_pivot.has_node("NaraDialogueAnchor"), "Player dialogue bubble anchor is missing.")
+	var dialogue_anchor := visual_pivot.get_node("NaraDialogueAnchor") as Marker2D
+	assert(dialogue_anchor.position.is_equal_approx(Vector2(0, -260)), "Nara dialogue anchor must remain above the character head.")
+	assert(dialogue_anchor.get_parent() == visual_pivot, "Nara dialogue anchor must follow platform height through VisualPivot.")
 	var jump_has_w := false
 	for event in InputMap.action_get_events("jump"):
 		if event is InputEventKey and (event.keycode == KEY_W or event.physical_keycode == KEY_W):
