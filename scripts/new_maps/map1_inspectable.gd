@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var dialogue_id: String = ""
+@export var nara_dialogue_y_offset: float = 0.0
 @export var interaction_distance: float = 260.0
 @export var show_interaction_guide: bool = false
 @export var prompt_fps: float = 12.0
@@ -72,6 +73,17 @@ func _start_comment() -> bool:
 	var dialogue_bridge := get_node_or_null("/root/DialogueBridge")
 	if dialogue_bridge == null or bool(dialogue_bridge.call("is_dialogue_active")):
 		return false
+		
+	if nara_dialogue_y_offset != 0.0:
+		var nara_anchor = get_tree().get_first_node_in_group(&"dialogue_nara")
+		if is_instance_valid(nara_anchor):
+			var original_y = nara_anchor.position.y
+			nara_anchor.position.y += nara_dialogue_y_offset
+			var on_finished = func(_id):
+				if is_instance_valid(nara_anchor):
+					nara_anchor.position.y = original_y
+			dialogue_bridge.dialogue_finished.connect(on_finished, CONNECT_ONE_SHOT)
+			
 	return bool(dialogue_bridge.call("start_dialogue", dialogue_id))
 
 

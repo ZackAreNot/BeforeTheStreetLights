@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b6bfvjww3d3nl"]
 
-[ext_resource type="Texture2D" uid="uid://dk56ko7b8g58j" path="res://assets/NewMaps/Map1/FullMap1.png" id="1_map"]
+[ext_resource type="Texture2D" uid="uid://b5flkb245r1hi" path="res://assets/NewMaps/Map1/NewMap1.png" id="1_map"]
 [ext_resource type="Script" uid="uid://cy5rqe82vhs2a" path="res://scripts/new_maps/map1_track_player.gd" id="2_controller"]
 [ext_resource type="Texture2D" uid="uid://fydopn2ehdl" path="res://assets/Dummy/Character/male_hero_template-idle.png" id="3_idle"]
 [ext_resource type="Texture2D" uid="uid://dhu6s7gmi07gw" path="res://assets/Dummy/Character/male_hero_template-walk.png" id="4_walk"]
@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://0mfk831y76hh" path="res://scripts/new_maps/editable_track_guide.gd" id="8_track_guide"]
 [ext_resource type="Shader" uid="uid://y8ksgfo6xv73" path="res://shaders/map1_cozy_grade.gdshader" id="9_cozy_shader"]
 [ext_resource type="Script" uid="uid://bnyle154vue0p" path="res://scripts/new_maps/cozy_camera_drift.gd" id="10_camera_drift"]
-[ext_resource type="Texture2D" uid="uid://dtsfh57l3oc8j" path="res://assets/NewMaps/Map1/layer2tianglistrik.png" id="11_poles_layer"]
+[ext_resource type="Texture2D" uid="uid://bae7kerl433pu" path="res://assets/NewMaps/Map1/NewMap1Layer2.png" id="11_poles_layer"]
 [ext_resource type="Script" uid="uid://bt8xg8p0pffr" path="res://scripts/new_maps/map1_bimo_interaction.gd" id="12_bimo_interaction"]
 [ext_resource type="Script" uid="uid://cntw5lxhlrxlo" path="res://scripts/new_maps/one_way_track_platform.gd" id="13_one_way_platform"]
 [ext_resource type="Texture2D" uid="uid://pvwpt0c6mc57" path="res://assets/NewMaps/Map1/TaxiCar/Body.png" id="14_taxi_body"]
@@ -25,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://dfarh4j156nhv" path="res://assets/Guide/Interectsprite.png" id="23_interact_prompt"]
 [ext_resource type="Shader" uid="uid://byskpb7ypvuab" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Textbubble/text_bubble.gdshader" id="24_bubble_shader"]
 [ext_resource type="FontFile" uid="uid://coebofpwm764r" path="res://assets/fonts/patrick_hand_sc/PatrickHandSC-Regular.ttf" id="25_bubble_font"]
+[ext_resource type="Texture2D" uid="uid://sglnjkhgpe1n" path="res://assets/NewMaps/Map1/NewMap1Layer3.png" id="26_layer3"]
 
 [sub_resource type="Curve2D" id="Curve2D_road"]
 bake_interval = 8.0
@@ -125,7 +126,7 @@ position = Vector2(-92, 234)
 curve = SubResource("Curve2D_taxi_road")
 
 [node name="TaxiPathFollow" type="PathFollow2D" parent="TaxiRoadTrack" unique_id=1790383673]
-z_index = 3
+z_index = 4
 position = Vector2(92, 3106)
 rotation = 0.019910313
 loop = false
@@ -219,7 +220,7 @@ vertical_alignment = 1
 [node name="OneWayPlatforms" type="Node2D" parent="." unique_id=334532785]
 
 [node name="BrickOneWayPlatform" type="Node2D" parent="OneWayPlatforms" unique_id=249453915 groups=["map1_one_way_platform"]]
-position = Vector2(3590, 2910)
+position = Vector2(3590, 2851)
 script = ExtResource("13_one_way_platform")
 surface_start = Vector2(-490, 0)
 surface_end = Vector2(490, 0)
@@ -250,11 +251,11 @@ position = Vector2(1600, 3218)
 [node name="PosterArtwork" type="Sprite2D" parent="InspectableObjects/PosterPoint" unique_id=1223443824]
 z_index = 1
 texture_filter = 1
-position = Vector2(-27, -223)
+position = Vector2(-25, -258)
 texture = ExtResource("21_poster")
 
 [node name="PosterInspection" parent="InspectableObjects/PosterPoint" unique_id=1174789003 instance=ExtResource("20_inspectable")]
-position = Vector2(-53, -426)
+position = Vector2(-52, -441)
 scale = Vector2(0.28, 0.28)
 dialogue_id = "map1_poster_comment"
 show_interaction_guide = true
@@ -263,18 +264,29 @@ show_interaction_guide = true
 position = Vector2(3940, 3090)
 
 [node name="DoorInspection" parent="InspectableObjects/ClosedShopPoint" unique_id=63655318 instance=ExtResource("20_inspectable")]
-position = Vector2(-48, -705)
+position = Vector2(-54, -770)
 scale = Vector2(0.28, 0.28)
 dialogue_id = "map1_closed_shop_comment"
+nara_dialogue_y_offset = -260.0
 
-[node name="Layer2Foreground" type="Node2D" parent="." unique_id=111420181]
-editor_description = "Foreground layer tiang listrik dan lampu jalan. Posisi y=910 sudah dicocokkan pixel-perfect dengan FullMap1."
-z_index = 5
+[node name="MapLayer2" type="Node2D" parent="." unique_id=111420181]
+editor_description = "Layer 2 di depan karakter"
+z_index = 3
 
-[node name="PowerPoleLayer" type="Sprite2D" parent="Layer2Foreground" unique_id=1010994120]
+[node name="NewMapLayer2" type="Sprite2D" parent="MapLayer2" unique_id=1010994120]
 texture_filter = 1
 position = Vector2(0, 910)
 texture = ExtResource("11_poles_layer")
+centered = false
+
+[node name="MapLayer3" type="Node2D" parent="." unique_id=999999999]
+editor_description = "Layer 3 di depan taxi"
+z_index = 5
+
+[node name="NewMapLayer3" type="Sprite2D" parent="MapLayer3" unique_id=999999998]
+texture_filter = 1
+position = Vector2(0, 2859)
+texture = ExtResource("26_layer3")
 centered = false
 
 [node name="CozyPostProcess" type="CanvasLayer" parent="." unique_id=270409802]

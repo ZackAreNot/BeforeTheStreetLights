@@ -6,12 +6,12 @@ signal transition_finished
 
 @onready var fade_root: Control = $FadeRoot
 @onready var shutter: ColorRect = $FadeRoot/Shutter
-@onready var nara_texture: TextureRect = $FadeRoot/NaraTexture
+@onready var nara_texture: Sprite2D = $FadeRoot/NaraTexture
 
 const OPEN_APERTURE := 1.35
-const CLOSE_DURATION := 0.38
-const MINIMUM_ICON_TIME := 0.68
-const OPEN_DURATION := 0.72
+const CLOSE_DURATION := 0.75
+const MINIMUM_ICON_TIME := 2.0
+const OPEN_DURATION := 1.2
 
 var transition_tween: Tween
 var pulse_tween: Tween
@@ -26,13 +26,20 @@ func _ready() -> void:
 	_shutter_material().set_shader_parameter("aperture", OPEN_APERTURE)
 	visible = false
 
+var _run_time := 0.0
+
+func _process(delta: float) -> void:
+	if nara_texture.visible:
+		_run_time += delta
+		nara_texture.frame = int(_run_time * 13.0) % 10
+
 func begin() -> void:
 	_stop_tweens()
 	visible = true
 	fade_root.modulate = Color.WHITE
 	nara_texture.visible = false
 	nara_texture.modulate.a = 0.0
-	nara_texture.scale = Vector2(0.78, 0.78)
+	nara_texture.scale = Vector2(3.5, 3.5)
 	_shutter_material().set_shader_parameter("aperture", OPEN_APERTURE)
 	if DisplayServer.get_name() == "headless":
 		_set_aperture(0.0)
@@ -74,7 +81,7 @@ func _play_opening() -> void:
 	transition_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	transition_tween.set_parallel(true)
 	transition_tween.tween_property(nara_texture, "modulate:a", 0.0, 0.14)
-	transition_tween.tween_property(nara_texture, "scale", Vector2(1.16, 1.16), 0.14)
+	transition_tween.tween_property(nara_texture, "scale", Vector2(4.5, 4.5), 0.14)
 	await transition_tween.finished
 	nara_texture.visible = false
 
@@ -108,7 +115,7 @@ func _emit_transition_finished() -> void:
 func _start_nara_pulse() -> void:
 	nara_texture.visible = true
 	nara_texture.modulate.a = 0.22
-	nara_texture.scale = Vector2(0.78, 0.78)
+	nara_texture.scale = Vector2(3.5, 3.5)
 	pulse_tween = create_tween()
 	pulse_tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	pulse_tween.set_loops()
@@ -118,7 +125,7 @@ func _start_nara_pulse() -> void:
 	pulse_tween.parallel().tween_property(
 		nara_texture,
 		"scale",
-		Vector2.ONE,
+		Vector2(3.7, 3.7),
 		0.18
 	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	pulse_tween.tween_property(nara_texture, "modulate:a", 0.42, 0.22).set_trans(
@@ -127,7 +134,7 @@ func _start_nara_pulse() -> void:
 	pulse_tween.parallel().tween_property(
 		nara_texture,
 		"scale",
-		Vector2(0.88, 0.88),
+		Vector2(3.5, 3.5),
 		0.22
 	).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
