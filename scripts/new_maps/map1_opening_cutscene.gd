@@ -9,6 +9,7 @@ signal taxi_departed
 @export_range(0.214, 0.58, 0.005) var initial_zoom: float = 0.214
 @export var taxi_stop_progress: float = 330.0
 @export var nara_exit_progress: float = 330.0
+@export var taxi_entry_offset_x: float = -1000.0
 @export var taxi_departure_speed: float = 320.0
 @export var taxi_camera_lead_time: float = 1.4
 @export var camera_transition_duration: float = 2.25
@@ -42,6 +43,7 @@ func _prepare_opening() -> void:
 	player.progress = taxi_stop_progress
 	player.visible = false
 	taxi_path.progress = 0.0
+	taxi.position = Vector2(taxi_entry_offset_x, 0.0)
 	taxi.visible = true
 	taxi.call("set_facing", 1.0)
 	taxi.call("set_driving", false)
@@ -60,7 +62,11 @@ func _play_opening() -> void:
 
 	taxi.call("set_driving", true)
 	var arrive := create_tween()
+	arrive.set_parallel(true)
 	arrive.tween_property(taxi_path, "progress", taxi_stop_progress, 3.2).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(Tween.EASE_OUT)
+	arrive.tween_property(taxi, "position", Vector2.ZERO, 3.2).set_trans(
 		Tween.TRANS_QUAD
 	).set_ease(Tween.EASE_OUT)
 	await arrive.finished

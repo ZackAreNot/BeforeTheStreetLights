@@ -30,6 +30,10 @@ func _run() -> void:
 		push_error("MAP1_OPENING_TAXI_NOT_VISIBLE")
 		quit(1)
 		return
+	if taxi.position.x >= -500.0:
+		push_error("MAP1_OPENING_TAXI_MUST_START_FULLY_OUTSIDE_MAP")
+		quit(1)
+		return
 	if not taxi.scale.is_equal_approx(Vector2(2.0, 2.0)):
 		push_error("MAP1_OPENING_TAXI_SCALE_FAILED")
 		quit(1)
@@ -61,6 +65,10 @@ func _run() -> void:
 		return
 	if not is_equal_approx(player.progress, float(opening.get("nara_exit_progress"))):
 		push_error("MAP1_OPENING_NARA_EXIT_POSITION_FAILED")
+		quit(1)
+		return
+	if not taxi.position.is_equal_approx(Vector2.ZERO):
+		push_error("MAP1_OPENING_TAXI_ENTRY_OFFSET_WAS_NOT_CLEARED")
 		quit(1)
 		return
 	var taxi_track := scene.get_node("TaxiRoadTrack") as Path2D
