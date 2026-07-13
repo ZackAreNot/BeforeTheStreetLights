@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://br2j073a1oce3" path="res://assets/Dummy/Character/male_hero_template-run.png" id="11_run"]
 [ext_resource type="Texture2D" uid="uid://dkh7gs3l6aq5b" path="res://assets/Dummy/Character/male_hero_template-jump.png" id="12_jump"]
 [ext_resource type="Texture2D" uid="uid://b3lajf7wtrhtg" path="res://assets/Dummy/Character/male_hero_template-fall.png" id="13_fall"]
+[ext_resource type="Script" path="res://scripts/new_maps/track_npc_interaction.gd" id="14_npc"]
+[ext_resource type="Texture2D" uid="uid://dfarh4j156nhv" path="res://assets/Guide/Interectsprite.png" id="15_prompt"]
 
 [sub_resource type="Curve2D" id="Curve2D_road"]
 bake_interval = 8.0
@@ -40,6 +42,8 @@ gameplay_camera_zoom = 0.39
 gameplay_camera_offset_y = -725.0
 left_target_area_id = "map1_production"
 left_target_entry_side = 2
+right_target_area_id = "map3_production"
+right_target_entry_side = 1
 
 [node name="MapArtwork" type="Node2D" parent="." unique_id=1155759562]
 
@@ -62,6 +66,8 @@ progress = 220.0
 rotates = false
 loop = false
 script = ExtResource("6_player")
+walk_speed = 600.0
+run_speed = 900.0
 idle_texture = ExtResource("9_idle")
 walk_texture = ExtResource("10_walk")
 run_texture = ExtResource("11_run")
@@ -97,6 +103,43 @@ limit_bottom = 2000
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 script = ExtResource("7_camera")
+
+[node name="ElectricShopkeeper" type="Node2D" parent="." unique_id=485573550]
+editor_description = "Placeholder penjaga toko listrik. Geser root ini pada sumbu X; posisi kaki otomatis mengikuti RoadTrack. Matikan Snap To Track untuk mengatur Y manual."
+z_index = 2
+position = Vector2(3700, 1685)
+script = ExtResource("14_npc")
+dialogue_id = "shopkeeper_cable"
+prompt_text = "E - Bicara dengan penjaga toko"
+
+[node name="VisualPivot" type="Node2D" parent="ElectricShopkeeper" unique_id=547211923]
+scale = Vector2(1.5, 1.5)
+
+[node name="MaleSprite" type="Sprite2D" parent="ElectricShopkeeper/VisualPivot" unique_id=1983896035]
+modulate = Color(0.9, 0.82, 0.72, 1)
+texture_filter = 1
+position = Vector2(0, -127.5)
+scale = Vector2(8.5, 8.5)
+texture = ExtResource("9_idle")
+flip_h = true
+hframes = 10
+frame = 4
+
+[node name="ShopkeeperDialogueAnchor" type="Marker2D" parent="ElectricShopkeeper/VisualPivot" unique_id=1424341880 groups=["dialogue_penjaga_toko"]]
+editor_description = "Anchor bubble penjaga toko; mengikuti seluruh root NPC dan skala visual."
+position = Vector2(0, -260)
+
+[node name="InteractionPrompt" type="Node2D" parent="ElectricShopkeeper" unique_id=780218999]
+editor_description = "Geser node ini untuk mengatur posisi icon interaksi penjaga toko."
+z_index = 7
+position = Vector2(-7, -470)
+scale = Vector2(0.28, 0.28)
+
+[node name="PromptSprite" type="Sprite2D" parent="ElectricShopkeeper/InteractionPrompt" unique_id=117664674]
+texture_filter = 1
+texture = ExtResource("15_prompt")
+hframes = 5
+vframes = 7
 
 [node name="MapLayer2" type="Node2D" parent="." unique_id=1653950301]
 editor_description = "Foreground tiang Map 2, hasil alignment aset pada posisi (270, 108)."

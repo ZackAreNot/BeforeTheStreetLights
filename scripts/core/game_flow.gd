@@ -16,7 +16,8 @@ const ENTRY_SIDE_LEFT: int = 1
 const ENTRY_SIDE_RIGHT: int = 2
 const PRODUCTION_MAP_SCENES: Dictionary = {
 	"map1_production": "res://scenes/new_maps/map1/map1_layering_test.tscn",
-	"map2_production": "res://scenes/new_maps/map2/map2.tscn"
+	"map2_production": "res://scenes/new_maps/map2/map2.tscn",
+	"map3_production": "res://scenes/new_maps/map3/map3.tscn"
 }
 const AREA_SCENES: Dictionary = {
 	"area_01_arrival": "res://scenes/areas/area_01_arrival.tscn",
@@ -240,6 +241,8 @@ func get_area_objective(area_id: String) -> String:
 			return "Susuri jalan menuju kawasan toko listrik."
 		"map2_production":
 			return "Jelajahi kawasan toko listrik."
+		"map3_production":
+			return "Susuri jalan menuju toko bunga Tara."
 		"area_01_arrival":
 			if not has_flag("met_bimo"):
 				return "Temui Bimo di halte."

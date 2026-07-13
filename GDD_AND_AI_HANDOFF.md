@@ -541,6 +541,7 @@ The user describes the target as 1920 x 1080. Technically the project currently 
 flowchart LR
     M["Main menu"] --> P1["Production Map 1"]
     P1 <--> P2["Production Map 2: Toko Listrik"]
+    P2 <--> P3["Production Map 3: Toko Bunga Tara"]
     L["Legacy flow called explicitly"] --> A1["Area 01: Halte"]
     A1 --> A2["Area 02: Toko Listrik"]
     A2 --> A3["Area 03: Bu Rami and Tara"]
@@ -748,6 +749,20 @@ Manual Bimo prompt placement:
 - `RoadTrack` is an editable cyan foot contour with 11 starter points. Select `RoadTrack`, enable Edit Curve in the 2D viewport, and move its points to refine the sidewalk contour manually.
 - Walking off Map 1's right edge loads Map 2 at its left entrance through the loading shutter. Walking back through Map 2's left edge returns to the right entrance of Map 1.
 - Returning to Map 1 skips the taxi opening and completed control guide.
+- Map 2's current player scale is `1.5`, walk speed is `600`, and run speed is `900`.
+- Current root camera override is zoom `0.39` with vertical offset `-725`; these remain editable on the root `Map2` node.
+- `ElectricShopkeeper` is a movable placeholder NPC at approximately X `3700`. Moving this root moves its visual, prompt, and dialogue anchor together; with `Snap To Track` enabled its feet follow `RoadTrack` automatically.
+- The shopkeeper uses `shopkeeper_cable` / `shopkeeper_repeat`, the `dialogue_penjaga_toko` anchor group, and the standard interaction icon behavior.
+- Walking off Map 2's right edge loads production Map 3.
+
+### Production Map 3
+
+- Scene: `scenes/new_maps/map3/map3.tscn`.
+- Asset: `assets/NewMaps/Map3/Map3.png`, 6000 x 2000.
+- Map 3 currently has one background layer and no separate foreground layer asset.
+- Its editable `RoadTrack` has 11 starter points placed along the upper portion of the light sidewalk strip, around Y `1713-1722`.
+- Player scale, animation sheets, walk speed `600`, run speed `900`, camera zoom `0.39`, camera offset `-725`, cozy shader, and handheld drift match Map 2.
+- Map 3's left edge returns to Map 2's right entrance. Its right edge remains bounded until production Map 4 exists.
 
 ## 19. Art and Asset Status
 
@@ -867,14 +882,14 @@ Build artifacts are ignored by `.gitignore` and should not be committed.
 
 ### Architecture
 
-- The legacy vertical slice remains separate from the production Map 1 -> Map 2 route.
+- The legacy vertical slice remains separate from the production Map 1 -> Map 2 -> Map 3 route.
 - There are two player movement architectures: CharacterBody2D and PathFollow2D.
-- Production Maps 3-5 have not yet been created from the Map 1/Map 2 path architecture.
+- Production Maps 4-5 have not yet been created from the shared path architecture.
 - There is no full save/load system; state persists only in the running autoload session.
 
 ### Content
 
-- Polished production art currently exists for Maps 1 and 2.
+- Polished production art currently exists for Maps 1, 2, and 3.
 - Map 1 still uses dummy Nara and Bimo character sheets.
 - Most integrated five-area worlds and NPCs remain production placeholders.
 - The complete eight-chapter story is condensed in current Dialogic timelines.
@@ -945,7 +960,11 @@ Unless the user gives a different instruction, the safest next sequence is:
 | Minigames | `scenes/minigames/`, `scripts/minigames/` |
 | HUD/loading/pause/ending | `scenes/ui/`, `scripts/ui/` |
 | Polished Map 1 | `scenes/new_maps/map1/map1_layering_test.tscn` |
+| Production Map 2 | `scenes/new_maps/map2/map2.tscn` |
+| Production Map 3 | `scenes/new_maps/map3/map3.tscn` |
 | Map 1 track player | `scripts/new_maps/map1_track_player.gd` |
+| Production map edge flow | `scripts/new_maps/path_world_map.gd` |
+| Track-based NPC interaction | `scripts/new_maps/track_npc_interaction.gd` |
 | Opening taxi cutscene | `scripts/new_maps/map1_opening_cutscene.gd` |
 | Bimo reveal cutscene | `scripts/new_maps/map1_bimo_reveal_cutscene.gd` |
 | Bimo interaction | `scripts/new_maps/map1_bimo_interaction.gd` |
@@ -978,4 +997,4 @@ Before making a change:
 
 ## 29. Short Handoff Summary
 
-This project is a Godot 4.6.2 Windows narrative game about Nara returning to Kota Ranting while experiencing burnout. The menu now starts the official production flow at polished Map 1, which contains curved track movement, jumping, one-way platforms, layered final-ish map art, cozy grading, handheld camera drift, an opening taxi cutscene, tutorials, environmental comments, a Bimo reveal cutscene, and standardized interaction icons. A complete placeholder vertical slice across five legacy areas and four minigames remains available and tested for systems that will be migrated into later production maps.
+This project is a Godot 4.6.2 Windows narrative game about Nara returning to Kota Ranting while experiencing burnout. The menu starts the official bidirectional production route Map 1 -> Map 2 -> Map 3. These maps share curved track movement, jumping, larger temporary character rigs, cozy grading, handheld camera drift, loading transitions, and standardized interactions. Map 2 contains the interactive electricity shopkeeper; Map 3 currently supplies the route toward Tara's flower shop. A complete placeholder vertical slice across five legacy areas and four minigames remains available and tested for systems that will be migrated into later production maps.
