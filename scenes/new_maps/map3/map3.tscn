@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Texture2D" path="res://assets/NewMaps/Map3/Map3.png" id="1_map"]
+[ext_resource type="Texture2D" path="res://assets/NewMaps/Map3/Map3New.png" id="1_map"]
 [ext_resource type="Script" path="res://scripts/new_maps/path_world_map.gd" id="2_world_map"]
 [ext_resource type="Script" path="res://scripts/new_maps/editable_track_guide.gd" id="3_track_guide"]
 [ext_resource type="Script" path="res://scripts/new_maps/map1_track_player.gd" id="4_player"]
