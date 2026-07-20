@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/new_maps/track_interaction_portal.gd" id="1_portal"]
+[ext_resource type="Texture2D" path="res://assets/Guide/Interectsprite.png" id="2_prompt"]
+
+[node name="TrackInteractionPortal" type="Node2D"]
+editor_description = "Geser root ini di viewport 2D untuk mengatur titik interaksi sekaligus titik player kembali."
+z_index = 6
+script = ExtResource("1_portal")
+
+[node name="InteractionPrompt" type="Sprite2D" parent="."]
+editor_description = "Petunjuk interaksi berukuran sama di editor dan saat game berjalan."
+texture_filter = 1
+position = Vector2(0, -470)
+scale = Vector2(0.28, 0.28)
+texture = ExtResource("2_prompt")
+hframes = 5
+vframes = 7

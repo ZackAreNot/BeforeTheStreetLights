@@ -3,6 +3,7 @@ extends Node2D
 const ENTRY_SIDE_DEFAULT := 0
 const ENTRY_SIDE_LEFT := 1
 const ENTRY_SIDE_RIGHT := 2
+const ENTRY_SIDE_INTERACTION := 3
 
 @export_category("Map Identity")
 @export var area_id: String = ""
@@ -12,6 +13,7 @@ const ENTRY_SIDE_RIGHT := 2
 @export var player_path: NodePath = ^"RoadTrack/MaleTrackPlayer"
 @export var entry_inset: float = 220.0
 @export var exit_distance: float = 48.0
+@export var interaction_entry_marker_path: NodePath
 
 @export_category("Camera Override")
 @export var override_camera_zoom := false
@@ -20,9 +22,9 @@ const ENTRY_SIDE_RIGHT := 2
 
 @export_category("Connected Maps")
 @export var left_target_area_id: String = ""
-@export_enum("Default", "Left", "Right") var left_target_entry_side: int = 0
+@export_enum("Default", "Left", "Right", "Interaction") var left_target_entry_side: int = 0
 @export var right_target_area_id: String = ""
-@export_enum("Default", "Left", "Right") var right_target_entry_side: int = 0
+@export_enum("Default", "Left", "Right", "Interaction") var right_target_entry_side: int = 0
 
 var _entry_side: int = 0
 var _transition_requested := false
@@ -90,6 +92,20 @@ func _apply_entry_side() -> void:
 		ENTRY_SIDE_RIGHT:
 			_player.progress = maxf(track_length - entry_inset, 0.0)
 			_set_facing(true)
+		ENTRY_SIDE_INTERACTION:
+			_apply_interaction_entry(track)
+
+
+func _apply_interaction_entry(track: Path2D) -> void:
+	if interaction_entry_marker_path.is_empty():
+		return
+	var marker := get_node_or_null(interaction_entry_marker_path) as Node2D
+	if marker == null:
+		push_warning("Interaction entry marker is missing: " + str(interaction_entry_marker_path))
+		return
+	var local_marker_position := track.to_local(marker.global_position)
+	_player.progress = track.curve.get_closest_offset(local_marker_position)
+	_set_facing(false)
 
 
 func _apply_camera_settings() -> void:

@@ -1,0 +1,125 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/NewMaps/Map3New/PARK.png" id="1_map"]
+[ext_resource type="Texture2D" path="res://assets/NewMaps/Map3New/RoadPark.png" id="2_road"]
+[ext_resource type="Script" path="res://scripts/new_maps/path_world_map.gd" id="3_world_map"]
+[ext_resource type="Script" path="res://scripts/new_maps/editable_track_guide.gd" id="4_track_guide"]
+[ext_resource type="Script" path="res://scripts/new_maps/map1_track_player.gd" id="5_player"]
+[ext_resource type="Script" path="res://scripts/new_maps/cozy_camera_drift.gd" id="6_camera"]
+[ext_resource type="Shader" path="res://shaders/map1_cozy_grade.gdshader" id="7_shader"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/Character/male_hero_template-idle.png" id="8_idle"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/Character/male_hero_template-walk.png" id="9_walk"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/Character/male_hero_template-run.png" id="10_run"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/Character/male_hero_template-jump.png" id="11_jump"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/Character/male_hero_template-fall.png" id="12_fall"]
+[ext_resource type="PackedScene" path="res://scenes/new_maps/shared/track_interaction_portal.tscn" id="13_portal"]
+
+[sub_resource type="Curve2D" id="Curve2D_road"]
+bake_interval = 8.0
+_data = {
+"points": PackedVector2Array(0, 0, 145, 0, 80, 1776, -145, 0, 145, 0, 620, 1776, -145, 0, 145, 0, 1180, 1776, -145, 0, 145, 0, 1740, 1776, -145, 0, 145, 0, 2300, 1776, -145, 0, 145, 0, 2860, 1776, -145, 0, 145, 0, 3420, 1776, -145, 0, 145, 0, 3980, 1776, -145, 0, 145, 0, 4540, 1776, -145, 0, 145, 0, 5100, 1776, -145, 0, 0, 0, 5920, 1776)
+}
+point_count = 11
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cozy"]
+shader = ExtResource("7_shader")
+shader_parameter/exposure = 0.02
+shader_parameter/contrast = 1.1
+shader_parameter/saturation = 1.12
+shader_parameter/warmth = 0.52
+shader_parameter/cool_shadows = 0.32
+shader_parameter/golden_glow = 0.13
+shader_parameter/vignette_strength = 0.17
+
+[node name="Map3Park" type="Node2D"]
+script = ExtResource("3_world_map")
+area_id = "map3_park_production"
+location_name = "Taman Kota Ranting"
+interaction_entry_marker_path = NodePath("ParkExit")
+override_camera_zoom = true
+gameplay_camera_zoom = 0.39
+gameplay_camera_offset_y = -725.0
+
+[node name="MapArtwork" type="Node2D" parent="."]
+
+[node name="FullMapBackground" type="Sprite2D" parent="MapArtwork"]
+texture_filter = 1
+texture = ExtResource("1_map")
+centered = false
+
+[node name="RoadSurface" type="Sprite2D" parent="MapArtwork"]
+editor_description = "Layer jalan taman; sisi atasnya menjadi garis pijakan player."
+z_index = 1
+texture_filter = 1
+position = Vector2(0, 1786)
+texture = ExtResource("2_road")
+centered = false
+
+[node name="RoadTrack" type="Path2D" parent="."]
+editor_description = "Garis cyan memakai offset pijakan 10 px di atas RoadSurface taman."
+curve = SubResource("Curve2D_road")
+script = ExtResource("4_track_guide")
+guide_color = Color(0.1, 0.95, 1, 0.92)
+guide_outline_color = Color(0.02, 0.08, 0.1, 0.82)
+guide_width = 3.0
+
+[node name="MaleTrackPlayer" type="PathFollow2D" parent="RoadTrack" groups=["player"]]
+z_index = 2
+progress = 1620.0
+rotates = false
+loop = false
+script = ExtResource("5_player")
+walk_speed = 600.0
+run_speed = 900.0
+idle_texture = ExtResource("8_idle")
+walk_texture = ExtResource("9_walk")
+run_texture = ExtResource("10_run")
+jump_texture = ExtResource("11_jump")
+fall_texture = ExtResource("12_fall")
+
+[node name="VisualPivot" type="Node2D" parent="RoadTrack/MaleTrackPlayer"]
+editor_description = "Pivot telapak kaki; posisi lokal (0, 0) menempel pada RoadTrack."
+scale = Vector2(1.5, 1.5)
+
+[node name="FootPivotGuide" type="Marker2D" parent="RoadTrack/MaleTrackPlayer/VisualPivot"]
+gizmo_extents = 34.0
+
+[node name="MaleSprite" type="Sprite2D" parent="RoadTrack/MaleTrackPlayer/VisualPivot"]
+texture_filter = 1
+position = Vector2(0, -127.5)
+scale = Vector2(8.5, 8.5)
+texture = ExtResource("8_idle")
+hframes = 10
+
+[node name="NaraDialogueAnchor" type="Marker2D" parent="RoadTrack/MaleTrackPlayer/VisualPivot" groups=["dialogue_nara"]]
+position = Vector2(0, -260)
+
+[node name="Camera2D" type="Camera2D" parent="RoadTrack/MaleTrackPlayer"]
+position = Vector2(0, -725)
+zoom = Vector2(0.39, 0.39)
+limit_left = 0
+limit_top = 0
+limit_right = 6000
+limit_bottom = 2000
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
+script = ExtResource("6_camera")
+
+[node name="ParkExit" parent="." instance=ExtResource("13_portal")]
+editor_description = "Titik keluar taman. Geser root ini jika posisi akses taman diubah."
+position = Vector2(1700, 1776)
+target_area_id = "map3_production"
+target_entry_side = 3
+interaction_distance = 320.0
+
+[node name="CozyPostProcess" type="CanvasLayer" parent="."]
+layer = 90
+
+[node name="ColorGrade" type="ColorRect" parent="CozyPostProcess"]
+material = SubResource("ShaderMaterial_cozy")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

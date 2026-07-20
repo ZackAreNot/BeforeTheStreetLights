@@ -26,6 +26,7 @@ extends PathFollow2D
 
 @onready var visual_pivot: Node2D = $VisualPivot
 @onready var sprite: Sprite2D = $VisualPivot/MaleSprite
+@onready var gameplay_camera: Camera2D = get_node_or_null("Camera2D") as Camera2D
 
 var _animation_name: StringName = &"idle"
 var _animation_time: float = 0.0
@@ -50,13 +51,20 @@ func _process(delta: float) -> void:
 	var direction: float = Input.get_axis("move_left", "move_right") if _controls_enabled else 0.0
 	var is_running: bool = Input.is_action_pressed("sprint") and not is_zero_approx(direction)
 	var speed: float = run_speed if is_running else walk_speed
+	_start_jump_if_requested()
+	var track_y_before_movement: float = global_position.y
 
 	if not is_zero_approx(direction):
-		progress += direction * speed * delta
-		progress = clampf(progress, 0.0, get_parent().curve.get_baked_length())
+		if _is_grounded():
+			progress += direction * speed * delta
+			progress = clampf(progress, 0.0, get_parent().curve.get_baked_length())
+		else:
+			_move_airborne_horizontally(direction, speed, delta)
 		sprite.flip_h = direction < 0.0
 
+	_preserve_airborne_world_height(track_y_before_movement)
 	_update_jump(delta)
+	_update_camera_terrain_compensation()
 	if _air_offset < 0.0:
 		_set_animation(&"jump" if _vertical_velocity < 0.0 else &"fall")
 	elif not is_zero_approx(direction):
@@ -68,11 +76,59 @@ func _process(delta: float) -> void:
 	_advance_animation(delta)
 
 
-func _update_jump(delta: float) -> void:
-	_update_platform_support()
+func _start_jump_if_requested() -> void:
 	if _controls_enabled and Input.is_action_just_pressed("jump") and _is_grounded():
 		_vertical_velocity = -jump_velocity
 
+
+func _move_airborne_horizontally(direction: float, speed: float, delta: float) -> void:
+	var path := get_parent() as Path2D
+	if path == null or path.curve == null:
+		return
+	var curve := path.curve
+	var curve_length: float = curve.get_baked_length()
+	var current_track_position: Vector2 = curve.sample_baked(progress)
+	var start_x: float = curve.sample_baked(0.0).x
+	var end_x: float = curve.sample_baked(curve_length).x
+	var target_x := clampf(
+		current_track_position.x + direction * speed * delta,
+		minf(start_x, end_x),
+		maxf(start_x, end_x)
+	)
+	progress = _find_progress_for_track_x(curve, target_x, curve_length)
+
+
+func _find_progress_for_track_x(curve: Curve2D, target_x: float, curve_length: float) -> float:
+	var low := 0.0
+	var high := curve_length
+	var increasing := curve.sample_baked(curve_length).x >= curve.sample_baked(0.0).x
+	for _iteration in range(18):
+		var middle := (low + high) * 0.5
+		var middle_x := curve.sample_baked(middle).x
+		if (middle_x < target_x) == increasing:
+			low = middle
+		else:
+			high = middle
+	return (low + high) * 0.5
+
+
+func _preserve_airborne_world_height(previous_track_y: float) -> void:
+	if _air_offset >= 0.0 and is_zero_approx(_vertical_velocity):
+		return
+	# Keep the jump arc in world space while the PathFollow crosses stepped terrain.
+	var track_y_delta: float = global_position.y - previous_track_y
+	_air_offset -= track_y_delta
+	if gameplay_camera != null and gameplay_camera.has_method("preserve_parent_vertical_motion"):
+		gameplay_camera.call("preserve_parent_vertical_motion", track_y_delta)
+
+
+func _update_camera_terrain_compensation() -> void:
+	if gameplay_camera != null and gameplay_camera.has_method("set_terrain_compensation_held"):
+		gameplay_camera.call("set_terrain_compensation_held", not _is_grounded())
+
+
+func _update_jump(delta: float) -> void:
+	_update_platform_support()
 	var previous_total_offset := _floor_offset + _air_offset
 	if not is_zero_approx(_vertical_velocity) or _air_offset < 0.0:
 		_vertical_velocity += gravity * delta

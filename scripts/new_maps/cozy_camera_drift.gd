@@ -7,9 +7,14 @@ extends Camera2D
 @export_range(0.0, 1.0, 0.01) var max_roll_degrees: float = 0.14
 @export var drift_enabled: bool = true
 
+@export_category("Terrain Follow")
+@export_range(0.1, 20.0, 0.1) var terrain_recenter_speed: float = 5.0
+
 var _base_offset: Vector2
 var _current_drift := Vector2.ZERO
 var _elapsed_time: float = 0.0
+var _terrain_compensation_y := 0.0
+var _terrain_compensation_held := false
 
 
 func _ready() -> void:
@@ -21,7 +26,12 @@ func _process(delta: float) -> void:
 	var target_drift := _sample_drift(_elapsed_time) if drift_enabled else Vector2.ZERO
 	var response_weight := 1.0 - exp(-drift_response * delta)
 	_current_drift = _current_drift.lerp(target_drift, response_weight)
-	position = _base_offset + _current_drift
+	if not _terrain_compensation_held:
+		var terrain_weight := 1.0 - exp(-terrain_recenter_speed * delta)
+		_terrain_compensation_y = lerpf(_terrain_compensation_y, 0.0, terrain_weight)
+		if absf(_terrain_compensation_y) < 0.01:
+			_terrain_compensation_y = 0.0
+	position = _base_offset + _current_drift + Vector2(0.0, _terrain_compensation_y)
 	var roll_ratio := _current_drift.x / maxf(drift_amplitude.x, 1.0)
 	rotation = lerp_angle(rotation, deg_to_rad(roll_ratio * max_roll_degrees), response_weight)
 
@@ -43,10 +53,21 @@ func _sample_drift(time: float) -> Vector2:
 
 func reset_drift() -> void:
 	_current_drift = Vector2.ZERO
+	_terrain_compensation_y = 0.0
+	_terrain_compensation_held = false
 	position = _base_offset
 	rotation = 0.0
 
 
 func set_base_camera_position(base_position: Vector2) -> void:
 	_base_offset = base_position
-	position = _base_offset + _current_drift
+	position = _base_offset + _current_drift + Vector2(0.0, _terrain_compensation_y)
+
+
+func preserve_parent_vertical_motion(parent_delta_y: float) -> void:
+	_terrain_compensation_y -= parent_delta_y
+	_terrain_compensation_held = true
+
+
+func set_terrain_compensation_held(held: bool) -> void:
+	_terrain_compensation_held = held

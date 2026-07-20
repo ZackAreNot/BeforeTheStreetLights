@@ -1,0 +1,121 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/NewMaps/Map5/Map5Full.png" id="1_map"]
+[ext_resource type="Texture2D" path="res://assets/NewMaps/Map5/staircase.png" id="2_staircase"]
+[ext_resource type="Script" path="res://scripts/new_maps/path_world_map.gd" id="3_world_map"]
+[ext_resource type="Script" path="res://scripts/new_maps/editable_track_guide.gd" id="4_track_guide"]
+[ext_resource type="Script" path="res://scripts/new_maps/map1_track_player.gd" id="5_player"]
+[ext_resource type="Script" path="res://scripts/new_maps/cozy_camera_drift.gd" id="6_camera"]
+[ext_resource type="Shader" path="res://shaders/map1_cozy_grade.gdshader" id="7_shader"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/Character/male_hero_template-idle.png" id="8_idle"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/Character/male_hero_template-walk.png" id="9_walk"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/Character/male_hero_template-run.png" id="10_run"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/Character/male_hero_template-jump.png" id="11_jump"]
+[ext_resource type="Texture2D" path="res://assets/Dummy/Character/male_hero_template-fall.png" id="12_fall"]
+
+[sub_resource type="Curve2D" id="Curve2D_walkable_surface"]
+bake_interval = 4.0
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 20, 2812, 0, 0, 0, 0, 68, 2812, 0, 0, 0, 0, 69, 2725, 0, 0, 0, 0, 142, 2725, 0, 0, 0, 0, 143, 2638, 0, 0, 0, 0, 216, 2638, 0, 0, 0, 0, 217, 2551, 0, 0, 0, 0, 290, 2551, 0, 0, 0, 0, 291, 2464, 0, 0, 0, 0, 1347, 2464, 0, 0, 0, 0, 1348, 2377, 0, 0, 0, 0, 1421, 2377, 0, 0, 0, 0, 1422, 2290, 0, 0, 0, 0, 1495, 2290, 0, 0, 0, 0, 1496, 2203, 0, 0, 0, 0, 1569, 2203, 0, 0, 0, 0, 1570, 2116, 0, 0, 0, 0, 1643, 2116, 0, 0, 0, 0, 1644, 2029, 0, 0, 0, 0, 1717, 2029, 0, 0, 0, 0, 1718, 1942, 0, 0, 0, 0, 6868, 1942)
+}
+point_count = 22
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cozy"]
+shader = ExtResource("7_shader")
+shader_parameter/exposure = 0.02
+shader_parameter/contrast = 1.1
+shader_parameter/saturation = 1.12
+shader_parameter/warmth = 0.52
+shader_parameter/cool_shadows = 0.32
+shader_parameter/golden_glow = 0.13
+shader_parameter/vignette_strength = 0.17
+
+[node name="Map5" type="Node2D"]
+script = ExtResource("3_world_map")
+area_id = "map5_production"
+location_name = "Klinik Kota Ranting"
+override_camera_zoom = true
+gameplay_camera_zoom = 0.39
+gameplay_camera_offset_y = -725.0
+left_target_area_id = "map4_production"
+left_target_entry_side = 2
+
+[node name="MapArtwork" type="Node2D" parent="."]
+
+[node name="FullMapBackground" type="Sprite2D" parent="MapArtwork"]
+texture_filter = 1
+texture = ExtResource("1_map")
+centered = false
+
+[node name="StaircaseSurface" type="Sprite2D" parent="MapArtwork"]
+editor_description = "Layer staircase/road terpisah, disejajarkan ke bawah Map5Full."
+z_index = 1
+texture_filter = 1
+position = Vector2(0, 1126)
+texture = ExtResource("2_staircase")
+centered = false
+
+[node name="RoadTrack" type="Path2D" parent="."]
+editor_description = "Track kaki memakai offset 10 px di atas anak tangga, plateau, dan jalan klinik."
+curve = SubResource("Curve2D_walkable_surface")
+script = ExtResource("4_track_guide")
+guide_color = Color(0.1, 0.95, 1, 0.92)
+guide_outline_color = Color(0.02, 0.08, 0.1, 0.82)
+guide_width = 3.0
+auto_smooth = false
+
+[node name="MaleTrackPlayer" type="PathFollow2D" parent="RoadTrack" groups=["player"]]
+z_index = 2
+progress = 220.0
+rotates = false
+loop = false
+script = ExtResource("5_player")
+walk_speed = 600.0
+run_speed = 900.0
+slope_alignment = 0.0
+slope_rotation_speed = 12.0
+idle_texture = ExtResource("8_idle")
+walk_texture = ExtResource("9_walk")
+run_texture = ExtResource("10_run")
+jump_texture = ExtResource("11_jump")
+fall_texture = ExtResource("12_fall")
+
+[node name="VisualPivot" type="Node2D" parent="RoadTrack/MaleTrackPlayer"]
+editor_description = "Pivot telapak kaki; titik (0, 0) mengikuti track staircase."
+scale = Vector2(1.5, 1.5)
+
+[node name="FootPivotGuide" type="Marker2D" parent="RoadTrack/MaleTrackPlayer/VisualPivot"]
+gizmo_extents = 34.0
+
+[node name="MaleSprite" type="Sprite2D" parent="RoadTrack/MaleTrackPlayer/VisualPivot"]
+texture_filter = 1
+position = Vector2(0, -127.5)
+scale = Vector2(8.5, 8.5)
+texture = ExtResource("8_idle")
+hframes = 10
+
+[node name="NaraDialogueAnchor" type="Marker2D" parent="RoadTrack/MaleTrackPlayer/VisualPivot" groups=["dialogue_nara"]]
+position = Vector2(0, -260)
+
+[node name="Camera2D" type="Camera2D" parent="RoadTrack/MaleTrackPlayer"]
+position = Vector2(0, -725)
+zoom = Vector2(0.39, 0.39)
+limit_left = 0
+limit_top = 0
+limit_right = 6948
+limit_bottom = 2932
+position_smoothing_enabled = true
+position_smoothing_speed = 6.0
+script = ExtResource("6_camera")
+
+[node name="CozyPostProcess" type="CanvasLayer" parent="."]
+layer = 90
+
+[node name="ColorGrade" type="ColorRect" parent="CozyPostProcess"]
+material = SubResource("ShaderMaterial_cozy")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
