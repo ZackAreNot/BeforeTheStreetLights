@@ -123,7 +123,8 @@ Nara returns by taxi in the afternoon. Nara has not replied to chats, calls, or 
 #### Chapter 2 - Bu Rami's Bakery
 
 - Nara meets Bu Rami, an older goat who is sharp, funny, and caring.
-- Nara helps arrange festival food orders through a drag-and-drop minigame.
+- Nara helps serve bakery customers through a cashier simulation: bagging food,
+  taking payment, calculating change, and clearing each customer's tray.
 - Bu Rami talks about how residents used to sit together when sad, while people now isolate themselves.
 - She notices Nara is not eating or sleeping properly.
 - She gives extra food because tired people forget hunger.
@@ -353,8 +354,19 @@ Each minigame is a separate scene under `scenes/minigames/`.
 
 - Scene: `scenes/minigames/bakery_orders.tscn`
 - Script: `scripts/minigames/bakery_orders.gd`
-- Mechanic: drag food into the cardboard box.
-- Required order: 2 donat kentang, 2 onde-onde, 1 kue sus, 1 lemper.
+- Mechanic: serve three customers from a first-person cashier view. Click every
+  snack on the tray, close the bag, take the customer's cash, then select the
+  correct change from Rp10.000, Rp5.000, Rp2.000, and Rp1.000 notes.
+- The cash drawer includes one-step undo. Excess change prompts a customer
+  comment and can be corrected without a hard fail state.
+- Bakery prices: lemper Rp4.000, pastel Rp7.000, onde-onde Rp5.000, kue lapis
+  Rp2.000, donat kentang Rp5.000, dadar gulung Rp3.000, kue lupis Rp8.000,
+  muffin stroberi Rp12.000, and kue lumpur Rp6.000.
+- After exact change, the customer takes the bag and exits. The empty tray must
+  be cleared before the next customer enters.
+- Two customer silhouettes are present during service: the active customer and
+  a dimmed customer waiting behind them. Head and body idle motion use separate
+  timing so the silhouettes do not move as one rigid shape.
 - No hard fail state.
 - Completion returns to the exact prior map position and starts `bu_rami_after`.
 
