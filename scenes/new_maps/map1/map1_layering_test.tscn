@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dkh7gs3l6aq5b" path="res://assets/Dummy/Character/male_hero_template-jump.png" id="6_jump"]
 [ext_resource type="Texture2D" uid="uid://b3lajf7wtrhtg" path="res://assets/Dummy/Character/male_hero_template-fall.png" id="7_fall"]
 [ext_resource type="Script" uid="uid://0mfk831y76hh" path="res://scripts/new_maps/editable_track_guide.gd" id="8_track_guide"]
-[ext_resource type="Shader" uid="uid://y8ksgfo6xv73" path="res://shaders/map1_cozy_grade.gdshader" id="9_cozy_shader"]
+[ext_resource type="PackedScene" path="res://scenes/visual/post_process_stack.tscn" id="9_post_process"]
 [ext_resource type="Script" uid="uid://bnyle154vue0p" path="res://scripts/new_maps/cozy_camera_drift.gd" id="10_camera_drift"]
 [ext_resource type="Texture2D" uid="uid://bae7kerl433pu" path="res://assets/NewMaps/Map1/NewMap1Layer2.png" id="11_poles_layer"]
 [ext_resource type="Script" uid="uid://bt8xg8p0pffr" path="res://scripts/new_maps/map1_bimo_interaction.gd" id="12_bimo_interaction"]
@@ -26,7 +26,7 @@
 [ext_resource type="Shader" uid="uid://byskpb7ypvuab" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Textbubble/text_bubble.gdshader" id="24_bubble_shader"]
 [ext_resource type="FontFile" uid="uid://coebofpwm764r" path="res://assets/fonts/patrick_hand_sc/PatrickHandSC-Regular.ttf" id="25_bubble_font"]
 [ext_resource type="Texture2D" uid="uid://sglnjkhgpe1n" path="res://assets/NewMaps/Map1/NewMap1Layer3.png" id="26_layer3"]
-[ext_resource type="Script" path="res://scripts/new_maps/path_world_map.gd" id="27_world_map"]
+[ext_resource type="Script" uid="uid://dhwukjjulkvo8" path="res://scripts/new_maps/path_world_map.gd" id="27_world_map"]
 
 [sub_resource type="Curve2D" id="Curve2D_road"]
 bake_interval = 8.0
@@ -51,16 +51,6 @@ shader_parameter/box_padding = 10.0
 shader_parameter/wobble_amount = 0.32
 shader_parameter/wobble_speed = 0.9
 shader_parameter/wobble_detail = 0.42
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cozy"]
-shader = ExtResource("9_cozy_shader")
-shader_parameter/exposure = 0.02
-shader_parameter/contrast = 1.1
-shader_parameter/saturation = 1.12
-shader_parameter/warmth = 0.52
-shader_parameter/cool_shadows = 0.32
-shader_parameter/golden_glow = 0.13
-shader_parameter/vignette_strength = 0.17
 
 [node name="Map1LayeringTest" type="Node2D" unique_id=1631900999]
 script = ExtResource("27_world_map")
@@ -112,6 +102,10 @@ scale = Vector2(8.5, 8.5)
 texture = ExtResource("3_idle")
 hframes = 10
 
+[node name="NaraDialogueAnchor" type="Marker2D" parent="RoadTrack/MaleTrackPlayer/VisualPivot" unique_id=882706672 groups=["dialogue_nara"]]
+editor_description = "Titik kepala untuk dialog Nara. Geser lokal jika tinggi karakter berubah; node ini mengikuti platform dan lompatan melalui VisualPivot."
+position = Vector2(0, -260)
+
 [node name="Camera2D" type="Camera2D" parent="RoadTrack/MaleTrackPlayer" unique_id=484556124]
 position = Vector2(0, -360)
 zoom = Vector2(0.58, 0.58)
@@ -122,10 +116,6 @@ limit_bottom = 3426
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 script = ExtResource("10_camera_drift")
-
-[node name="NaraDialogueAnchor" type="Marker2D" parent="RoadTrack/MaleTrackPlayer/VisualPivot" unique_id=882706672 groups=["dialogue_nara"]]
-editor_description = "Titik kepala untuk dialog Nara. Geser lokal jika tinggi karakter berubah; node ini mengikuti platform dan lompatan melalui VisualPivot."
-position = Vector2(0, -260)
 
 [node name="TaxiRoadTrack" type="Path2D" parent="." unique_id=286598581]
 editor_description = "Jalur khusus kendaraan di dalam jalan abu-abu. Curve ini terpisah dari RoadTrack pejalan kaki dan bisa diedit manual tanpa mengubah jalur karakter."
@@ -295,14 +285,7 @@ position = Vector2(0, 2859)
 texture = ExtResource("26_layer3")
 centered = false
 
-[node name="CozyPostProcess" type="CanvasLayer" parent="." unique_id=270409802]
-layer = 90
-
-[node name="ColorGrade" type="ColorRect" parent="CozyPostProcess" unique_id=1755942942]
-material = SubResource("ShaderMaterial_cozy")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
+[node name="CozyPostProcess" parent="." unique_id=270409802 instance=ExtResource("9_post_process")]
+use_cozy_grade = false
+use_soft_vignette = true
+use_amoled_punch = true

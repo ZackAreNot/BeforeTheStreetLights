@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/new_maps/editable_track_guide.gd" id="4_track_guide"]
 [ext_resource type="Script" path="res://scripts/new_maps/map1_track_player.gd" id="5_player"]
 [ext_resource type="Script" path="res://scripts/new_maps/cozy_camera_drift.gd" id="6_camera"]
-[ext_resource type="Shader" path="res://shaders/map1_cozy_grade.gdshader" id="7_shader"]
+[ext_resource type="PackedScene" path="res://scenes/visual/post_process_stack.tscn" id="7_post_process"]
 [ext_resource type="Texture2D" path="res://assets/Dummy/Character/male_hero_template-idle.png" id="8_idle"]
 [ext_resource type="Texture2D" path="res://assets/Dummy/Character/male_hero_template-walk.png" id="9_walk"]
 [ext_resource type="Texture2D" path="res://assets/Dummy/Character/male_hero_template-run.png" id="10_run"]
@@ -20,16 +20,6 @@ _data = {
 "points": PackedVector2Array(0, 0, 145, 0, 80, 1776, -145, 0, 145, 0, 620, 1776, -145, 0, 145, 0, 1180, 1776, -145, 0, 145, 0, 1740, 1776, -145, 0, 145, 0, 2300, 1776, -145, 0, 145, 0, 2860, 1776, -145, 0, 145, 0, 3420, 1776, -145, 0, 145, 0, 3980, 1776, -145, 0, 145, 0, 4540, 1776, -145, 0, 145, 0, 5100, 1776, -145, 0, 0, 0, 5920, 1776)
 }
 point_count = 11
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cozy"]
-shader = ExtResource("7_shader")
-shader_parameter/exposure = 0.02
-shader_parameter/contrast = 1.1
-shader_parameter/saturation = 1.12
-shader_parameter/warmth = 0.52
-shader_parameter/cool_shadows = 0.32
-shader_parameter/golden_glow = 0.13
-shader_parameter/vignette_strength = 0.17
 
 [node name="Map3Park" type="Node2D"]
 script = ExtResource("3_world_map")
@@ -112,14 +102,4 @@ target_area_id = "map3_production"
 target_entry_side = 3
 interaction_distance = 320.0
 
-[node name="CozyPostProcess" type="CanvasLayer" parent="."]
-layer = 90
-
-[node name="ColorGrade" type="ColorRect" parent="CozyPostProcess"]
-material = SubResource("ShaderMaterial_cozy")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
+[node name="CozyPostProcess" parent="." instance=ExtResource("7_post_process")]

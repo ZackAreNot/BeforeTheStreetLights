@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://0mfk831y76hh" path="res://scripts/new_maps/editable_track_guide.gd" id="4_track_guide"]
 [ext_resource type="Script" uid="uid://cy5rqe82vhs2a" path="res://scripts/new_maps/map1_track_player.gd" id="5_player"]
 [ext_resource type="Script" uid="uid://bnyle154vue0p" path="res://scripts/new_maps/cozy_camera_drift.gd" id="6_camera"]
-[ext_resource type="Shader" uid="uid://y8ksgfo6xv73" path="res://shaders/map1_cozy_grade.gdshader" id="7_shader"]
+[ext_resource type="PackedScene" path="res://scenes/visual/post_process_stack.tscn" id="7_post_process"]
 [ext_resource type="Texture2D" uid="uid://fydopn2ehdl" path="res://assets/Dummy/Character/male_hero_template-idle.png" id="8_idle"]
 [ext_resource type="Texture2D" uid="uid://dhu6s7gmi07gw" path="res://assets/Dummy/Character/male_hero_template-walk.png" id="9_walk"]
 [ext_resource type="Texture2D" uid="uid://br2j073a1oce3" path="res://assets/Dummy/Character/male_hero_template-run.png" id="10_run"]
@@ -20,16 +20,6 @@ _data = {
 "points": PackedVector2Array(0, 0, 145, 0, 80, 1708, -145, 0, 145, 0, 620, 1708, -145, 0, 145, 0, 1180, 1708, -145, 0, 145, 0, 1740, 1708, -145, 0, 145, 0, 2300, 1708, -145, 0, 145, 0, 2860, 1708, -145, 0, 145, 0, 3420, 1708, -145, 0, 145, 0, 3980, 1708, -145, 0, 145, 0, 4540, 1708, -145, 0, 145, 0, 5100, 1708, -145, 0, 0, 0, 5920, 1708)
 }
 point_count = 11
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cozy"]
-shader = ExtResource("7_shader")
-shader_parameter/exposure = 0.02
-shader_parameter/contrast = 1.1
-shader_parameter/saturation = 1.12
-shader_parameter/warmth = 0.52
-shader_parameter/cool_shadows = 0.32
-shader_parameter/golden_glow = 0.13
-shader_parameter/vignette_strength = 0.17
 
 [node name="Map3" type="Node2D" unique_id=533891878]
 script = ExtResource("3_world_map")
@@ -68,7 +58,7 @@ guide_outline_color = Color(0.02, 0.08, 0.1, 0.82)
 
 [node name="MaleTrackPlayer" type="PathFollow2D" parent="RoadTrack" unique_id=2082605874 groups=["player"]]
 z_index = 2
-position = Vector2(299.99954, 1718)
+position = Vector2(299.99954, 1708)
 progress = 220.0
 rotates = false
 loop = false
@@ -116,14 +106,7 @@ position = Vector2(1700, 1708)
 target_area_id = "map3_park_production"
 interaction_distance = 320.0
 
-[node name="CozyPostProcess" type="CanvasLayer" parent="." unique_id=224115773]
-layer = 90
-
-[node name="ColorGrade" type="ColorRect" parent="CozyPostProcess" unique_id=1012082021]
-material = SubResource("ShaderMaterial_cozy")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
+[node name="CozyPostProcess" parent="." unique_id=224115773 instance=ExtResource("7_post_process")]
+use_cozy_grade = false
+use_soft_vignette = true
+use_amoled_punch = true

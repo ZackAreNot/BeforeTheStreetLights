@@ -2,6 +2,7 @@ shader_type canvas_item;
 render_mode unshaded;
 
 uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear_mipmap;
+uniform float effect_strength : hint_range(0.0, 1.0, 0.01) = 1.0;
 uniform float exposure : hint_range(-0.25, 0.25, 0.01) = 0.03;
 uniform float contrast : hint_range(0.8, 1.3, 0.01) = 1.06;
 uniform float saturation : hint_range(0.7, 1.4, 0.01) = 1.08;
@@ -16,7 +17,8 @@ float luminance(vec3 color) {
 
 void fragment() {
 	vec2 uv = SCREEN_UV;
-	vec3 color = texture(screen_texture, uv).rgb;
+	vec3 base_color = texture(screen_texture, uv).rgb;
+	vec3 color = base_color;
 
 	color *= exp2(exposure);
 	color = (color - 0.5) * contrast + 0.5;
@@ -39,5 +41,6 @@ void fragment() {
 	float vignette = smoothstep(0.48, 1.45, edge_distance);
 	color *= 1.0 - vignette * vignette_strength;
 
-	COLOR = vec4(clamp(color, 0.0, 1.0), 1.0);
+	vec3 graded_color = clamp(color, 0.0, 1.0);
+	COLOR = vec4(mix(base_color, graded_color, effect_strength), 1.0);
 }

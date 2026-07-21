@@ -1,0 +1,184 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/visual/post_process_stack.gd" id="1_script"]
+[ext_resource type="Shader" path="res://shaders/map1_cozy_grade.gdshader" id="2_cozy"]
+[ext_resource type="Shader" path="res://shaders/soft_bloom.gdshader" id="3_bloom"]
+[ext_resource type="Shader" path="res://shaders/filmic_tone.gdshader" id="4_filmic"]
+[ext_resource type="Shader" path="res://shaders/ambient_haze.gdshader" id="5_haze"]
+[ext_resource type="Shader" path="res://shaders/subtle_grain.gdshader" id="6_grain"]
+[ext_resource type="Shader" path="res://shaders/soft_vignette.gdshader" id="7_vignette"]
+[ext_resource type="Shader" path="res://shaders/oled_color.gdshader" id="8_oled"]
+[ext_resource type="Shader" path="res://shaders/amoled_punch.gdshader" id="9_amoled"]
+[ext_resource type="Shader" path="res://shaders/atmospheric_wind.gdshader" id="10_wind"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wind"]
+resource_local_to_scene = true
+shader = ExtResource("10_wind")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_filmic"]
+resource_local_to_scene = true
+shader = ExtResource("4_filmic")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cozy"]
+resource_local_to_scene = true
+shader = ExtResource("2_cozy")
+shader_parameter/effect_strength = 1.0
+shader_parameter/exposure = 0.02
+shader_parameter/contrast = 1.1
+shader_parameter/saturation = 1.12
+shader_parameter/warmth = 0.52
+shader_parameter/cool_shadows = 0.32
+shader_parameter/golden_glow = 0.13
+shader_parameter/vignette_strength = 0.17
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_haze"]
+resource_local_to_scene = true
+shader = ExtResource("5_haze")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bloom"]
+resource_local_to_scene = true
+shader = ExtResource("3_bloom")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_grain"]
+resource_local_to_scene = true
+shader = ExtResource("6_grain")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vignette"]
+resource_local_to_scene = true
+shader = ExtResource("7_vignette")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oled"]
+resource_local_to_scene = true
+shader = ExtResource("8_oled")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_amoled"]
+resource_local_to_scene = true
+shader = ExtResource("9_amoled")
+
+[node name="CozyPostProcess" type="CanvasLayer"]
+layer = 90
+script = ExtResource("1_script")
+
+[node name="AtmosphericWindBuffer" type="BackBufferCopy" parent="."]
+visible = false
+copy_mode = 2
+
+[node name="AtmosphericWind" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_wind")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="FilmicToneBuffer" type="BackBufferCopy" parent="."]
+visible = false
+copy_mode = 2
+
+[node name="FilmicTone" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_filmic")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ColorGradeBuffer" type="BackBufferCopy" parent="."]
+copy_mode = 2
+
+[node name="ColorGrade" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_cozy")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="OLEDColorBuffer" type="BackBufferCopy" parent="."]
+visible = false
+copy_mode = 2
+
+[node name="OLEDColor" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_oled")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AMOLEDPunchBuffer" type="BackBufferCopy" parent="."]
+visible = false
+copy_mode = 2
+
+[node name="AMOLEDPunch" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_amoled")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AmbientHazeBuffer" type="BackBufferCopy" parent="."]
+visible = false
+copy_mode = 2
+
+[node name="AmbientHaze" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_haze")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SoftBloomBuffer" type="BackBufferCopy" parent="."]
+visible = false
+copy_mode = 2
+
+[node name="SoftBloom" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_bloom")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SubtleGrainBuffer" type="BackBufferCopy" parent="."]
+visible = false
+copy_mode = 2
+
+[node name="SubtleGrain" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_grain")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="SoftVignetteBuffer" type="BackBufferCopy" parent="."]
+visible = false
+copy_mode = 2
+
+[node name="SoftVignette" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_vignette")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

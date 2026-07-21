@@ -1,0 +1,28 @@
+shader_type canvas_item;
+render_mode unshaded;
+
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_linear;
+uniform float strength : hint_range(0.0, 1.0, 0.01) = 0.58;
+uniform float saturation_boost : hint_range(0.0, 0.5, 0.01) = 0.2;
+uniform float contrast_boost : hint_range(0.0, 0.35, 0.01) = 0.1;
+uniform float black_depth : hint_range(0.0, 0.12, 0.005) = 0.025;
+uniform float highlight_protection : hint_range(0.0, 1.0, 0.01) = 0.72;
+
+float luminance(vec3 color) {
+	return dot(color, vec3(0.2126, 0.7152, 0.0722));
+}
+
+void fragment() {
+	vec3 base_color = texture(screen_texture, SCREEN_UV).rgb;
+	float base_luma = luminance(base_color);
+	vec3 vivid_color = mix(vec3(base_luma), base_color, 1.0 + saturation_boost);
+	vivid_color = (vivid_color - 0.5) * (1.0 + contrast_boost) + 0.5;
+
+	float shadow_mask = 1.0 - smoothstep(0.04, 0.42, base_luma);
+	vivid_color -= vec3(black_depth * shadow_mask);
+	float highlight_mask = smoothstep(0.68, 0.98, base_luma) * highlight_protection;
+	vivid_color = mix(vivid_color, base_color, highlight_mask * 0.42);
+
+	vec3 result = mix(base_color, clamp(vivid_color, 0.0, 1.0), strength);
+	COLOR = vec4(result, 1.0);
+}
